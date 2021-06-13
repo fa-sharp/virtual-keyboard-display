@@ -1,0 +1,67 @@
+.toggle-display {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    min-width: max-content;
+    gap: .5em;
+}
+
+.toggle {
+    --toggle-size: 1.2rem;
+    --toggle-highlight-color: rgba(255, 180, 180, 0.29);
+    --toggle-off-background-color: darkgray;
+    --toggle-on-background-color: hsl(180deg 100% 38%);
+    --toggle-transition-time: 0.1s;
+    --slider-color: white;
+    --slider-offset: 4px;
+
+    position: relative;
+    display: inline-block;
+    height: var(--toggle-size);
+    width: calc(var(--toggle-size) * 2);
+  
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+
+        border-radius: calc(var(--toggle-size) / 2);
+        background-color: var(--toggle-off-background-color);
+        transition: background-color var(--toggle-transition-time);
+  
+        &::before {
+            position: absolute;
+            top: calc(var(--slider-offset) / 2);
+            left: calc(var(--slider-offset) / 2);
+            
+            content: "";
+            height: calc(var(--toggle-size) - var(--slider-offset));
+            width: calc(var(--toggle-size) - var(--slider-offset));
+            border-radius: 50%;
+    
+            background-color: var(--slider-color);
+            transition: transform var(--toggle-transition-time);
+      }
+    }
+  
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    
+        &:focus + .slider {
+            box-shadow: 0 0 0 0.2rem var(--toggle-highlight-color);
+        }
+        
+        &:checked + .slider {
+            background-color: var(--toggle-on-background-color);
+            &::before {
+                transform: translateX(var(--toggle-size));
+            }
+        }
+    }
+}
+  
