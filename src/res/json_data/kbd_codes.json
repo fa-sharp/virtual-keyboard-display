@@ -1,0 +1,128 @@
+[
+    {
+        "code": "keyA",
+        "keyCode": 65,
+        "kbdText": {
+            "US_QWERTY": "A"
+        }
+    },
+    {
+        "code": "keyW",
+        "keyCode": 87,
+        "kbdText": {
+            "US_QWERTY": "W"
+        }
+    },
+    {
+        "code": "keyS",
+        "keyCode": 83,
+        "kbdText": {
+            "US_QWERTY": "S"
+        }
+    },
+    {
+        "code": "keyE",
+        "keyCode": 69,
+        "kbdText": {
+            "US_QWERTY": "E"
+        }
+    },
+    {
+        "code": "keyD",
+        "keyCode": 68,
+        "kbdText": {
+            "US_QWERTY": "D"
+        }
+    },
+    {
+        "code": "keyF",
+        "keyCode": 70,
+        "kbdText": {
+            "US_QWERTY": "F"
+        }
+    },
+    {
+        "code": "keyT",
+        "keyCode": 84,
+        "kbdText": {
+            "US_QWERTY": "T"
+        }
+    },
+    {
+        "code": "keyG",
+        "keyCode": 71,
+        "kbdText": {
+            "US_QWERTY": "G"
+        }
+    },
+    {
+        "code": "keyY",
+        "keyCode": 89,
+        "kbdText": {
+            "US_QWERTY": "Y"
+        }
+    },
+    {
+        "code": "keyH",
+        "keyCode": 72,
+        "kbdText": {
+            "US_QWERTY": "H"
+        }
+    },
+    {
+        "code": "keyU",
+        "keyCode": 85,
+        "kbdText": {
+            "US_QWERTY": "U"
+        }
+    },
+    {
+        "code": "keyJ",
+        "keyCode": 74,
+        "kbdText": {
+            "US_QWERTY": "J"
+        }
+    },
+    {
+        "code": "keyK",
+        "keyCode": 75,
+        "kbdText": {
+            "US_QWERTY": "K"
+        }
+    },
+    {
+        "code": "keyO",
+        "keyCode": 79,
+        "kbdText": {
+            "US_QWERTY": "O"
+        }
+    },
+    {
+        "code": "keyL",
+        "keyCode": 76,
+        "kbdText": {
+            "US_QWERTY": "L"
+        }
+    },
+    {
+        "code": "keyP",
+        "keyCode": 80,
+        "kbdText": {
+            "US_QWERTY": "P"
+        }
+    },
+    {
+        "code": "Semicolon",
+        "keyCode": 59,
+        "kbdText": {
+            "US_QWERTY": ";"
+        }
+    },
+    {
+        "code": "Quote",
+        "keyCode": 222,
+        "kbdText": {
+            "US_QWERTY": "'"
+        }
+    }
+]

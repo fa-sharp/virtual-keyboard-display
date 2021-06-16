@@ -1,0 +1,132 @@
+{
+  "57": {
+    "octave": 4,
+    "abc": "A,",
+    "noteId": 9,
+    "midiNum": 57,
+    "isBlackKey": false
+  },
+  "58": {
+    "octave": 4,
+    "abc": [
+      "^A,",
+      "_B,"
+    ],
+    "noteId": 10,
+    "midiNum": 58,
+    "isBlackKey": true
+  },
+  "59": {
+    "octave": 4,
+    "abc": "B,",
+    "noteId": 11,
+    "midiNum": 59,
+    "isBlackKey": false
+  },
+  "60": {
+    "octave": 4,
+    "abc": "C",
+    "noteId": 0,
+    "midiNum": 60,
+    "isBlackKey": false
+  },
+  "61": {
+    "octave": 4,
+    "abc": [
+      "^C",
+      "_D"
+    ],
+    "noteId": 1,
+    "midiNum": 61,
+    "isBlackKey": true
+  },
+  "62": {
+    "octave": 4,
+    "abc": "D",
+    "noteId": 2,
+    "midiNum": 62,
+    "isBlackKey": false
+  },
+  "63": {
+    "octave": 4,
+    "abc": [
+      "^D",
+      "_E"
+    ],
+    "noteId": 3,
+    "midiNum": 63,
+    "isBlackKey": true
+  },
+  "64": {
+    "octave": 4,
+    "abc": "E",
+    "noteId": 4,
+    "midiNum": 64,
+    "isBlackKey": false
+  },
+  "65": {
+    "octave": 4,
+    "abc": "F",
+    "noteId": 5,
+    "midiNum": 65,
+    "isBlackKey": false
+  },
+  "66": {
+    "octave": 4,
+    "abc": [
+      "^F",
+      "_G"
+    ],
+    "noteId": 6,
+    "midiNum": 66,
+    "isBlackKey": true
+  },
+  "67": {
+    "octave": 4,
+    "abc": "G",
+    "noteId": 7,
+    "midiNum": 67,
+    "isBlackKey": false
+  },
+  "68": {
+    "octave": 4,
+    "abc": [
+      "^G",
+      "_A"
+    ],
+    "noteId": 8,
+    "midiNum": 68,
+    "isBlackKey": true
+  },
+  "69": {
+    "octave": 5,
+    "abc": "A",
+    "noteId": 9,
+    "midiNum": 69,
+    "isBlackKey": false
+  },
+  "70": {
+    "octave": 5,
+    "abc": [
+      "^A",
+      "_B"
+    ],
+    "noteId": 10,
+    "midiNum": 70,
+    "isBlackKey": true
+  },
+  "71": {
+    "octave": 5,
+    "abc": "B",
+    "noteId": 11,
+    "midiNum": 71,
+    "isBlackKey": false
+  },
+  "72": {
+    "octave": 5,
+    "abc": "c",
+    "noteId": 0,
+    "midiNum": 72,
+    "isBlackKey": false
+  }
+}

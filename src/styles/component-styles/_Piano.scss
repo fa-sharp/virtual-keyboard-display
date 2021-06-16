@@ -1,0 +1,100 @@
+.piano {
+    --key-width: 3rem;
+
+    --key-highlight-color: hsl(201, 100%, 90%);
+    --key-playing-color: hsl(230, 64%, 73%);
+
+    --kbd-background: #f7f7f7;
+    --kbd-shadow: 0px 2px 3px 2px #909090;
+
+    display: flex;
+    flex-direction: row;
+    width: min-content;
+    cursor: default;
+}
+
+.piano, .piano * {
+box-sizing: content-box;
+}
+
+.key {
+    background-color: white;
+    height: calc(var(--key-width)*3.6);
+    width: var(--key-width);
+    
+    margin: 0;
+    padding: 0;
+    border: 1px solid black;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 2px 2px 2px black;
+    outline: none;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+  
+    color: black;
+    font-size: calc(var(--key-width) / 2.5);
+    
+    &.black {
+        background-color: black;
+        color: white;
+        font-size: calc(var(--key-width) / 3);
+        margin-left: calc(var(--key-width) / -3.333 - 1px); // width/2 + 1
+        margin-right: calc(var(--key-width) / -3.333 - 1px);
+        z-index: 2;
+        height: calc(var(--key-width) * 2.4);
+        width: calc(var(--key-width) / 1.667);
+
+        &:hover, &:focus {
+            color: black;
+        }
+    }
+
+    &:hover, &:focus {
+        background-color: var(--key-highlight-color);
+        box-shadow: 2px 2px 2px black, 0px 0px 4px 1px var(--key-highlight-color);
+    }
+
+    &.playing {
+        background-color: var(--key-playing-color);
+        box-shadow: none;
+        color: black;
+    }
+
+    // INSIDE THE KEY: key text and keyboard mapping
+    & > * {
+        margin: 2px;
+    }
+
+    &.key-C > &-text::after{ // target all Cs to add octave
+        position: absolute;
+        right: 4;
+        font-size: .7em;
+        content: "4";
+    }
+
+    &:not(.key-C) > &-text.hidden { // hide all key text except for the Cs
+        opacity: 0;
+    }
+
+    &-kbd { // style for the keyboard mapping
+        background: var(--kbd-background);
+        border-radius: 20%;
+        box-shadow: var(--kbd-shadow);
+
+        height: calc(var(--key-width) / 2.3);
+        width: calc(var(--key-width) / 2.3);
+
+        color: #8c8c8c;
+        font-size: .9em;
+        font-style: italic;
+        text-align: center;
+        line-height: calc(var(--key-width) / 2.3);
+
+        &.hidden {
+            display: none;
+        }
+    }
+}

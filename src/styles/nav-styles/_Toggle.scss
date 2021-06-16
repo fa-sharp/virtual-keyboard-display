@@ -1,7 +1,7 @@
 .toggle-display {
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
+    align-items: flex-end;
     min-width: max-content;
     gap: .5em;
 }

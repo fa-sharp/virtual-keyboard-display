@@ -1,5 +1,8 @@
+@import-normalize;
+
 @import 'base-styles/globals';
 @import 'base-styles/colors';
 
 @import 'component-styles/App';
+@import 'component-styles/Piano';
 @import 'nav-styles/Toggle';

@@ -1,0 +1,95 @@
+{
+    "chord": {
+        "MAJOR_TRIAD": {
+            "composition": {
+                "intervals": [0, 4, 7],
+                "descriptions": ["root","3rd","5th"]
+            },
+            "shortText": "M",
+            "longText": "major triad",
+            "inversionId": "TRIAD_INVERSIONS"
+        },
+        "MINOR_TRIAD": {
+            "composition": {
+                "intervals": [0, 3, 7],
+                "descriptions": ["root","3rd","5th"]
+            },
+            "shortText": "m",
+            "longText": "minor triad",
+            "inversionId": "TRIAD_INVERSIONS"
+        },
+        "DIMINISHED_TRIAD": {
+            "composition": {
+                "intervals": [0, 3, 6],
+                "descriptions": ["root","3rd","5th"]
+            },
+            "shortText": "dim",
+            "longText": "diminished triad",
+            "inversionId": "TRIAD_INVERSIONS"
+        },
+        "SUS_2": {
+            "composition": {
+                "intervals": [0, 2, 7],
+                "descriptions": ["root","2nd","5th"]
+            },
+            "shortText": "sus2",
+            "longText": "sus2"
+        }
+    },
+    "inversion": {
+        "TRIAD_INVERSIONS": {
+            "num": 3,
+            "shortText": [
+                "",
+                "6",
+                "6/4"
+            ],
+            "longText": [
+                "root position",
+                "1st inversion",
+                "2nd inversion"
+            ]
+        }
+    },
+    "intervalsToChord": {
+        "0-4-7": {
+            "chordId": "MAJOR_TRIAD",
+            "inversion": 0
+        },
+        "0-3-8": {
+            "chordId": "MAJOR_TRIAD",
+            "inversion": 1
+        },
+        "0-5-9": {
+            "chordId": "MAJOR_TRIAD",
+            "inversion": 2
+        },
+        "0-3-7": {
+            "chordId": "MINOR_TRIAD",
+            "inversion": 0
+        },
+        "0-4-9": {
+            "chordId": "MINOR_TRIAD",
+            "inversion": 1
+        },
+        "0-5-8": {
+            "chordId": "MINOR_TRIAD",
+            "inversion": 2
+        },
+        "0-3-6": {
+            "chordId": "DIMINISHED_TRIAD",
+            "inversion": 0
+        },
+        "0-3-9": {
+            "chordId": "DIMINISHED_TRIAD",
+            "inversion": 1
+        },
+        "0-6-9": {
+            "chordId": "DIMINISHED_TRIAD",
+            "inversion": 2
+        },
+        "0-2-7": {
+            "chordId": "SUS_2"
+        }
+    }
+}

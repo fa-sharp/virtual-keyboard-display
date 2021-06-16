@@ -1,25 +1,34 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import Piano from './Piano';
 import Toggle from './nav/Toggle';
-import logo from '../images/logo.svg';
+import logo from '../res/images/logo.svg';
 import '../styles/main.scss';
 
 function App() {
-    interface keyboardOptions {
-        showNoteNames: boolean;
-        showKbdMappings: boolean;
-    }
-
-    let [options, setOptions] = useState<keyboardOptions>(
-        {showNoteNames: true, showKbdMappings: false});
+    let [pianoKeys, setPianoKeys] = useState<boolean[]>(
+        new Array<boolean>(90).fill(false)
+    );
+    let [options, setOptions] = useState<KeyboardOptions>(
+        {useSharps: true, showNoteNames: true, showKbdMappings: false}
+    );
+    const pianoElement = useRef<HTMLDivElement>(null);
 
     return (
         <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />
+            </header>
+            <section className="keyboard-view">
                 <h2>
                     The Virtual Keyboard
                 </h2>
-
+                <Piano
+                    startKey={60}
+                    endKey={70}
+                    pianoKeys={pianoKeys}
+                    keyboardOptions={options}
+                    parentRef={pianoElement}
+                />
                 <Toggle
                     displayLabel="Show note names:"
                     ariaLabel="Display text of note names for each key"
@@ -34,7 +43,16 @@ function App() {
                     optionName="showKbdMappings"
                     onChange={toggleChange}
                 />
-            </header>
+                <label>Size:
+                <input
+                    type="range"
+                    min="3" max="4.5" step="0.1"
+                    defaultValue="3"
+                    onChange={changeKeyboardSize}
+                />
+                </label>
+
+            </section>
         </div>
     );
 
@@ -44,10 +62,22 @@ function App() {
         const option = event.target.dataset.option;
         const newValue = event.target.checked;
         // check if option is defined
-        option && option in options ? 
-            setOptions((prevOptions) => ({...options, [option]: newValue})) // set new option
-            : console.error("Error toggling option in App: " + option);
+        if (option && option in options)
+            setOptions((prevOptions) => ({...options, [option]: newValue}));
+        else
+            console.error("Error toggling option in App: " + option);
     }
+
+    // Changing display size of the keyboard. Using Ref hook here https://reactjs.org/docs/refs-and-the-dom.html
+    function changeKeyboardSize(event: React.ChangeEvent<HTMLInputElement>) {
+        pianoElement.current?.style.setProperty("--key-width", event.target.value + "rem");
+    }
+}
+
+export interface KeyboardOptions {
+    showNoteNames: boolean;
+    showKbdMappings: boolean;
+    useSharps: boolean;
 }
 
 export default App;
