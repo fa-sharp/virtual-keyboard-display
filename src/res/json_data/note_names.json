@@ -1,27 +1,30 @@
 {
     "English": [
-        {"text": ["C"], "description": ["C"]},
-        {"text": ["C#","Db"], "description": ["C sharp", "D flat"]},
-        {"text": ["D"], "description": ["D"]},
-        {"text": ["D#","Eb"], "description": ["D sharp", "E flat"]},
-        {"text": ["E"], "description": ["E"]},
-        {"text": ["F"], "description": ["F"]},
-        {"text": ["F#","Gb"], "description": ["F sharp", "G flat"]},
-        {"text": ["G"], "description": ["G"]},
-        {"text": ["G#","Ab"], "description": ["G sharp", "A flat"]},
-        {"text": ["A"], "description": ["A"]},
-        {"text": ["A#","Bb"], "description": ["A sharp", "B flat"]},
-        {"text": ["B"], "description": ["B"]}
+        {"text": "C", "description": "C"},
+        [{"text": "C#", "description": "C sharp"}, {"text": "Db", "description": "D flat"}],
+        {"text": "D", "description": "D"},
+        [{"text": "D#", "description": "D sharp"}, {"text": "Eb", "description": "E flat"}],
+        {"text": "E", "description": "E"},
+        {"text": "F", "description": "F"},
+        [{"text": "F#", "description": "F sharp"}, {"text": "Gb", "description": "G flat"}],
+        {"text": "G", "description": "G"},
+        [{"text": "G#", "description": "G sharp"}, {"text": "Ab", "description": "A flat"}],
+        {"text": "A", "description": "A"},
+        [{"text": "A#", "description": "A sharp"}, {"text": "Bb", "description": "B flat"}],
+        {"text": "B", "description": "B"}
     ],
     "Solfege": [
-        {"text": ["C"], "description": ["C"]},
-        {"text": ["C#","Db"], "description": ["C sharp", "D flat"]},
-        {"text": ["D"], "description": ["D"]},
-        {"text": ["D#","Eb"], "description": ["D sharp", "E flat"]},
-        {"text": ["E"], "description": ["E"]},
-        {"text": ["F#","Gb"], "description": ["F sharp", "G flat"]},
-        {"text": ["G"], "description": ["G"]},
-        {"text": ["A"], "description": ["A"]},
-        {"text": ["B"], "description": ["B"]}
+        {"text": "C", "description": "C"},
+        [{"text": "C#", "description": "C sharp"}, {"text": "Db", "description": "D flat"}],
+        {"text": "D", "description": "D"},
+        [{"text": "D#", "description": "D sharp"}, {"text": "Eb", "description": "E flat"}],
+        {"text": "E", "description": "E"},
+        {"text": "F", "description": "F"},
+        [{"text": "F#", "description": "F sharp"}, {"text": "Gb", "description": "G flat"}],
+        {"text": "G", "description": "G"},
+        [{"text": "G#", "description": "G sharp"}, {"text": "Ab", "description": "A flat"}],
+        {"text": "A", "description": "A"},
+        [{"text": "A#", "description": "A sharp"}, {"text": "Bb", "description": "B flat"}],
+        {"text": "B", "description": "B"}
     ]
 }
