@@ -1,6 +1,6 @@
 import Key from "./Key";
 import { KeyboardOptions } from "./App";
-import React from "react";
+import React, { forwardRef } from "react";
 
 interface PianoProps {
     startKey: number
@@ -8,12 +8,11 @@ interface PianoProps {
 
     pianoKeys: boolean[]
     keyboardOptions: KeyboardOptions
-
-    children?: React.ReactNode
-    parentRef?: React.RefObject<HTMLDivElement>
 }
 
-const generateKeyElements = (startKey: number, endKey: number, pianoKeys: boolean[], keyboardOptions: KeyboardOptions) => {
+const generateKeyElements = 
+    (startKey: number, endKey: number, pianoKeys: boolean[], keyboardOptions: KeyboardOptions) => {
+
     let keyElements: JSX.Element[] = [];
     for (let keyId = startKey; keyId <= endKey; keyId++) {
         keyElements.push(
@@ -28,15 +27,15 @@ const generateKeyElements = (startKey: number, endKey: number, pianoKeys: boolea
     return keyElements;
 }
 
-const Piano = ({ startKey, endKey, pianoKeys, keyboardOptions, children, parentRef }: PianoProps) => {
+const Piano = 
+    forwardRef<HTMLDivElement, PianoProps>(({ startKey, endKey, pianoKeys, keyboardOptions }, pianoElementRef) => {
 
     return (
-        <div ref={parentRef} className="piano">
+        <div ref={pianoElementRef} className="piano">
             {generateKeyElements(startKey, endKey, pianoKeys, keyboardOptions)}
-            {children}
         </div>
     )
 
-}
+});
 
 export default Piano;

@@ -4,7 +4,7 @@ import '../../styles/main.scss'
 type ToggleProps = {
     displayLabel: string;
     displayLabelRight?: string;
-    ariaLabel: string;
+    description: string;
     isChecked: boolean;
     optionName: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -16,14 +16,14 @@ const Toggle = (props: ToggleProps) => {
             <div className="toggle-label">
                 {props.displayLabel}
             </div>
-            <label className="toggle" aria-label={props.ariaLabel} >
+            <label className="toggle" title={props.description} aria-label={props.description} >
                 <input type="checkbox" checked={props.isChecked} 
                     onChange={props.onChange.bind(this)} data-option={props.optionName} />
                 <span className="slider"></span>
             </label>
-            <div className="toggle-label">
-                {props.displayLabelRight ? props.displayLabelRight : null}
-            </div>
+            {props.displayLabelRight && <div className="toggle-label">
+                {props.displayLabelRight}
+            </div>}
         </div>
     )
 }

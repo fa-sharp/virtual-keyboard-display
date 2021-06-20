@@ -1,8 +1,8 @@
 .piano {
     --key-width: 3rem;
 
-    --key-highlight-color: hsl(201, 100%, 90%);
-    --key-playing-color: hsl(230, 64%, 73%);
+    --key-focus-color: hsl(0, 0%, 90%);
+    --key-playing-color: hsl(230, 71%, 69%);
 
     --kbd-background: #f7f7f7;
     --kbd-shadow: 0px 2px 2px 1px #909090;
@@ -53,8 +53,8 @@ box-sizing: content-box;
     }
 
     &:hover, &:focus {
-        background-color: var(--key-highlight-color);
-        box-shadow: 2px 2px 2px black, 0px 0px 4px 1px var(--key-highlight-color);
+        background-color: var(--key-focus-color);
+        box-shadow: 2px 2px 2px black, 0px 0px 4px 1px var(--key-focus-color);
     }
 
     &.playing {

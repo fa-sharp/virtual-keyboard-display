@@ -1,9 +1,9 @@
 import React, { Reducer, useCallback, useReducer, useRef, useState } from 'react';
 import Piano from './Piano';
+import { useKeyboardListeners, useMouseListeners } from './listeners/MouseKeyboardListeners';
 import Toggle from './nav/Toggle';
 import logo from '../res/images/logo.svg';
 import '../styles/main.scss';
-import PianoListeners from './PianoListeners';
 
 export interface KeyboardOptions {
     showNoteNames: boolean;
@@ -27,7 +27,7 @@ const playKeysReducer = (pianoKeys: boolean[], action: PlayKeysAction) => {
         case 'KEY_ON':
             newPianoKeys[action.keyId] = true;
     }
-    return [...newPianoKeys];
+    return newPianoKeys;
 }
 
 function App() {
@@ -37,9 +37,10 @@ function App() {
     const [options, setOptions] = useState<KeyboardOptions>(
         {useFlats: true, showNoteNames: true, showKbdMappings: false, stickyMode: true}
     );
-    const pianoElement = useRef<HTMLDivElement>(null);
+    const pianoElementRef = useRef<HTMLDivElement | null>(null);
 
-    // TODO useEffect to load pianoElement and other needed DOM elements?
+    useMouseListeners(playKeysDispatch, pianoElementRef, options.stickyMode);
+    useKeyboardListeners(playKeysDispatch, options.stickyMode);
 
     /** Array that represents the currently playing keys, e.g. [60, 64, 67] */
     let playingKeys: number[] = [];
@@ -48,13 +49,13 @@ function App() {
     }
     console.log(playingKeys);
 
-    // Changing one of the toggle settings
+    /** Callback fired when changing one of the toggle settings */
     const toggleOptionChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const changedOption = event.target.dataset.option;
         const newValue = event.target.checked;
-        // check if option is defined
+        // check if changedOption is valid
         if (changedOption && changedOption in options)
-            setOptions((prevOptions) => ({...options, [changedOption]: newValue}));
+            setOptions((prevOptions) => ({...prevOptions, [changedOption]: newValue}));
         else
             console.error("Error toggling option in App: " + changedOption);
     }, [options])
@@ -73,21 +74,35 @@ function App() {
                     endKey={70}
                     pianoKeys={pianoKeys}
                     keyboardOptions={options}
-                    parentRef={pianoElement}>
-                    <PianoListeners playKeys={playKeysDispatch} keyboardOptions={options}/>
-                </Piano>
+                    ref={pianoElementRef}
+                />
                 <Toggle
                     displayLabel="Show note names:"
-                    ariaLabel="Display text of note names for each key"
+                    description="Display text of note names for each key"
                     isChecked={options.showNoteNames}
                     optionName="showNoteNames"
                     onChange={toggleOptionChange}
                 />
                 <Toggle
                     displayLabel="Show keyboard shortcuts:"
-                    ariaLabel="Display keyboard mappings for each key"
+                    description="Display keyboard mappings for each key"
                     isChecked={options.showKbdMappings}
                     optionName="showKbdMappings"
+                    onChange={toggleOptionChange}
+                />
+                <Toggle
+                    displayLabel="Sharps"
+                    displayLabelRight="Flats"
+                    description="Sharps (off) or Flats (on)"
+                    isChecked={options.useFlats}
+                    optionName="useFlats"
+                    onChange={toggleOptionChange}
+                />
+                <Toggle
+                    displayLabel="Sticky mode:"
+                    description="Keys are toggled instead of immediately released"
+                    isChecked={options.stickyMode}
+                    optionName="stickyMode"
                     onChange={toggleOptionChange}
                 />
                 <label>Size:
@@ -105,7 +120,7 @@ function App() {
 
     // Changing display size of the keyboard. Using Ref hook here https://reactjs.org/docs/refs-and-the-dom.html
     function changeKeyboardSize(event: React.ChangeEvent<HTMLInputElement>) {
-        pianoElement.current?.style.setProperty("--key-width", event.target.value + "rem");
+        pianoElementRef.current?.style.setProperty("--key-width", event.target.value + "rem");
     }
 }
 
