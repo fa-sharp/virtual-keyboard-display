@@ -1,6 +1,6 @@
 import Key from "./Key";
 import { KeyboardOptions } from "./App";
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 
 interface PianoProps {
     startKey: number

@@ -49,3 +49,11 @@ export const getKeyData = (keyId: number, useFlats: boolean) => {
     } else
         return {...keyData, noteText: noteText};
 }
+
+export const getKeyAbc = (keyId: number, useFlats: boolean) => {
+    let keyData = keyDataList[keyId];
+    if (!keyData)
+        return null;
+    return (Array.isArray(keyData.abc)) ? 
+        (useFlats ? keyData.abc[FLAT_INDEX] : keyData.abc[SHARP_INDEX]) : keyData.abc;
+}

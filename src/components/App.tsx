@@ -1,9 +1,12 @@
 import React, { Reducer, useCallback, useReducer, useRef, useState } from 'react';
-import Piano from './Piano';
 import { useKeyboardListeners, useMouseListeners } from './listeners/MouseKeyboardListeners';
+import Piano from './Piano';
 import Toggle from './nav/Toggle';
 import logo from '../res/images/logo.svg';
 import '../styles/main.scss';
+import Staff from './Staff';
+
+const NUM_KEYS = 90;
 
 export interface KeyboardOptions {
     showNoteNames: boolean;
@@ -12,8 +15,9 @@ export interface KeyboardOptions {
     stickyMode: boolean;
 }
 
-export type PlayKeysAction = { type: 'KEY_ON', keyId: number } |
-        { type: 'KEY_OFF', keyId: number } | {type: 'KEY_TOGGLE', keyId: number };
+export type PlayKeysAction = { type: 'KEY_ON', keyId: number } | { type: 'KEY_OFF', keyId: number } |
+{ type: 'KEY_TOGGLE', keyId: number } | { type: 'CHORD_ON', keyIds: number[] } |
+{ type: 'CHORD_OFF', keyIds: number[] } | { type: 'CLEAR_KEYS' };
 
 const playKeysReducer = (pianoKeys: boolean[], action: PlayKeysAction) => {
     let newPianoKeys = [...pianoKeys];
@@ -26,6 +30,14 @@ const playKeysReducer = (pianoKeys: boolean[], action: PlayKeysAction) => {
             break;
         case 'KEY_ON':
             newPianoKeys[action.keyId] = true;
+            break;
+        case 'CLEAR_KEYS':
+            for(let i = 0; i < NUM_KEYS; i++) {
+                newPianoKeys[i] = false;
+            }
+            break;
+        default:
+            console.error(`Error in App/playKeysReducer: action "${action.type}" not implemented!`);
     }
     return newPianoKeys;
 }
@@ -39,6 +51,7 @@ function App() {
     );
     const pianoElementRef = useRef<HTMLDivElement | null>(null);
 
+    /** Setting up all event listeners to make the piano interactive */
     useMouseListeners(playKeysDispatch, pianoElementRef, options.stickyMode);
     useKeyboardListeners(playKeysDispatch, options.stickyMode);
 
@@ -69,9 +82,14 @@ function App() {
                 <h2>
                     The Virtual Keyboard
                 </h2>
+                <Staff
+                    playingKeys={playingKeys}
+                    abcjsOptions={{ scale: 1.5 }}
+                    useFlats={options.useFlats}
+                />
                 <Piano
-                    startKey={60}
-                    endKey={70}
+                    startKey={57}
+                    endKey={72}
                     pianoKeys={pianoKeys}
                     keyboardOptions={options}
                     ref={pianoElementRef}
