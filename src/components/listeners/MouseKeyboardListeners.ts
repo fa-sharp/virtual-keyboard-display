@@ -1,6 +1,6 @@
 import { Dispatch, RefObject, useCallback, useEffect } from "react";
 import { PlayKeysAction } from "../App";
-import { keyCodeToKeyId } from "../../utils/KbdCodesUtils";
+import { kbdCodeToKeyId } from "../../utils/KbdCodesUtils";
 
 /**
  * React Hook to activate the mouse listeners. TODO: Add touch support and fix the mouse-up issue.
@@ -69,8 +69,7 @@ function getClickedKeyId(event: MouseEvent) {
 }
 
 /**
- * React Hook to set up the keyboard listeners. TODO add 'code' support in addition 
- * to keyCode. Semicolon and single-quote doesn't work in Firefox
+ * React Hook to set up the keyboard listeners. Single-quote triggers in Firefox
  * 
  * @param playKeys Dispatch method to send messages to App component and manipulate the pianoKeys state
  * @param stickyMode Whether "sticky mode" in options is enabled
@@ -80,7 +79,8 @@ export const useKeyboardListeners = (playKeys: Dispatch<PlayKeysAction>, stickyM
     const handleKeyboardDown = useCallback((event: KeyboardEvent) => {
         if (event.repeat)
             return;
-        const keyId = keyCodeToKeyId[event.keyCode];
+        const keyId = (event.code !== "") ?   // checking if code property is supported
+            kbdCodeToKeyId[event.code] : kbdCodeToKeyId[event.keyCode];
         if (!keyId)
             return;
         if (stickyMode)
@@ -92,15 +92,17 @@ export const useKeyboardListeners = (playKeys: Dispatch<PlayKeysAction>, stickyM
     const handleKeyboardUp = useCallback((event: KeyboardEvent) => {
         if (event.repeat)
             return;
-        const keyId = keyCodeToKeyId[event.keyCode];
+        const keyId = (event.code !== "") ?   // checking if code property is supported
+            kbdCodeToKeyId[event.code] : kbdCodeToKeyId[event.keyCode];
         if (!keyId)
             return;
-        if (stickyMode)
-            playKeys({type: "KEY_TOGGLE", keyId: keyId});
-        else
-            playKeys({type: "KEY_OFF", keyId: keyId});
-    }, [playKeys, stickyMode]);
+        playKeys({type: "KEY_OFF", keyId: keyId});
+    }, [playKeys]);
 
+
+    /** 
+     * Setting up and tearing down the keyboard listeners. Re-runs on toggling of "Sticky" mode
+     */
     useEffect(() => {
         console.log("Setting up the keyboard listeners!");
         document.addEventListener("keydown", handleKeyboardDown);

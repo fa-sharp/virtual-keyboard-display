@@ -5,7 +5,7 @@ import { getKeyAbc } from '../utils/KeyDataUtils';
 interface StaffProps {
     playingKeys: number[]
     useFlats: boolean
-    abcjsOptions: {}
+    abcjsOptions?: {}
 }
 
 const ABCJS_DOM_ID = "abcjs-display";
@@ -33,7 +33,7 @@ const generateAbcNotation = (playingKeys: number[], useFlats: boolean) => {
     return `${ABC_HEADER}${abcTreble}|\n${abcBass}|`;
 }
 
-const Staff = ({playingKeys, abcjsOptions, useFlats}: StaffProps) => {
+const Staff = ({playingKeys, abcjsOptions = {}, useFlats}: StaffProps) => {
 
     useEffect(() => abcjsObj.renderAbc(ABCJS_DOM_ID, generateAbcNotation(playingKeys, useFlats), abcjsOptions));
     

@@ -1,111 +1,111 @@
 [
     {
-        "code": "keyA",
+        "code": "KeyA",
         "keyCode": 65,
         "kbdText": {
             "US_QWERTY": "A"
         }
     },
     {
-        "code": "keyW",
+        "code": "KeyW",
         "keyCode": 87,
         "kbdText": {
             "US_QWERTY": "W"
         }
     },
     {
-        "code": "keyS",
+        "code": "KeyS",
         "keyCode": 83,
         "kbdText": {
             "US_QWERTY": "S"
         }
     },
     {
-        "code": "keyE",
+        "code": "KeyE",
         "keyCode": 69,
         "kbdText": {
             "US_QWERTY": "E"
         }
     },
     {
-        "code": "keyD",
+        "code": "KeyD",
         "keyCode": 68,
         "kbdText": {
             "US_QWERTY": "D"
         }
     },
     {
-        "code": "keyF",
+        "code": "KeyF",
         "keyCode": 70,
         "kbdText": {
             "US_QWERTY": "F"
         }
     },
     {
-        "code": "keyT",
+        "code": "KeyT",
         "keyCode": 84,
         "kbdText": {
             "US_QWERTY": "T"
         }
     },
     {
-        "code": "keyG",
+        "code": "KeyG",
         "keyCode": 71,
         "kbdText": {
             "US_QWERTY": "G"
         }
     },
     {
-        "code": "keyY",
+        "code": "KeyY",
         "keyCode": 89,
         "kbdText": {
             "US_QWERTY": "Y"
         }
     },
     {
-        "code": "keyH",
+        "code": "KeyH",
         "keyCode": 72,
         "kbdText": {
             "US_QWERTY": "H"
         }
     },
     {
-        "code": "keyU",
+        "code": "KeyU",
         "keyCode": 85,
         "kbdText": {
             "US_QWERTY": "U"
         }
     },
     {
-        "code": "keyJ",
+        "code": "KeyJ",
         "keyCode": 74,
         "kbdText": {
             "US_QWERTY": "J"
         }
     },
     {
-        "code": "keyK",
+        "code": "KeyK",
         "keyCode": 75,
         "kbdText": {
             "US_QWERTY": "K"
         }
     },
     {
-        "code": "keyO",
+        "code": "KeyO",
         "keyCode": 79,
         "kbdText": {
             "US_QWERTY": "O"
         }
     },
     {
-        "code": "keyL",
+        "code": "KeyL",
         "keyCode": 76,
         "kbdText": {
             "US_QWERTY": "L"
         }
     },
     {
-        "code": "keyP",
+        "code": "KeyP",
         "keyCode": 80,
         "kbdText": {
             "US_QWERTY": "P"
