@@ -14,17 +14,17 @@
         {"text": "B", "description": "B"}
     ],
     "Solfege": [
-        {"text": "C", "description": "C"},
-        [{"text": "C#", "description": "C sharp"}, {"text": "Db", "description": "D flat"}],
-        {"text": "D", "description": "D"},
-        [{"text": "D#", "description": "D sharp"}, {"text": "Eb", "description": "E flat"}],
-        {"text": "E", "description": "E"},
-        {"text": "F", "description": "F"},
-        [{"text": "F#", "description": "F sharp"}, {"text": "Gb", "description": "G flat"}],
-        {"text": "G", "description": "G"},
-        [{"text": "G#", "description": "G sharp"}, {"text": "Ab", "description": "A flat"}],
-        {"text": "A", "description": "A"},
-        [{"text": "A#", "description": "A sharp"}, {"text": "Bb", "description": "B flat"}],
-        {"text": "B", "description": "B"}
+        {"text": "Do", "description": "Do"},
+        [{"text": "Do#", "description": "Do sharp"}, {"text": "Re♭", "description": "Re flat"}],
+        {"text": "Re", "description": "Re"},
+        [{"text": "Re#", "description": "Re sharp"}, {"text": "Mi♭", "description": "Mi flat"}],
+        {"text": "Mi", "description": "Mi"},
+        {"text": "Fa", "description": "Fa"},
+        [{"text": "Fa#", "description": "Fa sharp"}, {"text": "Sol♭", "description": "Sol flat"}],
+        {"text": "Sol", "description": "Sol"},
+        [{"text": "Sol#", "description": "Sol sharp"}, {"text": "La♭", "description": "La flat"}],
+        {"text": "La", "description": "La"},
+        [{"text": "La#", "description": "La sharp"}, {"text": "Si♭", "description": "Si flat"}],
+        {"text": "Si", "description": "Si"}
     ]
 }

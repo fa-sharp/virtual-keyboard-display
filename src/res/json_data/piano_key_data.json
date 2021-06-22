@@ -1,4 +1,18 @@
 {
+  "55": {
+    "octave": 3,
+    "abc": "G,",
+    "noteId": 7,
+    "midiNum": 55,
+    "isBlackKey": false
+  },
+  "56": {
+    "octave": 3,
+    "abc": ["^G,","_A,"],
+    "noteId": 8,
+    "midiNum": 56,
+    "isBlackKey": true
+  },
   "57": {
     "octave": 4,
     "abc": "A,",

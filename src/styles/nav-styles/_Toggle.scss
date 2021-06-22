@@ -1,16 +1,20 @@
 .toggle-display {
     display: flex;
-    justify-content: space-evenly;
-    align-items: flex-start;
-    min-width: max-content;
+    justify-content: center;
+    align-items: center;
     gap: .5em;
+}
+
+.toggle-label {
+    align-self: flex-start;
+    max-width: 8rem;
 }
 
 .toggle {
     --toggle-size: 1.2rem;
     --toggle-highlight-color: rgba(255, 180, 180, 0.29);
     --toggle-off-background-color: darkgray;
-    --toggle-on-background-color: hsl(180deg 100% 38%);
+    --toggle-on-background-color: hsl(200, 100%, 50%);
     --toggle-transition-time: 0.1s;
     --slider-color: white;
     --slider-offset: 4px;

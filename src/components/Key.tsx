@@ -1,18 +1,19 @@
 import React from 'react';
 import { KeyboardOptions } from './App'
-import { getKeyData } from '../utils/KeyDataUtils';
+import { getKeyData, NoteTextLanguageType } from '../utils/KeyDataUtils';
 import { KBD_MAPPING_START_KEY } from '../utils/KbdCodesUtils';
 import KBD_CODES from '../res/json_data/kbd_codes.json'
 
 interface KeyProps {
     keyId: number; // id, equal to the MIDI number
     isPlaying: boolean;
+    language?: NoteTextLanguageType;
 
     keyboardOptions: KeyboardOptions;
 }
 
-const Key = React.memo(({keyId, isPlaying, keyboardOptions}: KeyProps) => {
-    let keyData = getKeyData(keyId, keyboardOptions.useFlats);
+const Key = React.memo(({keyId, isPlaying, keyboardOptions, language="English"}: KeyProps) => {
+    let keyData = getKeyData(keyId, keyboardOptions.useFlats, language);
     if (!keyData) {
         console.error(`Error rendering Key component: key data with id ${keyId} not found!`);
         return null;

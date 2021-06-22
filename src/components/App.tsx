@@ -5,6 +5,8 @@ import Toggle from './nav/Toggle';
 import logo from '../res/images/logo.svg';
 import '../styles/main.scss';
 import Staff from './Staff';
+import ScaleGenerator from './ScaleChordGenerator';
+import Sidebar from './nav/Sidebar';
 
 const NUM_KEYS = 90;
 
@@ -74,65 +76,47 @@ function App() {
     }, [options])
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-            </header>
-            <section className="keyboard-view">
+        <div className="app-view">
+            <Sidebar
+                keyboardOptions={options}
+                toggleOptionChange={toggleOptionChange}
+            />
+            <div className="main-view">
                 <h2>
                     The Virtual Keyboard
                 </h2>
-                <Staff
-                    playingKeys={playingKeys}
-                    abcjsOptions={{ scale: 1.5 }}
-                    useFlats={options.useFlats}
-                />
-                <Piano
-                    startKey={57}
-                    endKey={72}
-                    pianoKeys={pianoKeys}
-                    keyboardOptions={options}
-                    ref={pianoElementRef}
-                />
-                <Toggle
-                    displayLabel="Show note names:"
-                    description="Display text of note names for each key"
-                    isChecked={options.showNoteNames}
-                    optionName="showNoteNames"
-                    onChange={toggleOptionChange}
-                />
-                <Toggle
-                    displayLabel="Show keyboard shortcuts:"
-                    description="Display keyboard mappings for each key"
-                    isChecked={options.showKbdMappings}
-                    optionName="showKbdMappings"
-                    onChange={toggleOptionChange}
-                />
-                <Toggle
-                    displayLabel="Sharps"
-                    displayLabelRight="Flats"
-                    description="Sharps (off) or Flats (on)"
-                    isChecked={options.useFlats}
-                    optionName="useFlats"
-                    onChange={toggleOptionChange}
-                />
-                <Toggle
-                    displayLabel="Sticky mode:"
-                    description="Keys are toggled instead of immediately released"
-                    isChecked={options.stickyMode}
-                    optionName="stickyMode"
-                    onChange={toggleOptionChange}
-                />
-                <label>Size:
-                <input
-                    type="range"
-                    min="3" max="4.5" step="0.1"
-                    defaultValue="3"
-                    onChange={changeKeyboardSize}
-                />
-                </label>
-
-            </section>
+                <div className="main-view-content">
+                
+                    <section className="staff-keyboard-view">
+                        <Staff
+                            playingKeys={playingKeys}
+                            abcjsOptions={{ scale: 1.5 }}
+                            useFlats={options.useFlats}
+                        />
+                        <Piano
+                            startKey={55}
+                            endKey={72}
+                            pianoKeys={pianoKeys}
+                            keyboardOptions={options}
+                            ref={pianoElementRef}
+                        />
+                    </section>
+                    <section>
+                        <ScaleGenerator
+                            playKeys={playKeysDispatch}
+                            useFlats={options.useFlats}
+                        />
+                        <label>Size:
+                            <input
+                                type="range"
+                                min="3" max="4.5" step="0.1"
+                                defaultValue="3"
+                                onChange={changeKeyboardSize}
+                            />
+                        </label>
+                    </section>
+                </div>
+            </div>
         </div>
     );
 

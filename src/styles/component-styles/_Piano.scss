@@ -2,7 +2,7 @@
     --key-width: 3rem;
 
     --key-focus-color: hsl(0, 0%, 90%);
-    --key-playing-color: hsl(230, 71%, 69%);
+    --key-playing-color: hsl(200, 100%, 50%);
 
     --kbd-background: #f7f7f7;
     --kbd-shadow: 0px 2px 2px 1px #909090;
@@ -19,7 +19,7 @@ box-sizing: content-box;
 
 .key {
     background-color: white;
-    height: calc(var(--key-width)*3.6);
+    height: calc(var(--key-width)*3.9);
     width: var(--key-width);
     
     margin: 0;
@@ -44,7 +44,7 @@ box-sizing: content-box;
         margin-left: calc(var(--key-width) / -3.333 - 1px); // width/2 + 1
         margin-right: calc(var(--key-width) / -3.333 - 1px);
         z-index: 2;
-        height: calc(var(--key-width) * 2.4);
+        height: calc(var(--key-width) * 2.5);
         width: calc(var(--key-width) / 1.667);
 
         &:hover, &:focus {
