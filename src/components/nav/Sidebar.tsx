@@ -7,41 +7,45 @@ interface SidebarProps {
     toggleOptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Sidebar = ({keyboardOptions, toggleOptionChange}: SidebarProps) => {
+const Sidebar = React.memo(({keyboardOptions, toggleOptionChange}: SidebarProps) => {
     return (
-        <div className="sidebar">
-            <h2>Settings</h2>
-            <Toggle
-                displayLabel="Show note names:"
-                description="Display text of note names for each key"
-                isChecked={keyboardOptions.showNoteNames}
-                optionName="showNoteNames"
-                onChange={toggleOptionChange}
-            />
-            <Toggle
-                displayLabel="Show keyboard shortcuts:"
-                description="Display keyboard mappings for each key"
-                isChecked={keyboardOptions.showKbdMappings}
-                optionName="showKbdMappings"
-                onChange={toggleOptionChange}
-            />
-            <Toggle
-                displayLabel="Sharps"
-                displayLabelRight="Flats"
-                description="Sharps (off) or Flats (on)"
-                isChecked={keyboardOptions.useFlats}
-                optionName="useFlats"
-                onChange={toggleOptionChange}
-            />
-            <Toggle
-                displayLabel="Sticky mode:"
-                description="Keys are toggled instead of immediately released"
-                isChecked={keyboardOptions.stickyMode}
-                optionName="stickyMode"
-                onChange={toggleOptionChange}
-            />
-        </div>
+        <nav className="sidebar">
+            <div className="sidebar-overlay"></div>
+            <div className="sidebar-content">
+                <h2>Settings</h2>
+                <Toggle
+                    displayLabel="Show note names"
+                    description="Display text of note names for each piano key"
+                    isChecked={keyboardOptions.showNoteNames}
+                    optionName="showNoteNames"
+                    onChange={toggleOptionChange}
+                />
+                <Toggle
+                    displayLabel="Show keyboard shortcuts"
+                    description="Display keyboard shortcuts for each piano key"
+                    isChecked={keyboardOptions.showKbdMappings}
+                    optionName="showKbdMappings"
+                    onChange={toggleOptionChange}
+                />
+                <Toggle
+                    displayLabel="Sharps"
+                    displayLabelRight="Flats"
+                    description="Sharps (off) or Flats (on)"
+                    isChecked={keyboardOptions.useFlats}
+                    optionName="useFlats"
+                    onChange={toggleOptionChange}
+                />
+                <Toggle
+                    displayLabel='"Sticky" mode'
+                    description="Piano keys are toggled instead of immediately released"
+                    makeTooltip={true}
+                    isChecked={keyboardOptions.stickyMode}
+                    optionName="stickyMode"
+                    onChange={toggleOptionChange}
+                />
+            </div>
+        </nav>
     )
-}
+});
 
 export default Sidebar;

@@ -12,9 +12,9 @@
 
 .toggle {
     --toggle-size: 1.2rem;
-    --toggle-highlight-color: rgba(255, 180, 180, 0.29);
+    --toggle-highlight-color: var(--highlight-color-transparent);
     --toggle-off-background-color: darkgray;
-    --toggle-on-background-color: hsl(200, 100%, 50%);
+    --toggle-on-background-color: var(--active-color);
     --toggle-transition-time: 0.1s;
     --slider-color: white;
     --slider-offset: 4px;

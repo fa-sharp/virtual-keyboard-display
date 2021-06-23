@@ -1,12 +1,57 @@
 .app-view {
 	position: relative;
 	display: block;
+	height: 100vh;
 
 	text-align: center;
 }
 
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: var(--header-height);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	color: white;
+	background-color: rgb(46, 46, 46);
+
+	#toggle-sidebar-button {
+		position: fixed;
+		line-height: 1;
+		top: .25rem;
+		left: .25rem;
+		height: 2.5rem;
+		width: 2.5rem;
+
+		background: none;
+		outline: none;
+		border: none;
+		border-radius: 50%;
+		color: white;
+		cursor: pointer;
+
+		&:focus, &:hover {
+			border: 2px solid var(--active-color);
+		}
+	}
+
+	&-title {
+		font-size: 1.5rem;
+		font-weight: 600;
+	}
+}
+
+
+
 .main-view {
-	margin-left: var(--sidebar-width);
+	margin-top: var(--header-height);
+	position: fixed;
+	width: 100%;
 
 	h2 {
 		margin-top: 0;

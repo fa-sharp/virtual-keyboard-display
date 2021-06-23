@@ -1,9 +1,17 @@
 :root {
+    --header-height: 3rem;
     --sidebar-width: 13rem;
+
+
+    --active-color: hsl(200, 100%, 50%);
+
+    --highlight-dark-color: rgb(140, 0, 0);
+    --highlight-color-transparent: rgba(194, 84, 84, 0.4);
 }
 
 body {
     margin: 0;
+    height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

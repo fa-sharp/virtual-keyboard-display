@@ -1,14 +1,11 @@
 import React, { Reducer, useCallback, useReducer, useRef, useState } from 'react';
-import { useKeyboardListeners, useMouseListeners } from './listeners/MouseKeyboardListeners';
-import Piano from './Piano';
-import Toggle from './nav/Toggle';
-import logo from '../res/images/logo.svg';
 import '../styles/main.scss';
-import Staff from './Staff';
-import ScaleGenerator from './ScaleChordGenerator';
+import { useKeyboardListeners, useMouseListeners } from './listeners/MouseKeyboardListeners';
 import Sidebar from './nav/Sidebar';
+import Piano from './Piano';
+import Staff from './Staff';
 
-const NUM_KEYS = 90;
+const MAX_NUM_KEYS = 90;
 
 export interface KeyboardOptions {
     showNoteNames: boolean;
@@ -34,7 +31,7 @@ const playKeysReducer = (pianoKeys: boolean[], action: PlayKeysAction) => {
             newPianoKeys[action.keyId] = true;
             break;
         case 'CLEAR_KEYS':
-            for(let i = 0; i < NUM_KEYS; i++) {
+            for(let i = 0; i < MAX_NUM_KEYS; i++) {
                 newPianoKeys[i] = false;
             }
             break;
@@ -77,20 +74,23 @@ function App() {
 
     return (
         <div className="app-view">
+            <header className="header">
+                <button id="toggle-sidebar-button" className="header-button" title="Settings"
+                    aria-label="Settings">
+                    <i className="material-icons">settings</i>
+                </button>
+                <div className="header-title">The Virtual Keyboard</div>
+            </header>
             <Sidebar
                 keyboardOptions={options}
                 toggleOptionChange={toggleOptionChange}
             />
             <div className="main-view">
-                <h2>
-                    The Virtual Keyboard
-                </h2>
                 <div className="main-view-content">
-                
                     <section className="staff-keyboard-view">
                         <Staff
                             playingKeys={playingKeys}
-                            abcjsOptions={{ scale: 1.5 }}
+                            abcjsOptions={{ scale: 1.5, paddingtop: 0 }}
                             useFlats={options.useFlats}
                         />
                         <Piano
@@ -100,12 +100,6 @@ function App() {
                             keyboardOptions={options}
                             ref={pianoElementRef}
                         />
-                    </section>
-                    <section>
-                        <ScaleGenerator
-                            playKeys={playKeysDispatch}
-                            useFlats={options.useFlats}
-                        />
                         <label>Size:
                             <input
                                 type="range"
@@ -114,6 +108,8 @@ function App() {
                                 onChange={changeKeyboardSize}
                             />
                         </label>
+                    </section>
+                    <section>
                     </section>
                 </div>
             </div>

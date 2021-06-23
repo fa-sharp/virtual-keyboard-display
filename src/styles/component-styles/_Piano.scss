@@ -2,7 +2,7 @@
     --key-width: 3rem;
 
     --key-focus-color: hsl(0, 0%, 90%);
-    --key-playing-color: hsl(200, 100%, 50%);
+    --key-playing-color: var(--active-color);
 
     --kbd-background: #f7f7f7;
     --kbd-shadow: 0px 2px 2px 1px #909090;
@@ -35,7 +35,7 @@ box-sizing: content-box;
     justify-content: flex-end;
   
     color: black;
-    font-size: calc(var(--key-width) / 2.5);
+    font-size: calc(var(--key-width) / 2.7);
     
     &.black {
         background-color: black;
@@ -68,13 +68,6 @@ box-sizing: content-box;
         margin: 2px;
     }
 
-    &.key-C > &-text::after{ // target all Cs to add octave
-        position: absolute;
-        right: 4;
-        font-size: .7em;
-        content: "4";
-    }
-
     &:not(.key-C) > &-text.hidden { // hide all key text except for the Cs
         opacity: 0;
     }
@@ -86,6 +79,7 @@ box-sizing: content-box;
 
         height: calc(var(--key-width) / 2);
         width: calc(var(--key-width) / 2);
+        margin-bottom: 4px;
 
         color: #8c8c8c;
         font-size: 0.95em;
