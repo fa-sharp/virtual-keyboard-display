@@ -4,12 +4,15 @@ import { Tooltip } from '../help/Tooltip';
 
 type ToggleProps = {
     displayLabel: string;
-    displayLabelRight?: string;
     description: string;
-    makeTooltip?: boolean;
     isChecked: boolean;
+
     optionName: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+
+    displayLabelRight?: string;
+    makeTooltip?: boolean;
+    isDisabled?: boolean;
 }
 
 const Toggle = (props: ToggleProps) => {
@@ -21,7 +24,7 @@ const Toggle = (props: ToggleProps) => {
                     : props.displayLabel}
             </div>
             <label className="toggle" title={props.description} aria-label={props.description} >
-                <input type="checkbox" checked={props.isChecked} 
+                <input type="checkbox" checked={props.isChecked} disabled={props.isDisabled}
                     onChange={props.onChange.bind(this)} data-option={props.optionName} />
                 <span className="slider"></span>
             </label>

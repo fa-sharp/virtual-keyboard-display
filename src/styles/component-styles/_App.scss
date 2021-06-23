@@ -20,43 +20,18 @@
 	color: white;
 	background-color: rgb(46, 46, 46);
 
-	#toggle-sidebar-button {
-		position: fixed;
-		line-height: 1;
-		top: .25rem;
-		left: .25rem;
-		height: 2.5rem;
-		width: 2.5rem;
-
-		background: none;
-		outline: none;
-		border: none;
-		border-radius: 50%;
-		color: white;
-		cursor: pointer;
-
-		&:focus, &:hover {
-			border: 2px solid var(--active-color);
-		}
-	}
-
 	&-title {
 		font-size: 1.5rem;
 		font-weight: 600;
 	}
 }
 
-
-
 .main-view {
 	margin-top: var(--header-height);
 	position: fixed;
 	width: 100%;
 
-	h2 {
-		margin-top: 0;
-		padding-top: 1rem;
-	}
+	overflow-x: auto;
 }
 
 .main-view-content {
@@ -73,4 +48,8 @@
 
 .staff-keyboard-view {
 	flex: 1 0 auto;
+
+	& > * {
+		margin: .5rem 0;
+	}
 }

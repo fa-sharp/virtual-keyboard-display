@@ -57,7 +57,3 @@ export const getKeyAbc = (keyId: number, useFlats: boolean) => {
     return (Array.isArray(keyData.abc)) ? 
         ((useFlats) ? keyData.abc[FLAT_INDEX] : keyData.abc[SHARP_INDEX]) : keyData.abc;
 }
-
-const twelveKeys = getDefaultTwelveKeyDatas(true, "English");
-
-console.log(twelveKeys[1]);

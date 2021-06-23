@@ -75,10 +75,6 @@ function App() {
     return (
         <div className="app-view">
             <header className="header">
-                <button id="toggle-sidebar-button" className="header-button" title="Settings"
-                    aria-label="Settings">
-                    <i className="material-icons">settings</i>
-                </button>
                 <div className="header-title">The Virtual Keyboard</div>
             </header>
             <Sidebar

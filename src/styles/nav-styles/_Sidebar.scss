@@ -7,11 +7,35 @@
     margin-top: var(--header-height);
     border-right: solid black 1px;
 
+    background-color: white;
     font-size: .9rem;
+
+    transition: 1s transform;
+
+    &.closed {
+        transform: translateX(-100%);
+    }
 }
 
-.sidebar-content {
-    z-index: 6;
+
+#toggle-sidebar-button {
+	position: fixed;
+	line-height: .5;
+	top: .25rem;
+	left: .25rem;
+	height: 2.5rem;
+	width: 2.5rem;
+
+	background: none;
+	outline: none;
+	border: none;
+	border-radius: 50%;
+	color: white;
+	cursor: pointer;
+
+	&:focus, &:hover {
+		border: 2px solid var(--active-color);
+	}
 }
 
 .sidebar-content > * {
