@@ -1,6 +1,7 @@
 import React, { Reducer, useCallback, useReducer, useRef, useState } from 'react';
 import '../styles/main.scss';
 import { useKeyboardListeners, useMouseListeners } from './listeners/MouseKeyboardListeners';
+import useMIDIListeners from './listeners/MIDIListeners';
 import Sidebar from './nav/Sidebar';
 import Piano from './Piano';
 import Staff from './Staff';
@@ -53,6 +54,7 @@ function App() {
     /** Setting up all event listeners to make the piano interactive */
     useMouseListeners(playKeysDispatch, pianoElementRef, options.stickyMode);
     useKeyboardListeners(playKeysDispatch, options.stickyMode);
+    useMIDIListeners(playKeysDispatch, options.stickyMode);
 
     /** Array that represents the currently playing keys, e.g. [60, 64, 67] */
     let playingKeys: number[] = [];
