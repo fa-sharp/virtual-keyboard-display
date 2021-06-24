@@ -1,13 +1,16 @@
 import React, { useCallback, useState } from "react";
 import { KeyboardOptions } from "../App";
+import { Tooltip } from "../help/Tooltip";
 import Toggle from "./Toggle";
 
 interface SidebarProps {
     keyboardOptions: KeyboardOptions;
     toggleOptionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+
+    midiDeviceName: string;
 }
 
-const Sidebar = React.memo(({keyboardOptions, toggleOptionChange}: SidebarProps) => {
+const Sidebar = React.memo(({keyboardOptions, toggleOptionChange, midiDeviceName}: SidebarProps) => {
 
     const [closed, setClosed] = useState(false);
 
@@ -40,7 +43,7 @@ const Sidebar = React.memo(({keyboardOptions, toggleOptionChange}: SidebarProps)
                     <Toggle
                         displayLabel="Sharps"
                         displayLabelRight="Flats"
-                        description="Sharps (off) or Flats (on)"
+                        description="Display Sharps (off) or Flats (on)"
                         isChecked={keyboardOptions.useFlats}
                         optionName="useFlats"
                         onChange={toggleOptionChange}
@@ -53,6 +56,10 @@ const Sidebar = React.memo(({keyboardOptions, toggleOptionChange}: SidebarProps)
                         optionName="stickyMode"
                         onChange={toggleOptionChange}
                         isDisabled={closed} />
+                    <div>
+                        <Tooltip text="MIDI Device:" tooltip="May need additional plugins to work. See help for more info" />
+                        <br/>{midiDeviceName}
+                    </div>
                 </div>
             </nav>
         </div>

@@ -49,12 +49,13 @@ function App() {
     const [options, setOptions] = useState<KeyboardOptions>(
         {useFlats: true, showNoteNames: true, showKbdMappings: false, stickyMode: true}
     );
+    const [midiDeviceName, setMidiDeviceName] = useState("");
     const pianoElementRef = useRef<HTMLDivElement | null>(null);
 
     /** Setting up all event listeners to make the piano interactive */
     useMouseListeners(playKeysDispatch, pianoElementRef, options.stickyMode);
     useKeyboardListeners(playKeysDispatch, options.stickyMode);
-    useMIDIListeners(playKeysDispatch, options.stickyMode);
+    useMIDIListeners(playKeysDispatch, options.stickyMode, setMidiDeviceName);
 
     /** Array that represents the currently playing keys, e.g. [60, 64, 67] */
     let playingKeys: number[] = [];
@@ -82,6 +83,7 @@ function App() {
             <Sidebar
                 keyboardOptions={options}
                 toggleOptionChange={toggleOptionChange}
+                midiDeviceName={midiDeviceName}
             />
             <div className="main-view">
                 <div className="main-view-content">

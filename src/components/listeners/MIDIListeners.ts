@@ -1,4 +1,4 @@
-import { Dispatch, useCallback, useEffect } from "react";
+import { Dispatch, useCallback, useEffect, useState } from "react";
 import { PlayKeysAction } from "../App";
 import JZZ from "jzz";
 
@@ -10,34 +10,53 @@ import JZZ from "jzz";
  * @param playKeys Dispatch method to send messages to App component and manipulate the pianoKeys state
  * @param stickyMode Whether "sticky mode" in options is enabled
  */
-const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolean) => {
+const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolean, 
+            setMidiDeviceName: ((name: string) => void)) => {
+
+    const [midiDeviceFound, setMidiDeviceFound] = useState(true);
 
     const handleMIDIMessage = useCallback((midiMessage) => {
 
-        if (midiMessage.isNoteOn())
-            handleMIDIKeyDown(midiMessage.getNote(), playKeys);
-        else if (!stickyMode)
-            handleMIDIKeyUp(midiMessage.getNote(), playKeys);
+        if (midiMessage.isNoteOn()) {
+            playKeys({type: "KEY_TOGGLE", keyId: midiMessage.getNote()});
+        }
+        else if (!stickyMode) {
+            playKeys({type: "KEY_OFF", keyId: midiMessage.getNote()});
+        }
         
     }, [playKeys, stickyMode]);
 
     useEffect(() => {
-        const midiPort = JZZ({sysex: true}).wait(3000).openMidiIn(0).or('Cannot open MIDI In port!')
-            .connect(handleMIDIMessage).and("MIDI port opened. Cool!");
-
-        return () => {
-            midiPort.close().and("MIDI port closed!").or("Failed closing MIDI port!");
+        // If MIDI device not found, don't run this again (user will have to refresh the browser)
+        if (!midiDeviceFound) {
+            setMidiDeviceName("None found");
+            return;
         }
-    }, [handleMIDIMessage]);
+
+        // Try opening a MIDI In port
+        const midiPort = JZZ({sysex: true}).wait(2000).refresh().openMidiIn()
+            .or(handleMIDINotFound)
+            .and(handleMIDIFound).connect(handleMIDIMessage);
+        
+        function handleMIDIFound() {
+            let {name} = midiPort.info();
+
+            console.log("Found MIDI Device: " + name);
+            setMidiDeviceName(name + "    ✅");
+        }
+
+        function handleMIDINotFound() {
+            console.log("MIDI Device not found!");
+            setMidiDeviceFound(false);
+        }
+
+        // Closing the MIDI port
+        return () => {
+            midiPort.close().and("MIDI port closed!").or("Couldn't close MIDI port!");
+            setMidiDeviceName("");
+        }
+
+    }, [handleMIDIMessage, midiDeviceFound, setMidiDeviceName]);
 }
-
-const handleMIDIKeyDown = (keyId: number, playKeys: Dispatch<PlayKeysAction>) => {
-    playKeys({type: "KEY_TOGGLE", keyId: keyId});
-};
-
-const handleMIDIKeyUp = (keyId: number, playKeys: Dispatch<PlayKeysAction>) => {
-    playKeys({type: "KEY_OFF", keyId: keyId});
-};
-
 
 export default useMIDIListeners;

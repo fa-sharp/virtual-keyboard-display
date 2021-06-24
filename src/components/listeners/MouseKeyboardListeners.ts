@@ -37,7 +37,6 @@ export const useMouseListeners =
      * ensures that the listeners will only be created/removed when needed. 
      */
     useEffect(() => {
-        console.log("Setting up the mouse listeners!");
 
         const currentPianoElement = pianoElement.current;
         if (!currentPianoElement) {
@@ -53,7 +52,6 @@ export const useMouseListeners =
         }
         
         return () => {
-            console.log("Cleaning up the mouse listeners!");
             currentPianoElement.removeEventListener("click", handleMouseClick);
             currentPianoElement.removeEventListener("mousedown", handleMouseClick);
             currentPianoElement.removeEventListener("mouseup", handleMouseUp);
@@ -104,13 +102,11 @@ export const useKeyboardListeners = (playKeys: Dispatch<PlayKeysAction>, stickyM
      * Setting up and tearing down the keyboard listeners. Re-runs on toggling of "Sticky" mode
      */
     useEffect(() => {
-        console.log("Setting up the keyboard listeners!");
         document.addEventListener("keydown", handleKeyboardDown);
         if (!stickyMode)
             document.addEventListener("keyup", handleKeyboardUp);
 
         return () => {
-            console.log("Cleaning up keyboard listeners!");
             document.removeEventListener("keydown", handleKeyboardDown);
             document.removeEventListener("keyup", handleKeyboardUp);
         }
