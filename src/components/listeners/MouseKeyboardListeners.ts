@@ -1,6 +1,9 @@
 import { Dispatch, RefObject, useCallback, useEffect } from "react";
 import { PlayKeysAction } from "../App";
 import { kbdCodeToKeyId } from "../../utils/KbdCodesUtils";
+import { pianoSampler } from "../player/player";
+import * as Tone from "tone";
+import { Frequency } from "tone";
 
 /**
  * React Hook to activate the mouse listeners. TODO: Add touch support and fix the mouse-up issue.
@@ -14,8 +17,10 @@ export const useMouseListeners =
 
     const handleMouseClick = useCallback(((event: MouseEvent) => {
         const clickedKeyId = getClickedKeyId(event);
-        if (clickedKeyId)
+        if (clickedKeyId){
             playKeys({ type: "KEY_TOGGLE", keyId: parseInt(clickedKeyId)});
+            Tone.start();
+        }
         else {
             console.log(event.target);
             console.error("Error in mouse down listener: Couldn't find key at event target listed above!");
@@ -52,6 +57,10 @@ export const useMouseListeners =
         }
         
         return () => {
+            console.log(pianoSampler);
+            
+            console.log(pianoSampler.loaded);
+            
             currentPianoElement.removeEventListener("click", handleMouseClick);
             currentPianoElement.removeEventListener("mousedown", handleMouseClick);
             currentPianoElement.removeEventListener("mouseup", handleMouseUp);
@@ -85,6 +94,9 @@ export const useKeyboardListeners = (playKeys: Dispatch<PlayKeysAction>, stickyM
             playKeys({type: "KEY_TOGGLE", keyId: keyId});
         else
             playKeys({type: "KEY_ON", keyId: keyId});
+
+        
+        pianoSampler.triggerAttackRelease(Frequency(keyId,"midi").toFrequency(), 1);
     }, [playKeys, stickyMode]);
 
     const handleKeyboardUp = useCallback((event: KeyboardEvent) => {
