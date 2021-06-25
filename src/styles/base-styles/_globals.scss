@@ -3,15 +3,19 @@
     --sidebar-width: 13rem;
 
 
-    --active-color: rgb(32, 148, 243);
+    --active-color: hsl(200, 100%, 50%);
+
+    --text-title-color: white;
+    --text-settings-color: #666;
 
     --highlight-dark-color: rgb(140, 0, 0);
-    --highlight-color-transparent: rgba(194, 84, 84, 0.4);
+    --highlight-transparent-color: rgba(194, 84, 84, 0.4);
 }
 
 body {
     margin: 0;
     height: 100vh;
+
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

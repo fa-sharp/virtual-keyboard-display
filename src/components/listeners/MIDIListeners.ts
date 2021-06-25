@@ -27,7 +27,8 @@ const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolea
     }, [playKeys, stickyMode]);
 
     useEffect(() => {
-        // If MIDI device not found, don't run this again (user will have to refresh the browser)
+        // If MIDI device not found, this won't run again (user will have to refresh the browser
+        // if they connect a device later)
         if (!midiDeviceFound) {
             setMidiDeviceName("None found");
             return;
@@ -42,7 +43,7 @@ const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolea
             let {name} = midiPort.info();
 
             console.log("Found MIDI Device: " + name);
-            setMidiDeviceName(name + "    ✅");
+            setMidiDeviceName(name + "  ✅");
         }
 
         function handleMIDINotFound() {

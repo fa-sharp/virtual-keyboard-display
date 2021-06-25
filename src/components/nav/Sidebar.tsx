@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { KeyboardOptions } from "../App";
 import { Tooltip } from "../help/Tooltip";
+import githubLogo from "../../res/images/github-logo-default.png"
 import Toggle from "./Toggle";
 
 interface SidebarProps {
@@ -23,7 +24,6 @@ const Sidebar = React.memo(({keyboardOptions, toggleOptionChange, midiDeviceName
                 <i className="material-icons">settings</i>
             </button>
             <nav className={"sidebar" + ((closed) ? " closed" : "")}>
-                <div className="sidebar-overlay"></div>
                 <div className="sidebar-content">
                     <h2>Settings</h2>
                     <Toggle
@@ -56,10 +56,16 @@ const Sidebar = React.memo(({keyboardOptions, toggleOptionChange, midiDeviceName
                         optionName="stickyMode"
                         onChange={toggleOptionChange}
                         isDisabled={closed} />
+                </div>
+                <div className="sidebar-bottom">
                     <div>
                         <Tooltip text="MIDI Device:" tooltip="May need additional plugins to work. See help for more info" />
-                        <br/>{midiDeviceName}
+                        <br />{midiDeviceName}
                     </div>
+                    <hr />
+                    <a href="https://github.com/fa-sharp/virtual-keyboard-display">
+                        <img src={githubLogo} alt="GitHub logo" />
+                    </a>
                 </div>
             </nav>
         </div>
