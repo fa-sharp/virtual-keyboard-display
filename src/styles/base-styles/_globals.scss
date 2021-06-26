@@ -2,13 +2,14 @@
     --header-height: 3rem;
     --sidebar-width: 13rem;
 
+    --piano-key-width: 3rem; // can grow/shrink the piano with this variable!
 
     --active-color: hsl(200, 100%, 50%);
 
     --text-title-color: white;
     --text-settings-color: #666;
 
-    --highlight-dark-color: rgb(140, 0, 0);
+    --highlight-dark-color: rgb(128, 0, 0);
     --highlight-transparent-color: rgba(194, 84, 84, 0.4);
 }
 

@@ -1,4 +1,4 @@
-import React, { Reducer, useCallback, useReducer, useRef, useState } from 'react';
+import React, { Reducer, useReducer, useRef, useState } from 'react';
 import '../styles/main.scss';
 import { useKeyboardListeners, useMouseListeners } from './listeners/MouseKeyboardListeners';
 import useMIDIListeners from './listeners/MIDIListeners';
@@ -64,17 +64,6 @@ function App() {
     }
     console.log(playingKeys);
 
-    /** Callback fired when changing one of the toggle settings */
-    const toggleOptionChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        const changedOption = event.target.dataset.option;
-        const newValue = event.target.checked;
-        // check if changedOption is valid
-        if (changedOption && changedOption in options)
-            setOptions((prevOptions) => ({...prevOptions, [changedOption]: newValue}));
-        else
-            console.error("Error toggling option in App: " + changedOption);
-    }, [options])
-
     return (
         <div className="app-view">
             <header className="header">
@@ -82,7 +71,7 @@ function App() {
             </header>
             <Sidebar
                 keyboardOptions={options}
-                toggleOptionChange={toggleOptionChange}
+                setKeyboardOptions={setOptions}
                 midiDeviceName={midiDeviceName}
             />
             <div className="main-view">
@@ -100,14 +89,6 @@ function App() {
                             keyboardOptions={options}
                             ref={pianoElementRef}
                         />
-                        <label>Size:
-                            <input
-                                type="range"
-                                min="3" max="4.5" step="0.1"
-                                defaultValue="3"
-                                onChange={changeKeyboardSize}
-                            />
-                        </label>
                     </section>
                     <section>
                     </section>
@@ -115,11 +96,6 @@ function App() {
             </div>
         </div>
     );
-
-    // Changing display size of the keyboard. Using Ref hook here https://reactjs.org/docs/refs-and-the-dom.html
-    function changeKeyboardSize(event: React.ChangeEvent<HTMLInputElement>) {
-        pianoElementRef.current?.style.setProperty("--key-width", event.target.value + "rem");
-    }
 }
 
 export default App;

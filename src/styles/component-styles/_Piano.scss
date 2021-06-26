@@ -1,5 +1,5 @@
 .piano {
-    --key-width: 3rem;
+    --key-width: var(--piano-key-width); // can grow/shrink the piano with this variable
 
     --key-focus-color: hsl(206, 100%, 88%);
     --key-playing-color: var(--active-color);

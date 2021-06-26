@@ -20,7 +20,7 @@ const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolea
         if (midiMessage.isNoteOn()) {
             playKeys({type: "KEY_TOGGLE", keyId: midiMessage.getNote()});
         }
-        else if (!stickyMode) {
+        else if (midiMessage.isNoteOff() && !stickyMode) {
             playKeys({type: "KEY_OFF", keyId: midiMessage.getNote()});
         }
         

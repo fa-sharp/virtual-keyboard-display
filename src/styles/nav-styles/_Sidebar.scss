@@ -33,8 +33,9 @@
     flex-direction: column;
     justify-content: space-between;
 
+    color: var(--text-settings-color);
     background-color: white;
-    box-shadow: black 0px 0px 10px 1px;
+    box-shadow: black 0px 0px 7px;
     font-size: .9rem;
     
     transition: transform 1s ease-out;
@@ -51,13 +52,9 @@
     }
 }
 
-.sidebar-content, .sidebar-bottom {
-    color: var(--text-settings-color);
-}
-
 .sidebar-content > * {
 
-    padding: .6rem 1rem;
+    padding: .6rem .5rem;
 
     &:first-child {
         padding: 0;
