@@ -1,5 +1,5 @@
 import { Dispatch, RefObject, useCallback, useEffect } from "react";
-import { PlayKeysAction } from "../App";
+import { PlayKeysAction } from "../PlayKeysAction";
 import { kbdCodeToKeyId } from "../../utils/KbdCodesUtils";
 
 /**

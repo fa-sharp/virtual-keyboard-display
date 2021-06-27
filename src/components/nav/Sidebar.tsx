@@ -82,7 +82,7 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
                     <Range 
-                        staticProps={{min: 3, max: 4.5, step: 0.1, unit: "rem", optionName: "pianoSize",
+                        staticProps={{min: 2.6, max: 4.5, step: 0.1, unit: "rem", optionName: "pianoSize",
                             width: "8rem", label: "Size", description: "Change visual size of piano"}}
                         value={styleOptions.pianoSize}
                         isDisabled={sidebarClosed}

@@ -6,27 +6,35 @@
 	height: 2.5rem;
 	width: 2.5rem;
 
+    z-index: 10;
+
 	background: none;
 	outline: none;
 	border: none;
 	border-radius: 50%;
-	color: white;
+	color: var(--sidebar-button-color);
 	cursor: pointer;
 
 	&:focus, &:hover {
 		border: 2px solid var(--active-color);
 	}
+
+    @media screen and (max-height: 450px) {
+        color: var(--sidebar-button-color-alt)
+	}
 }
 
 .sidebar {
     position: fixed;
-    margin-top: var(--header-height);
-    z-index: 3;
-    height: auto;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
+    margin-top: var(--header-height);
+    z-index: 3;
+
+    height: auto;
+    overflow-y: auto;
     width: var(--sidebar-width);
 
     display: flex;
@@ -38,7 +46,7 @@
     box-shadow: black 0px 0px 7px;
     font-size: .9rem;
     
-    transition: transform 1s ease;
+    transition: transform 0.8s ease;
 
     &.closed {
         transform: translateX(-105%);

@@ -10,7 +10,15 @@
     display: flex;
     flex-direction: row;
     width: min-content;
+    margin: 0 auto;
+    padding-right: 5px;
     cursor: default;
+
+    &-container {
+        width: 100vw;
+        padding: 0 0 6px;
+        overflow-x: scroll;
+    }
 }
 
 .piano, .piano * {

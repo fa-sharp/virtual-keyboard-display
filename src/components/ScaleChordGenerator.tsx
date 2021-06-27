@@ -1,6 +1,6 @@
 import { Dispatch, useEffect, useRef, useState } from "react";
 import { setTimeout } from "timers";
-import { PlayKeysAction } from "./App";
+import { PlayKeysAction } from "./PlayKeysAction";
 
 interface PlayerProps {
     playKeys: Dispatch<PlayKeysAction>

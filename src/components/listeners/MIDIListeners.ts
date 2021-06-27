@@ -1,5 +1,5 @@
 import { Dispatch, useCallback, useEffect, useState } from "react";
-import { PlayKeysAction } from "../App";
+import { PlayKeysAction } from "../PlayKeysAction";
 import JZZ from "jzz";
 
 /**

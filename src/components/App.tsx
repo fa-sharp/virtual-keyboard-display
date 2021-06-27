@@ -1,12 +1,13 @@
-import React, { Reducer, useReducer, useRef, useState } from 'react';
+import { Reducer, useReducer, useRef, useState } from 'react';
 import '../styles/main.scss';
 import { useKeyboardListeners, useMouseListeners } from './listeners/MouseKeyboardListeners';
 import useMIDIListeners from './listeners/MIDIListeners';
+import { PlayKeysAction, playKeysReducer } from './PlayKeysAction';
 import Sidebar from './nav/Sidebar';
 import Piano from './Piano';
 import Staff from './Staff';
 
-const MAX_NUM_KEYS = 90;
+export const START_NUM_KEYS = 90;
 
 export interface KeyboardOptions {
     showNoteNames: boolean;
@@ -15,36 +16,9 @@ export interface KeyboardOptions {
     stickyMode: boolean;
 }
 
-export type PlayKeysAction = { type: 'KEY_ON', keyId: number } | { type: 'KEY_OFF', keyId: number } |
-{ type: 'KEY_TOGGLE', keyId: number } | { type: 'CHORD_ON', keyIds: number[] } |
-{ type: 'CHORD_OFF', keyIds: number[] } | { type: 'CLEAR_KEYS' };
-
-const playKeysReducer = (pianoKeys: boolean[], action: PlayKeysAction) => {
-    let newPianoKeys = [...pianoKeys];
-    switch (action.type) {
-        case 'KEY_TOGGLE':
-            newPianoKeys[action.keyId] = !newPianoKeys[action.keyId];
-            break;
-        case 'KEY_OFF':
-            newPianoKeys[action.keyId] = false;
-            break;
-        case 'KEY_ON':
-            newPianoKeys[action.keyId] = true;
-            break;
-        case 'CLEAR_KEYS':
-            for(let i = 0; i < MAX_NUM_KEYS; i++) {
-                newPianoKeys[i] = false;
-            }
-            break;
-        default:
-            console.error(`Error in App/playKeysReducer: action "${action.type}" not implemented!`);
-    }
-    return newPianoKeys;
-}
-
 function App() {
     const [pianoKeys, playKeysDispatch] = useReducer<Reducer<boolean[], PlayKeysAction>>(
-        playKeysReducer, new Array<boolean>(90).fill(false)
+        playKeysReducer, new Array<boolean>(START_NUM_KEYS).fill(false)
     );
     const [options, setOptions] = useState<KeyboardOptions>(
         {useFlats: true, showNoteNames: true, showKbdMappings: false, stickyMode: true}
@@ -82,13 +56,15 @@ function App() {
                             abcjsOptions={{ scale: 1.5, paddingtop: 0 }}
                             useFlats={options.useFlats}
                         />
-                        <Piano
-                            startKey={55}
-                            endKey={72}
-                            pianoKeys={pianoKeys}
-                            keyboardOptions={options}
-                            ref={pianoElementRef}
-                        />
+                        <div className="piano-container">
+                            <Piano
+                                startKey={55}
+                                endKey={72}
+                                pianoKeys={pianoKeys}
+                                keyboardOptions={options}
+                                ref={pianoElementRef}
+                            />
+                        </div>
                     </section>
                     <section>
                     </section>
