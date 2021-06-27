@@ -7,11 +7,11 @@
 
 .toggle-label {
     align-self: flex-start;
-    max-width: 9rem;
+    max-width: 8rem;
 }
 
 .toggle {
-    --toggle-size: 1.2rem;
+    --toggle-size: 18px;
     --toggle-highlight-color: var(--highlight-transparent-color);
     --toggle-off-background-color: darkgray;
     --toggle-on-background-color: var(--active-color);

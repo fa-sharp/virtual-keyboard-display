@@ -13,13 +13,13 @@ interface SidebarProps {
 }
 
 interface StyleOptions {
-    pianoSize: string;
+    pianoSize: number;
 }
 
 const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName}: SidebarProps) => {
 
     // The Sidebar will handle the state of the styling options, as it doesn't affect the other components
-    const [styleOptions, setStyleOptions] = useState<StyleOptions>({pianoSize: "3.0"});
+    const [styleOptions, setStyleOptions] = useState<StyleOptions>({pianoSize: 3.0});
     const [sidebarClosed, setSidebarClosed] = useState(false);
 
     const toggleSidebar = useCallback(() => setSidebarClosed((prevClosed) => !prevClosed), []);
@@ -36,8 +36,8 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
     }, [keyboardOptions, setKeyboardOptions]);
 
     /** Callback for changing the piano size */
-    const onPianoSizeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        let newSize = event.target.value;
+    const onPianoSizeChange = useCallback((_e, value: number | number[]) => {
+        let newSize = value as number;
         document.documentElement.style.setProperty("--piano-key-width", newSize + "rem");
         setStyleOptions((prevOptions) => ({...prevOptions, pianoSize: newSize}));
     }, []);
@@ -82,8 +82,8 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
                     <Range 
-                        staticProps={{min: "3", max: "4.5", step: "0.1", unit: "rem", optionName: "pianoSize",
-                            label: "Size", description: "Change visual size of piano"}}
+                        staticProps={{min: 3, max: 4.5, step: 0.1, unit: "rem", optionName: "pianoSize",
+                            width: "8rem", label: "Size", description: "Change visual size of piano"}}
                         value={styleOptions.pianoSize}
                         isDisabled={sidebarClosed}
                         onChange={onPianoSizeChange}
@@ -95,7 +95,7 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
                         <br />{midiDeviceName}
                     </div>
                     <hr />
-                    <a href="https://github.com/fa-sharp/virtual-keyboard-display">
+                    <a href="https://github.com/fa-sharp/virtual-keyboard-display" target="_blank" rel="noreferrer">
                         <img src={githubLogo} alt="Link to GitHub repository" />
                     </a>
                 </div>

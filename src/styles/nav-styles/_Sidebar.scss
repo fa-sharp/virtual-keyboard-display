@@ -38,7 +38,7 @@
     box-shadow: black 0px 0px 7px;
     font-size: .9rem;
     
-    transition: transform 1s ease-out;
+    transition: transform 1s ease;
 
     &.closed {
         transform: translateX(-105%);
@@ -55,6 +55,7 @@
 .sidebar-content > * {
 
     padding: .6rem .5rem;
+    cursor: default;
 
     &:first-child {
         padding: 0;
