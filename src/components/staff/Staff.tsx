@@ -1,9 +1,10 @@
 import abcjsObj from 'abcjs';
 import { useEffect } from 'react';
-import { getKeyAbc } from '../utils/KeyDataUtils';
+import { getKeyAbc } from '../../utils/KeyDataUtils';
 
 interface StaffProps {
     playingKeys: number[]
+    clefDivideKey?: number
     useFlats: boolean
     abcjsOptions?: {}
 }
@@ -13,16 +14,15 @@ const ABCJS_DOM_ID = "abcjs-display";
 const ABC_HEADER = "X:1\nL:1\n";
 const ABC_TREBLE_START = "[V:1 clef=treble]]";
 const ABC_BASS_START = "[V:2 clef=bass]]";
-const CLEF_DIVIDE_KEY = 59;
 
-const generateAbcNotation = (playingKeys: number[], useFlats: boolean) => {
+const generateAbcNotation = (playingKeys: number[], clefDivideKey: number, useFlats: boolean) => {
 
     let abcTreble = "", abcBass = "";
 
     playingKeys.forEach(playingKey => {
         let abcKey = getKeyAbc(playingKey, useFlats);
         if (abcKey) {
-            playingKey >= CLEF_DIVIDE_KEY ? abcTreble += abcKey : abcBass += abcKey;
+            playingKey >= clefDivideKey ? abcTreble += abcKey : abcBass += abcKey;
         } else
             console.error("Couldn't find abc notation for key id " + playingKey);
     });
@@ -33,9 +33,10 @@ const generateAbcNotation = (playingKeys: number[], useFlats: boolean) => {
     return `${ABC_HEADER}${abcTreble}|\n${abcBass}|`;
 }
 
-const Staff = ({playingKeys, abcjsOptions = {}, useFlats}: StaffProps) => {
+const Staff = ({playingKeys, abcjsOptions = {}, clefDivideKey = 59, useFlats}: StaffProps) => {
 
-    useEffect(() => abcjsObj.renderAbc(ABCJS_DOM_ID, generateAbcNotation(playingKeys, useFlats), abcjsOptions));
+    useEffect(() => abcjsObj.renderAbc(ABCJS_DOM_ID,
+        generateAbcNotation(playingKeys, clefDivideKey, useFlats), abcjsOptions));
     
     return (
         <div className="staff">

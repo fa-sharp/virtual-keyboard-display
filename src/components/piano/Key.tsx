@@ -1,8 +1,8 @@
 import React from 'react';
-import { KeyboardOptions } from './App'
-import { getKeyData, NoteTextLanguageType } from '../utils/KeyDataUtils';
-import { KBD_MAPPING_START_KEY } from '../utils/KbdCodesUtils';
-import KBD_CODES from '../res/json_data/kbd_codes.json'
+import { KeyboardOptions } from '../App'
+import { getKeyData, NoteTextLanguageType } from '../../utils/KeyDataUtils';
+import { KBD_MAPPING_START_KEY } from '../../utils/KbdCodesUtils';
+import KBD_CODES from '../../res/json_data/kbd_codes.json'
 
 interface KeyProps {
     keyId: number; // id, equal to the MIDI number

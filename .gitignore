@@ -11,6 +11,9 @@
 # production
 /build
 
+# alpha features
+/src/components/alpha
+
 # misc
 .DS_Store
 .env.local
@@ -22,3 +25,4 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 src/test.ts
+src/testKeyDataLib.ts

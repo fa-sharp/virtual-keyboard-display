@@ -1,5 +1,5 @@
 import { Dispatch, useCallback, useEffect, useState } from "react";
-import { PlayKeysAction } from "../PlayKeysAction";
+import { PlayKeysAction } from "../state/PlayKeysReducer";
 import JZZ from "jzz";
 
 /**
@@ -18,10 +18,10 @@ const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolea
     const handleMIDIMessage = useCallback((midiMessage) => {
 
         if (midiMessage.isNoteOn()) {
-            playKeys({type: "KEY_TOGGLE", keyId: midiMessage.getNote()});
+            playKeys({ type: "KEY_TOGGLE", keyId: midiMessage.getNote() });
         }
         else if (midiMessage.isNoteOff() && !stickyMode) {
-            playKeys({type: "KEY_OFF", keyId: midiMessage.getNote()});
+            playKeys({ type: "KEY_OFF", keyId: midiMessage.getNote() });
         }
         
     }, [playKeys, stickyMode]);
@@ -40,7 +40,7 @@ const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolea
             .and(handleMIDIFound).connect(handleMIDIMessage);
         
         function handleMIDIFound() {
-            let {name} = midiPort.info();
+            let { name } = midiPort.info();
 
             console.log("Found MIDI Device: " + name);
             setMidiDeviceName(name + "  ✅");

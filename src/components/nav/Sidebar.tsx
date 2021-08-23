@@ -91,7 +91,7 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
                 </div>
                 <div className="sidebar-bottom">
                     <div>
-                        <Tooltip text="MIDI Device:" tooltip="May need additional plugins to work. See help for more info" />
+                        <Tooltip text="MIDI Device:" tooltip="Currently only works in Chrome and Edge browsers." />
                         <br />{midiDeviceName}
                     </div>
                     <hr />

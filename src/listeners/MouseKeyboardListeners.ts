@@ -1,6 +1,6 @@
 import { Dispatch, RefObject, useCallback, useEffect } from "react";
-import { PlayKeysAction } from "../PlayKeysAction";
-import { kbdCodeToKeyId } from "../../utils/KbdCodesUtils";
+import { PlayKeysAction } from "../state/PlayKeysReducer";
+import { kbdCodeToKeyId } from "../utils/KbdCodesUtils";
 
 /**
  * React Hook to activate the mouse listeners. TODO: Add touch support and fix the mouse-up issue.

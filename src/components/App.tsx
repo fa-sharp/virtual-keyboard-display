@@ -1,11 +1,11 @@
 import { Reducer, useReducer, useRef, useState } from 'react';
 import '../styles/main.scss';
-import { useKeyboardListeners, useMouseListeners } from './listeners/MouseKeyboardListeners';
-import useMIDIListeners from './listeners/MIDIListeners';
-import { PlayKeysAction, playKeysReducer } from './PlayKeysAction';
+import { useKeyboardListeners, useMouseListeners } from '../listeners/MouseKeyboardListeners';
+import useMIDIListeners from '../listeners/MIDIListeners';
+import { PlayKeysAction, playKeysReducer } from '../state/PlayKeysReducer';
 import Sidebar from './nav/Sidebar';
-import Piano from './Piano';
-import Staff from './Staff';
+import Piano from './piano/Piano';
+import Staff from './staff/Staff';
 
 export const START_NUM_KEYS = 90;
 
@@ -21,9 +21,10 @@ function App() {
         playKeysReducer, new Array<boolean>(START_NUM_KEYS).fill(false)
     );
     const [options, setOptions] = useState<KeyboardOptions>(
-        {useFlats: true, showNoteNames: true, showKbdMappings: false, stickyMode: true}
+        {useFlats: true, showNoteNames: false, showKbdMappings: false, stickyMode: false}
     );
     const [midiDeviceName, setMidiDeviceName] = useState("");
+
     const pianoElementRef = useRef<HTMLDivElement | null>(null);
 
     /** Setting up all event listeners to make the piano interactive */
@@ -36,7 +37,6 @@ function App() {
     for (let i = 0, len = pianoKeys.length; i < len; i++) {
         pianoKeys[i] && playingKeys.push(i);
     }
-    console.log(playingKeys);
 
     return (
         <div className="app-view">

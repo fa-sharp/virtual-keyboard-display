@@ -1,5 +1,5 @@
 import Key from "./Key";
-import { KeyboardOptions } from "./App";
+import { KeyboardOptions } from "../App";
 import { forwardRef } from "react";
 
 interface PianoProps {
