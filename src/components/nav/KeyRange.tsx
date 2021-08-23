@@ -1,5 +1,6 @@
 import { makeStyles, Slider, Theme } from '@material-ui/core';
 import React from 'react'
+import { getOctaveKeyText } from '../../utils/KeyDataUtils';
 
 interface RangeStaticProps {
     min: number;
@@ -17,7 +18,9 @@ interface RangeStaticProps {
 interface RangeProps {
     staticProps: RangeStaticProps;
 
-    value: number;
+    /** Value should be an array of two numbers */
+    value: [number, number];
+    useFlats: boolean;
     isDisabled?: boolean;
     onChange: (event: React.ChangeEvent<{}>, value: number | number[]) => void;
 }
@@ -32,10 +35,13 @@ const useStyles = makeStyles<Theme,{width: string}>({
     }
   });
 
-const Range = ({staticProps: {min,max,step,description,label,width,optionName,unit},
-    value, isDisabled, onChange}: RangeProps) => {
+
+const KeyRange = ({staticProps: {min,max,step,description,label,width,optionName,unit},
+    value, useFlats, isDisabled, onChange}: RangeProps) => {
         
     const sliderClass = useStyles({width: width});
+    const valueText = (value: number) => getOctaveKeyText(value, useFlats);
+
     return (
         <label className="range-display">
             {label}
@@ -50,6 +56,11 @@ const Range = ({staticProps: {min,max,step,description,label,width,optionName,un
                 data-option={optionName}
                 data-unit={unit}
 
+                valueLabelFormat={valueText}
+                getAriaValueText={valueText}
+                valueLabelDisplay="auto"
+                
+
                 value={value}
                 onChange={onChange}
             />
@@ -57,4 +68,4 @@ const Range = ({staticProps: {min,max,step,description,label,width,optionName,un
     )
 }
 
-export default Range;
+export default KeyRange;

@@ -12,8 +12,9 @@ A virtual piano keyboard that runs in the browser. Suitable for teaching, learni
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Acknowledgements
-- Paul Rosen's [abcjs library](https://paulrosen.github.io/abcjs/) for the staff display
-- [JZZ library](https://jazz-soft.net/doc/JZZ/jzz.html) for connecting to MIDI devices 
+- Paul Rosen's amazing [abcjs library](https://paulrosen.github.io/abcjs/) for the music staff display
+- The  [JZZ library](https://jazz-soft.net/doc/JZZ/jzz.html) for connecting to MIDI devices
+- [This video](https://www.youtube.com/watch?v=kMf1XWVY2cA) from [Suboptimal Engineer](https://github.com/SuboptimalEng) for the initial code and inspiration!
 
 ## Available Scripts
 
@@ -32,10 +33,5 @@ You will also see any lint errors in the console.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Builds the app for production to the `build` folder.
 

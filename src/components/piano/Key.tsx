@@ -13,24 +13,27 @@ interface KeyProps {
 }
 
 const Key = React.memo(({keyId, isPlaying, keyboardOptions, language="English"}: KeyProps) => {
-    let keyData = getKeyData(keyId, keyboardOptions.useFlats, language);
+    const {showKbdMappings, showNoteNames, useFlats} = keyboardOptions;
+
+    let keyData = getKeyData(keyId, useFlats, language);
     if (!keyData) {
         console.error(`Error rendering Key component: key data with id ${keyId} not found!`);
         return null;
     }
 
     let {isBlackKey, noteText: {text: keyText, description: keyDescription}} = keyData;
+    
     let keyClass = "key"
         + (isBlackKey ? " black" : "")
         + (isPlaying ? " playing" : "");
     let keyKbd = KBD_CODES[keyId - KBD_MAPPING_START_KEY]?.kbdText.US_QWERTY;
 
     return (
-        <button className={keyClass} data-keyid={keyId} title={keyDescription} aria-label={keyDescription}>
+        <button className={keyClass} data-keyid={keyId} title={(showNoteNames && isBlackKey) ? keyDescription : undefined} aria-label={keyDescription}>
             {keyKbd &&
-                <div className={"key-kbd" + (keyboardOptions.showKbdMappings ? 
+                <div className={"key-kbd" + (showKbdMappings ? 
                                             "" : " hidden")}>{keyKbd}</div>}
-            <div className={"key-text" + (keyboardOptions.showNoteNames ? 
+            <div className={"key-text" + (showNoteNames ? 
                                             "" :  " hidden")}>{keyText}</div>
         </button>
     )

@@ -37,6 +37,9 @@
 	// position: fixed;
 	width: 100%;
 
+	@media screen and (max-height: 450px) {
+        margin-top: 0px;
+	}
 }
 
 .main-view-content {

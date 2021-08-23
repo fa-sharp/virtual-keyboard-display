@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from "react";
-import { KeyboardOptions } from "../App";
+import { KeyboardOptions, MAX_KEY, MIN_KEY } from "../App";
 import { Tooltip } from "../help/Tooltip";
 import githubLogo from "../../res/images/github-logo-default.png"
 import Toggle from "./Toggle";
 import Range from "./Range";
+import KeyRange from "./KeyRange";
 
 interface SidebarProps {
     keyboardOptions: KeyboardOptions;
@@ -18,11 +19,16 @@ interface StyleOptions {
 
 const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName}: SidebarProps) => {
 
-    // The Sidebar will handle the state of the styling options, as it doesn't affect the other components
-    const [styleOptions, setStyleOptions] = useState<StyleOptions>({pianoSize: 3.0});
+    /** Sidebar open/close state */
     const [sidebarClosed, setSidebarClosed] = useState(false);
-
     const toggleSidebar = useCallback(() => setSidebarClosed((prevClosed) => !prevClosed), []);
+
+    /** State for the styling options, such as the visual size of the piano **/
+    const [styleOptions, setStyleOptions] = useState<StyleOptions>({pianoSize: 3.0});
+
+    /** Callback fired when changing the range of the piano */
+    const onPianoRangeChange = useCallback((_e, value: number | number[]) => 
+        setKeyboardOptions(prevOptions => ({...prevOptions, pianoRange: value as [number, number]})), [setKeyboardOptions]);
 
     /** Callback fired when changing one of the toggle settings */
     const onToggleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +49,7 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
     }, []);
 
     return (
-        <div className="sidebar-container">
+        <>
             <button id="toggle-sidebar-button" className="header-button" title="Settings"
                 aria-label="Open/close settings menu" onClick={toggleSidebar} tabIndex={1}>
                 <i className="material-icons">settings</i>
@@ -83,10 +89,18 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
                         isDisabled={sidebarClosed} />
                     <Range 
                         staticProps={{min: 2.6, max: 4.5, step: 0.1, unit: "rem", optionName: "pianoSize",
-                            width: "8rem", label: "Size", description: "Change visual size of piano"}}
+                            width: "7.5rem", label: "Size", description: "Change visual size of piano"}}
                         value={styleOptions.pianoSize}
                         isDisabled={sidebarClosed}
                         onChange={onPianoSizeChange}
+                    />
+                    <KeyRange 
+                        staticProps={{min: MIN_KEY, max: MAX_KEY, step: 1, optionName: "pianoRange",
+                            width: "7rem", label: "Range", description: "Set range of piano"}}
+                        value={keyboardOptions.pianoRange}
+                        useFlats={keyboardOptions.useFlats}
+                        isDisabled={sidebarClosed}
+                        onChange={onPianoRangeChange}
                     />
                 </div>
                 <div className="sidebar-bottom">
@@ -100,7 +114,7 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
                     </a>
                 </div>
             </nav>
-        </div>
+        </>
     );
 });
 

@@ -8,12 +8,15 @@ import Piano from './piano/Piano';
 import Staff from './staff/Staff';
 
 export const START_NUM_KEYS = 90;
+export const MIN_KEY = 48;
+export const MAX_KEY = 79;
 
 export interface KeyboardOptions {
     showNoteNames: boolean;
     showKbdMappings: boolean;
     useFlats: boolean;
     stickyMode: boolean;
+    pianoRange: [number, number];
 }
 
 function App() {
@@ -21,7 +24,7 @@ function App() {
         playKeysReducer, new Array<boolean>(START_NUM_KEYS).fill(false)
     );
     const [options, setOptions] = useState<KeyboardOptions>(
-        {useFlats: true, showNoteNames: false, showKbdMappings: false, stickyMode: false}
+        {useFlats: true, showNoteNames: false, showKbdMappings: false, stickyMode: false, pianoRange: [MIN_KEY, MAX_KEY]}
     );
     const [midiDeviceName, setMidiDeviceName] = useState("");
 
@@ -58,8 +61,8 @@ function App() {
                         />
                         <div className="piano-container">
                             <Piano
-                                startKey={48}
-                                endKey={79}
+                                startKey={options.pianoRange[0]}
+                                endKey={options.pianoRange[1]}
                                 pianoKeys={pianoKeys}
                                 keyboardOptions={options}
                                 ref={pianoElementRef}
