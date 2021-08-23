@@ -58,8 +58,8 @@ function App() {
                         />
                         <div className="piano-container">
                             <Piano
-                                startKey={55}
-                                endKey={72}
+                                startKey={48}
+                                endKey={79}
                                 pianoKeys={pianoKeys}
                                 keyboardOptions={options}
                                 ref={pianoElementRef}

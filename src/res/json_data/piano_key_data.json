@@ -1,4 +1,62 @@
 {
+  "48": {
+    "octave": 3,
+    "abc": "C,",
+    "noteId": 0,
+    "midiNum": 48,
+    "isBlackKey": false
+  },
+  "49": {
+    "octave": 3,
+    "abc": [
+      "^C,",
+      "_D,"
+    ],
+    "noteId": 1,
+    "midiNum": 49,
+    "isBlackKey": true
+  },
+  "50": {
+    "octave": 3,
+    "abc": "D,",
+    "noteId": 2,
+    "midiNum": 50,
+    "isBlackKey": false
+  },
+  "51": {
+    "octave": 3,
+    "abc": [
+      "^D,",
+      "_E,"
+    ],
+    "noteId": 3,
+    "midiNum": 51,
+    "isBlackKey": true
+  },
+  "52": {
+    "octave": 3,
+    "abc": "E,",
+    "noteId": 4,
+    "midiNum": 52,
+    "isBlackKey": false
+  },
+  "53": {
+    "octave": 3,
+    "abc": "F,",
+    "noteId": 5,
+    "midiNum": 53,
+    "isBlackKey": false
+  },
+  "54": {
+    "octave": 3,
+    "abc": [
+      "^F,",
+      "_G,"
+    ],
+    "noteId": 6,
+    "midiNum": 54,
+    "isBlackKey": true
+  },
   "55": {
     "octave": 3,
     "abc": "G,",
@@ -141,6 +199,64 @@
     "abc": "c",
     "noteId": 0,
     "midiNum": 72,
+    "isBlackKey": false
+  },
+  "73": {
+    "octave": 5,
+    "abc": [
+      "^c",
+      "_d"
+    ],
+    "noteId": 1,
+    "midiNum": 73,
+    "isBlackKey": true
+  },
+  "74": {
+    "octave": 5,
+    "abc": "d",
+    "noteId": 2,
+    "midiNum": 74,
+    "isBlackKey": false
+  },
+  "75": {
+    "octave": 5,
+    "abc": [
+      "^d",
+      "_e"
+    ],
+    "noteId": 3,
+    "midiNum": 75,
+    "isBlackKey": true
+  },
+  "76": {
+    "octave": 5,
+    "abc": "e",
+    "noteId": 4,
+    "midiNum": 76,
+    "isBlackKey": false
+  },
+  "77": {
+    "octave": 5,
+    "abc": "f",
+    "noteId": 5,
+    "midiNum": 77,
+    "isBlackKey": false
+  },
+  "78": {
+    "octave": 5,
+    "abc": [
+      "^f",
+      "_g"
+    ],
+    "noteId": 6,
+    "midiNum": 78,
+    "isBlackKey": true
+  },
+  "79": {
+    "octave": 5,
+    "abc": "g",
+    "noteId": 7,
+    "midiNum": 79,
     "isBlackKey": false
   }
 }
