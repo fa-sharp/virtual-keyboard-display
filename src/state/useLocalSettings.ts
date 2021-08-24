@@ -1,6 +1,7 @@
 import { useState } from "react"
 
 /**
+ * Custom hook to save settings to local storage.
  * 
  * @param key The key used to save to the browser's local storage
  * @param initialValue The initial value of the settings
@@ -8,6 +9,9 @@ import { useState } from "react"
  * which will be persisted to browser's local storage (if available).
  */
 const useLocalSettings = <T>(key: string, initialValue: T) => {
+
+    /** Whether the browser supports local storage. */
+    const [canAccessStorage, setCanAccessStorage] = useState(true);
 
     const [settings, setSettings] = useState<T>(() => {
         try {
@@ -17,6 +21,7 @@ const useLocalSettings = <T>(key: string, initialValue: T) => {
         }
         catch (err) {
             console.log("Was not able to read browser's local storage. Settings won't be saved.", err);
+            setCanAccessStorage(false);
             return initialValue;
         }
     });
@@ -27,7 +32,9 @@ const useLocalSettings = <T>(key: string, initialValue: T) => {
             const newSettings = value instanceof Function ?
                 value(settings) : value;
             setSettings(newSettings);
-            window.localStorage.setItem(key, JSON.stringify(newSettings));
+
+            if (canAccessStorage)
+                window.localStorage.setItem(key, JSON.stringify(newSettings));
         } catch (err) {
             console.log(err);
         }
@@ -38,7 +45,9 @@ const useLocalSettings = <T>(key: string, initialValue: T) => {
         try {
             const newSettings = { ...settings, [setting]: newValue };
             setSettings(newSettings);
-            window.localStorage.setItem(key, JSON.stringify(newSettings));
+            
+            if (canAccessStorage)
+                window.localStorage.setItem(key, JSON.stringify(newSettings));
         } catch (err) {
             console.log(err);
         }

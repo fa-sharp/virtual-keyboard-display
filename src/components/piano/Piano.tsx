@@ -31,8 +31,10 @@ const Piano =
     forwardRef<HTMLDivElement, PianoProps>(({ startKey, endKey, pianoKeys, settings }, pianoElementRef) => {
 
     return (
-        <div ref={pianoElementRef} className="piano">
-            {generateKeyElements(startKey, endKey, pianoKeys, settings)}
+        <div className="piano-container">
+            <div ref={pianoElementRef} className="piano">
+                {generateKeyElements(startKey, endKey, pianoKeys, settings)}
+            </div>
         </div>
     )
 

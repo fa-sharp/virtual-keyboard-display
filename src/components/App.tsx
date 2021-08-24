@@ -4,7 +4,7 @@ import useMIDIListeners from '../listeners/MIDIListeners';
 import { PianoKeysAction, pianoKeysReducer } from '../state/PianoKeysReducer';
 import useLocalSettings from '../state/useLocalSettings';
 
-import Sidebar from './nav/Sidebar';
+import Sidebar from './sidebar/Sidebar';
 import Piano from './piano/Piano';
 import Staff from './staff/Staff';
 import '../styles/main.scss';
@@ -69,15 +69,13 @@ function App() {
                             abcjsOptions={{ scale: 1.5, paddingtop: 0 }}
                             useFlats={settings.useFlats}
                         />
-                        <div className="piano-container">
-                            <Piano
-                                startKey={settings.pianoRange[0]}
-                                endKey={settings.pianoRange[1]}
-                                pianoKeys={pianoKeys}
-                                settings={settings}
-                                ref={pianoElementRef}
-                            />
-                        </div>
+                        <Piano
+                            startKey={settings.pianoRange[0]}
+                            endKey={settings.pianoRange[1]}
+                            pianoKeys={pianoKeys}
+                            settings={settings}
+                            ref={pianoElementRef}
+                        />
                     </section>
                 </div>
             </div>

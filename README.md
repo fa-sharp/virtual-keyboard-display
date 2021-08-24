@@ -3,9 +3,11 @@
 A virtual piano keyboard that runs in the browser. Suitable for teaching, learning, practicing, etc...!
 
 - Shows notes on the grand staff as you play them on the keyboard.
-- Responds to keyboard and mouse input (touch input in development)
-- Responds to MIDI input in Chrome and Edge browsers, using the latest [Web MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API) and [JZZ](https://jazz-soft.net/doc/JZZ/jzz.html) library
-- Options to show note names, display keyboard shortcuts, make the notes sticky/sustain, and re-size the keyboard for small and big screens.
+- Responds to keyboard and mouse input
+- Responds to MIDI input in Chrome and Edge browsers, using the [Web MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API) and [JZZ](https://github.com/jazz-soft/JZZ) library
+- Settings to show note names, display keyboard shortcuts, make the notes sticky/sustain, change the colors, and re-size the keyboard for small and big screens.
+- Settings are all saved to browser's local storage
+- In development: Touch support and audio output
 
 ![Demo image of virtual keyboard](./demo.png)
 

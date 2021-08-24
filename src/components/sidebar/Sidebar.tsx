@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useCallback, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useEffect, useState } from "react";
 import { KeyboardSettings, MAX_KEY, MIN_KEY } from "../App";
 import { Tooltip } from "../help/Tooltip";
 import githubLogo from "../../res/images/github-logo-default.png"
@@ -6,19 +6,13 @@ import Toggle from "./Toggle";
 import Range from "./Range";
 import KeyRange from "./KeyRange";
 import ColorSelect from "./ColorSelect";
-
-const CSS_VARIABLES = { KEY_SIZE: "--piano-key-width", ACTIVE_COLOR: "--active-color" }
+import useStyleOptions from "../../state/useStyleOptions";
 
 interface SidebarProps {
     settings: KeyboardSettings;
     updateSetting: <K extends keyof KeyboardSettings>(setting: K, newValue: KeyboardSettings[K]) => void
 
     midiDeviceName: string;
-}
-
-interface StyleOptions {
-    pianoSize: number;
-    activeColor: string;
 }
 
 const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarProps) => {
@@ -28,7 +22,7 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
     const toggleSidebar = useCallback(() => setSidebarClosed((prevClosed) => !prevClosed), []);
 
     /** State for the styling options (size, color, etc.) **/
-    const [styleOptions, setStyleOptions] = useState<StyleOptions>({pianoSize: 3.0, activeColor: '#00aaff'});
+    const { styleOptions, updateStyleOption } = useStyleOptions();
 
     /** Callback fired when changing the range of the piano */
     const onPianoRangeChange = useCallback((_e, value: number | number[]) => 
@@ -44,16 +38,14 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
     /** Callback for changing the piano size */
     const onPianoSizeChange = useCallback((_e, value: number | number[]) => {
         let newSize = value as number;
-        document.documentElement.style.setProperty(CSS_VARIABLES.KEY_SIZE, newSize + "rem");
-        setStyleOptions((prevOptions) => ({...prevOptions, pianoSize: newSize}));
-    }, []);
+        updateStyleOption('pianoSize', newSize);
+    }, [updateStyleOption]);
 
     /** Callback for changing the active color */
     const onActiveColorChange: ChangeEventHandler<HTMLInputElement> = useCallback((event) => {
         let newColor = event.target.value;
-        document.documentElement.style.setProperty(CSS_VARIABLES.ACTIVE_COLOR, newColor);
-        setStyleOptions((prevOptions) => ({...prevOptions, activeColor: newColor}));
-    }, []);
+        updateStyleOption('activeColor', newColor);
+    }, [updateStyleOption]);
 
     return (
         <>
