@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeyboardOptions } from '../App'
+import { KeyboardSettings } from '../App'
 import { getKeyData, NoteTextLanguageType } from '../../utils/KeyDataUtils';
 import { KBD_MAPPING_START_KEY } from '../../utils/KbdCodesUtils';
 import KBD_CODES from '../../res/json_data/kbd_codes.json'
@@ -9,11 +9,11 @@ interface KeyProps {
     isPlaying: boolean;
     language?: NoteTextLanguageType;
 
-    keyboardOptions: KeyboardOptions;
+    settings: KeyboardSettings;
 }
 
-const Key = React.memo(({keyId, isPlaying, keyboardOptions, language="English"}: KeyProps) => {
-    const {showKbdMappings, showNoteNames, useFlats} = keyboardOptions;
+const Key = React.memo(({keyId, isPlaying, settings, language="English"}: KeyProps) => {
+    const {showKbdMappings, showNoteNames, useFlats} = settings;
 
     let keyData = getKeyData(keyId, useFlats, language);
     if (!keyData) {

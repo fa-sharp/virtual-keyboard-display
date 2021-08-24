@@ -3,7 +3,7 @@ import { START_NUM_KEYS } from '../components/App';
 /**
  * Defines the types of action that can be taken on the pianoKeys state
  */
-export type PlayKeysAction = { type: 'KEY_ON'; keyId: number; } | { type: 'KEY_OFF'; keyId: number; } |
+export type PianoKeysAction = { type: 'KEY_ON'; keyId: number; } | { type: 'KEY_OFF'; keyId: number; } |
 { type: 'KEY_TOGGLE'; keyId: number; } | { type: 'CHORD_ON'; keyIds: number[]; } |
 { type: 'CHORD_OFF'; keyIds: number[]; } | { type: 'CLEAR_KEYS'; };
 
@@ -13,7 +13,7 @@ export type PlayKeysAction = { type: 'KEY_ON'; keyId: number; } | { type: 'KEY_O
  * @param action The action to take
  * @returns The new pianoKeys state
  */
-export const playKeysReducer = (pianoKeys: boolean[], action: PlayKeysAction) => {
+export const pianoKeysReducer = (pianoKeys: boolean[], action: PianoKeysAction) => {
     let newPianoKeys = [...pianoKeys];
     switch (action.type) {
         case 'KEY_TOGGLE':

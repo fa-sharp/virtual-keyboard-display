@@ -1,5 +1,5 @@
 import { Dispatch, RefObject, useCallback, useEffect } from "react";
-import { PlayKeysAction } from "../state/PlayKeysReducer";
+import { PianoKeysAction } from "../state/PianoKeysReducer";
 import { kbdCodeToKeyId } from "../utils/KbdCodesUtils";
 
 /**
@@ -10,7 +10,7 @@ import { kbdCodeToKeyId } from "../utils/KbdCodesUtils";
  * @param stickyMode Whether "sticky mode" in options is enabled
  */
 export const useMouseListeners = 
-    (playKeys: Dispatch<PlayKeysAction>, pianoElement: RefObject<HTMLDivElement | null>, stickyMode: boolean) => {
+    (playKeys: Dispatch<PianoKeysAction>, pianoElement: RefObject<HTMLDivElement | null>, stickyMode: boolean) => {
 
     const handleMouseClick = useCallback(((event: MouseEvent) => {
         const clickedKeyId = getClickedKeyId(event);
@@ -72,7 +72,7 @@ function getClickedKeyId(event: MouseEvent) {
  * @param playKeys Dispatch method to send messages to App component and manipulate the pianoKeys state
  * @param stickyMode Whether "sticky mode" in options is enabled
  */
-export const useKeyboardListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolean) => {
+export const useKeyboardListeners = (playKeys: Dispatch<PianoKeysAction>, stickyMode: boolean) => {
     
     const handleKeyboardDown = useCallback((event: KeyboardEvent) => {
         if (event.repeat)

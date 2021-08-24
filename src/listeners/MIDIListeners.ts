@@ -1,5 +1,5 @@
 import { Dispatch, useCallback, useEffect, useState } from "react";
-import { PlayKeysAction } from "../state/PlayKeysReducer";
+import { PianoKeysAction } from "../state/PianoKeysReducer";
 import JZZ from "jzz";
 
 /**
@@ -10,7 +10,7 @@ import JZZ from "jzz";
  * @param playKeys Dispatch method to send messages to App component and manipulate the pianoKeys state
  * @param stickyMode Whether "sticky mode" in options is enabled
  */
-const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolean, 
+const useMIDIListeners = (playKeys: Dispatch<PianoKeysAction>, stickyMode: boolean, 
             setMidiDeviceName: ((name: string) => void)) => {
 
     const [midiDeviceFound, setMidiDeviceFound] = useState(true);

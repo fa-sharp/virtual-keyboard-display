@@ -1,39 +1,49 @@
 import { Reducer, useReducer, useRef, useState } from 'react';
-import '../styles/main.scss';
 import { useKeyboardListeners, useMouseListeners } from '../listeners/MouseKeyboardListeners';
 import useMIDIListeners from '../listeners/MIDIListeners';
-import { PlayKeysAction, playKeysReducer } from '../state/PlayKeysReducer';
+import { PianoKeysAction, pianoKeysReducer } from '../state/PianoKeysReducer';
+import useLocalSettings from '../state/useLocalSettings';
+
 import Sidebar from './nav/Sidebar';
 import Piano from './piano/Piano';
 import Staff from './staff/Staff';
+import '../styles/main.scss';
 
 export const START_NUM_KEYS = 90;
 export const MIN_KEY = 48;
 export const MAX_KEY = 79;
 
-export interface KeyboardOptions {
+export interface KeyboardSettings {
     showNoteNames: boolean;
     showKbdMappings: boolean;
     useFlats: boolean;
     stickyMode: boolean;
     pianoRange: [number, number];
 }
+const INITIAL_SETTINGS: KeyboardSettings = 
+    {useFlats: true, showNoteNames: false, showKbdMappings: false, stickyMode: false, pianoRange: [MIN_KEY, MAX_KEY]};
 
 function App() {
-    const [pianoKeys, playKeysDispatch] = useReducer<Reducer<boolean[], PlayKeysAction>>(
-        playKeysReducer, new Array<boolean>(START_NUM_KEYS).fill(false)
-    );
-    const [options, setOptions] = useState<KeyboardOptions>(
-        {useFlats: true, showNoteNames: false, showKbdMappings: false, stickyMode: false, pianoRange: [MIN_KEY, MAX_KEY]}
-    );
-    const [midiDeviceName, setMidiDeviceName] = useState("");
 
+    /** "pianoKeys" is the state that holds the current state of all the keys, stored as an array of booleans.
+     * "pianoKeysDispatch" is a dispatch function used to "play the keys," i.e. update the pianoKeys state */
+    const [pianoKeys, pianoKeysDispatch] = useReducer<Reducer<boolean[], PianoKeysAction>>(
+        pianoKeysReducer, new Array<boolean>(START_NUM_KEYS).fill(false)
+    );
+
+    /** The state holding the current settings. Changes are persisted to local storage with the 'useLocalSettings' hook. */
+    const { settings, updateSetting } = useLocalSettings("kbd-settings", INITIAL_SETTINGS);
+
+    /** Holds the name of the currently connected MIDI device. */
+    const [midiDeviceName, setMidiDeviceName] = useState("");
+    
+    /** Holds a reference to the actual piano display element. */
     const pianoElementRef = useRef<HTMLDivElement | null>(null);
 
     /** Setting up all event listeners to make the piano interactive */
-    useMouseListeners(playKeysDispatch, pianoElementRef, options.stickyMode);
-    useKeyboardListeners(playKeysDispatch, options.stickyMode);
-    useMIDIListeners(playKeysDispatch, options.stickyMode, setMidiDeviceName);
+    useMouseListeners(pianoKeysDispatch, pianoElementRef, settings.stickyMode);
+    useKeyboardListeners(pianoKeysDispatch, settings.stickyMode);
+    useMIDIListeners(pianoKeysDispatch, settings.stickyMode, setMidiDeviceName);
 
     /** Array that represents the currently playing keys, e.g. [60, 64, 67] */
     let playingKeys: number[] = [];
@@ -47,8 +57,8 @@ function App() {
                 <div className="header-title">The Virtual Keyboard</div>
             </header>
             <Sidebar
-                keyboardOptions={options}
-                setKeyboardOptions={setOptions}
+                settings={settings}
+                updateSetting={updateSetting}
                 midiDeviceName={midiDeviceName}
             />
             <div className="main-view">
@@ -57,19 +67,17 @@ function App() {
                         <Staff
                             playingKeys={playingKeys}
                             abcjsOptions={{ scale: 1.5, paddingtop: 0 }}
-                            useFlats={options.useFlats}
+                            useFlats={settings.useFlats}
                         />
                         <div className="piano-container">
                             <Piano
-                                startKey={options.pianoRange[0]}
-                                endKey={options.pianoRange[1]}
+                                startKey={settings.pianoRange[0]}
+                                endKey={settings.pianoRange[1]}
                                 pianoKeys={pianoKeys}
-                                keyboardOptions={options}
+                                settings={settings}
                                 ref={pianoElementRef}
                             />
                         </div>
-                    </section>
-                    <section>
                     </section>
                 </div>
             </div>
