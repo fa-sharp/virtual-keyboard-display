@@ -1,10 +1,13 @@
-import React, { useCallback, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useState } from "react";
 import { KeyboardOptions, MAX_KEY, MIN_KEY } from "../App";
 import { Tooltip } from "../help/Tooltip";
 import githubLogo from "../../res/images/github-logo-default.png"
 import Toggle from "./Toggle";
 import Range from "./Range";
 import KeyRange from "./KeyRange";
+import ColorSelect from "./ColorSelect";
+
+const CSS_VARIABLES = { KEY_SIZE: "--piano-key-width", ACTIVE_COLOR: "--active-color" }
 
 interface SidebarProps {
     keyboardOptions: KeyboardOptions;
@@ -15,6 +18,7 @@ interface SidebarProps {
 
 interface StyleOptions {
     pianoSize: number;
+    activeColor: string;
 }
 
 const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName}: SidebarProps) => {
@@ -22,9 +26,6 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
     /** Sidebar open/close state */
     const [sidebarClosed, setSidebarClosed] = useState(false);
     const toggleSidebar = useCallback(() => setSidebarClosed((prevClosed) => !prevClosed), []);
-
-    /** State for the styling options, such as the visual size of the piano **/
-    const [styleOptions, setStyleOptions] = useState<StyleOptions>({pianoSize: 3.0});
 
     /** Callback fired when changing the range of the piano */
     const onPianoRangeChange = useCallback((_e, value: number | number[]) => 
@@ -41,11 +42,22 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
             console.error("Error toggling option in App: " + changedOption);
     }, [keyboardOptions, setKeyboardOptions]);
 
+
+    /** State for the styling options (size, color, etc.) **/
+    const [styleOptions, setStyleOptions] = useState<StyleOptions>({pianoSize: 3.0, activeColor: '#00aaff'});
+
     /** Callback for changing the piano size */
     const onPianoSizeChange = useCallback((_e, value: number | number[]) => {
         let newSize = value as number;
-        document.documentElement.style.setProperty("--piano-key-width", newSize + "rem");
+        document.documentElement.style.setProperty(CSS_VARIABLES.KEY_SIZE, newSize + "rem");
         setStyleOptions((prevOptions) => ({...prevOptions, pianoSize: newSize}));
+    }, []);
+
+    /** Callback for changing the active color */
+    const onActiveColorChange: ChangeEventHandler<HTMLInputElement> = useCallback((event) => {
+        let newColor = event.target.value;
+        document.documentElement.style.setProperty(CSS_VARIABLES.ACTIVE_COLOR, newColor);
+        setStyleOptions((prevOptions) => ({...prevOptions, activeColor: newColor}));
     }, []);
 
     return (
@@ -102,6 +114,8 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
                         isDisabled={sidebarClosed}
                         onChange={onPianoRangeChange}
                     />
+                    <ColorSelect label="Custom color" description="Change highlight color for the piano keys and settings"
+                        value={styleOptions.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />
                 </div>
                 <div className="sidebar-bottom">
                     <div>
@@ -109,7 +123,9 @@ const Sidebar = React.memo(({keyboardOptions, setKeyboardOptions, midiDeviceName
                         <br />{midiDeviceName}
                     </div>
                     <hr />
-                    <a href="https://github.com/fa-sharp/virtual-keyboard-display" target="_blank" rel="noreferrer">
+                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                    <a href={!sidebarClosed ? "https://github.com/fa-sharp/virtual-keyboard-display" : undefined}
+                        target="_blank" rel="noreferrer">
                         <img src={githubLogo} alt="Link to GitHub repository" />
                     </a>
                 </div>
