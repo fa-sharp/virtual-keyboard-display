@@ -11,7 +11,7 @@ interface PianoProps {
 }
 
 const generateKeyElements = 
-    (startKey: number, endKey: number, pianoKeys: boolean[], keyboardOptions: KeyboardSettings) => {
+    (startKey: number, endKey: number, pianoKeys: boolean[], settings: KeyboardSettings) => {
 
     let keyElements: JSX.Element[] = [];
     for (let keyId = startKey; keyId <= endKey; keyId++) {
@@ -20,7 +20,7 @@ const generateKeyElements =
                 key={keyId}
                 keyId={keyId}
                 isPlaying={pianoKeys[keyId]}
-                settings={keyboardOptions}
+                settings={settings}
             />
         )
     }

@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useCallback, useEffect, useState } from "react";
+import React, { ChangeEventHandler, useCallback, useState } from "react";
 import { KeyboardSettings, MAX_KEY, MIN_KEY } from "../App";
 import { Tooltip } from "../help/Tooltip";
 import githubLogo from "../../res/images/github-logo-default.png"
@@ -65,20 +65,6 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
                     <Toggle
-                        displayLabel="Show note names"
-                        description="Display text of note names for each piano key"
-                        isChecked={settings.showNoteNames}
-                        optionName="showNoteNames"
-                        onChange={onToggleChange} 
-                        isDisabled={sidebarClosed}/>
-                    <Toggle
-                        displayLabel="Show keyboard shortcuts"
-                        description="Display keyboard shortcuts for each piano key"
-                        isChecked={settings.showKbdMappings}
-                        optionName="showKbdMappings"
-                        onChange={onToggleChange}
-                        isDisabled={sidebarClosed} />
-                    <Toggle
                         displayLabel='"Sticky" mode'
                         description="In 'sticky' mode, the keys are toggled instead of being released right away"
                         makeTooltip={true}
@@ -86,6 +72,7 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                         optionName="stickyMode"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
+                    <h3>Piano</h3>
                     <Range 
                         staticProps={{min: 2.6, max: 4.5, step: 0.1, unit: "rem", optionName: "pianoSize",
                             width: "7.5rem", label: "Size", description: "Change visual size of piano"}}
@@ -103,6 +90,21 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                     />
                     <ColorSelect label="Custom color" description="Change highlight color for the piano keys and settings"
                         value={styleOptions.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />
+                    <h3>Show/hide</h3>
+                    <Toggle
+                        displayLabel="Note names"
+                        description="Display text of note names for each piano key"
+                        isChecked={settings.showNoteNames}
+                        optionName="showNoteNames"
+                        onChange={onToggleChange} 
+                        isDisabled={sidebarClosed} />
+                    <Toggle
+                        displayLabel="Keyboard shortcuts"
+                        description="Display keyboard shortcuts for each piano key"
+                        isChecked={settings.showKbdMappings}
+                        optionName="showKbdMappings"
+                        onChange={onToggleChange}
+                        isDisabled={sidebarClosed} />
                 </div>
                 <div className="sidebar-bottom">
                     <div>

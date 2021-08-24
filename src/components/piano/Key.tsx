@@ -12,8 +12,9 @@ interface KeyProps {
     settings: KeyboardSettings;
 }
 
-const Key = React.memo(({keyId, isPlaying, settings, language="English"}: KeyProps) => {
-    const {showKbdMappings, showNoteNames, useFlats} = settings;
+const Key = React.memo(({ keyId, isPlaying, settings, language = "English" }: KeyProps) => {
+
+    const { showKbdMappings, showNoteNames, useFlats } = settings;
 
     let keyData = getKeyData(keyId, useFlats, language);
     if (!keyData) {
@@ -21,20 +22,24 @@ const Key = React.memo(({keyId, isPlaying, settings, language="English"}: KeyPro
         return null;
     }
 
-    let {isBlackKey, noteText: {text: keyText, description: keyDescription}} = keyData;
-    
-    let keyClass = "key"
+    const { isBlackKey, octave, noteText: { text: keyText, description: keyDescription } } = keyData;
+    /** Whether the key is a C */
+    const keyIsC = keyId % 12 === 0;
+
+    const keyClass = "key"
+        + (keyIsC ? " key-C" : "")
         + (isBlackKey ? " black" : "")
         + (isPlaying ? " playing" : "");
-    let keyKbd = KBD_CODES[keyId - KBD_MAPPING_START_KEY]?.kbdText.US_QWERTY;
+    const keyKbd = KBD_CODES[keyId - KBD_MAPPING_START_KEY]?.kbdText.US_QWERTY;
 
     return (
         <button className={keyClass} data-keyid={keyId} title={(showNoteNames && isBlackKey) ? keyDescription : undefined} aria-label={keyDescription}>
-            {keyKbd &&
-                <div className={"key-kbd" + (showKbdMappings ? 
-                                            "" : " hidden")}>{keyKbd}</div>}
-            <div className={"key-text" + (showNoteNames ? 
-                                            "" :  " hidden")}>{keyText}</div>
+            {keyKbd && showKbdMappings &&
+                <div className={"key-kbd"}>{keyKbd}</div>}
+            <div className={"key-text" + (showNoteNames ? "" :  " hidden")}>
+                {/* If key is a C, display the octave info. Otherwise, use the default keyText. */}
+                {keyText}{keyIsC && <span className="octave">{octave}</span>}
+            </div>
         </button>
     )
 })

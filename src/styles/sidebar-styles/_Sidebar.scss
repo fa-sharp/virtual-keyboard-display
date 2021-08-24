@@ -60,18 +60,26 @@
     }
 }
 
-.sidebar-content > * {
+.sidebar-content {
 
-    padding: .6rem .5rem;
     cursor: default;
 
-    &:first-child {
-        padding: 0;
+    & > h2 {
+        margin-block: 0.8rem;
     }
 
-    &:not(:first-child):hover {
-        color: var(--highlight-dark-color);
-        background-color: lightgray;
+    & > h3 {
+        margin-block: 0.6rem;
+    }
+
+    // Inputs, toggles, ranges
+    & > div, & > label {    
+        padding: .6rem .5rem;
+
+        &:hover {
+            color: var(--highlight-dark-color);
+            background-color: lightgray;
+        }
     }
 }
 

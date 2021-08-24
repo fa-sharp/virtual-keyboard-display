@@ -79,8 +79,13 @@
         margin: 2px;
     }
 
-    &:not(.key-C) > &-text.hidden { // hide all key text except for the Cs
+    // &:not(.key-C) > // (not sure about this) hide all key text except for the Cs
+    &-text.hidden { 
         opacity: 0;
+    }
+
+    &-text > .octave { // octave number
+        font-size: .7em;
     }
 
     &-kbd { // style for the keyboard mapping
