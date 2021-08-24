@@ -88,27 +88,42 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                         isDisabled={sidebarClosed}
                         onChange={onPianoRangeChange}
                     />
-                    <ColorSelect label="Custom color" description="Change highlight color for the piano keys and settings"
-                        value={styleOptions.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />
                     <h3>Show/hide</h3>
                     <Toggle
+                        displayLabel="Staff display"
+                        description="Show/hide the staff display"
+                        isChecked={settings.showStaff}
+                        optionName="showStaff"
+                        onChange={onToggleChange} 
+                        isDisabled={sidebarClosed} />
+                    <Toggle
+                        displayLabel="Piano display"
+                        description="Show/hide the piano display"
+                        isChecked={settings.showPiano}
+                        optionName="showPiano"
+                        onChange={onToggleChange} 
+                        isDisabled={sidebarClosed} />
+                    <Toggle
                         displayLabel="Note names"
-                        description="Display text of note names for each piano key"
+                        description="Show/hide text of note names for each piano key"
                         isChecked={settings.showNoteNames}
                         optionName="showNoteNames"
                         onChange={onToggleChange} 
                         isDisabled={sidebarClosed} />
                     <Toggle
                         displayLabel="Keyboard shortcuts"
-                        description="Display keyboard shortcuts for each piano key"
+                        description="Show/hide keyboard shortcuts for each piano key"
                         isChecked={settings.showKbdMappings}
                         optionName="showKbdMappings"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
+                    <h3>Colors</h3>
+                    <ColorSelect label="Active color" description="Change highlight color for the piano keys and settings"
+                        value={styleOptions.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />
                 </div>
                 <div className="sidebar-bottom">
                     <div>
-                        <Tooltip text="MIDI Device:" tooltip="Currently only works in Chrome and Edge browsers." />
+                        <Tooltip text="MIDI Device:" tooltip="Supported in Chrome and Edge browsers." />
                         <br />{midiDeviceName}
                     </div>
                     <hr />

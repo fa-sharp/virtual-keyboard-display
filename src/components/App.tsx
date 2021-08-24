@@ -14,6 +14,8 @@ export const MIN_KEY = 48;
 export const MAX_KEY = 79;
 
 export interface KeyboardSettings {
+    showPiano: boolean;
+    showStaff: boolean;
     showNoteNames: boolean;
     showKbdMappings: boolean;
     useFlats: boolean;
@@ -21,7 +23,8 @@ export interface KeyboardSettings {
     pianoRange: [number, number];
 }
 const INITIAL_SETTINGS: KeyboardSettings = 
-    {useFlats: true, showNoteNames: false, showKbdMappings: false, stickyMode: false, pianoRange: [MIN_KEY, MAX_KEY]};
+    {showPiano: true, showStaff: true, showNoteNames: false, showKbdMappings: false, 
+        useFlats: true, stickyMode: false, pianoRange: [MIN_KEY, MAX_KEY]};
 
 function App() {
 
@@ -64,18 +67,18 @@ function App() {
             <div className="main-view">
                 <div className="main-view-content">
                     <section className="staff-keyboard-view">
-                        <Staff
+                        {settings.showStaff && <Staff
                             playingKeys={playingKeys}
                             abcjsOptions={{ scale: 1.5, paddingtop: 0 }}
                             useFlats={settings.useFlats}
-                        />
-                        <Piano
+                        />}
+                        {settings.showPiano && <Piano
                             startKey={settings.pianoRange[0]}
                             endKey={settings.pianoRange[1]}
                             pianoKeys={pianoKeys}
                             settings={settings}
                             ref={pianoElementRef}
-                        />
+                        />}
                     </section>
                 </div>
             </div>
