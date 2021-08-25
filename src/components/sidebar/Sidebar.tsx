@@ -8,8 +8,6 @@ import Range from "./Range";
 import KeyRange from "./KeyRange";
 import ColorSelect from "./ColorSelect";
 
-import githubLogo from "../../res/images/github-logo-default.png"
-
 interface SidebarProps {
     settings: KeyboardSettings;
     updateSetting: <K extends keyof KeyboardSettings>(setting: K, newValue: KeyboardSettings[K]) => void
@@ -127,17 +125,13 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                     <ColorSelect label="Active color" description="Change highlight color for the piano keys and settings"
                         value={styleOptions.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />
                 </div>
+                
                 <div className="sidebar-bottom">
+                    <hr />
                     <div>
                         <Tooltip text="MIDI Device:" tooltip="Supported in Chrome and Edge browsers." />
                         <br />{midiDeviceName}
                     </div>
-                    <hr />
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <a href={!sidebarClosed ? "https://github.com/fa-sharp/virtual-keyboard-display" : undefined}
-                        target="_blank" rel="noreferrer">
-                        <img src={githubLogo} alt="Link to GitHub repository" />
-                    </a>
                 </div>
             </nav>
         </>

@@ -1,5 +1,4 @@
 .staff {
-    // border: solid 2px black;
-    height: 220px;
-    width: 280px;
+    height: var(--staff-height);
+    width: calc(var(--staff-height) * 1.2);
 }

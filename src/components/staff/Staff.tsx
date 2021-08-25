@@ -6,6 +6,7 @@ interface StaffProps {
     playingKeys: number[]
     clefDivideKey?: number
     useFlats: boolean
+    staffHeight?: number
     abcjsOptions?: {}
 }
 
@@ -15,12 +16,14 @@ const ABC_HEADER = "X:1\nL:1\n";
 const ABC_TREBLE_START = "[V:1 clef=treble]]";
 const ABC_BASS_START = "[V:2 clef=bass]]";
 
+const calculateStaffScale = (staffHeight: number) => staffHeight / 9.1667;
+
 const generateAbcNotation = (playingKeys: number[], clefDivideKey: number, useFlats: boolean) => {
 
     let abcTreble = "", abcBass = "";
 
     playingKeys.forEach(playingKey => {
-        let abcKey = getKeyAbc(playingKey, useFlats);
+        const abcKey = getKeyAbc(playingKey, useFlats);
         if (abcKey) {
             playingKey >= clefDivideKey ? abcTreble += abcKey : abcBass += abcKey;
         } else
@@ -33,7 +36,10 @@ const generateAbcNotation = (playingKeys: number[], clefDivideKey: number, useFl
     return `${ABC_HEADER}${abcTreble}|\n${abcBass}|`;
 }
 
-const Staff = ({playingKeys, abcjsOptions = {}, clefDivideKey = 59, useFlats}: StaffProps) => {
+const Staff = ({playingKeys, abcjsOptions = {}, staffHeight, clefDivideKey = 59, useFlats}: StaffProps) => {
+
+    if (staffHeight)
+        abcjsOptions = { ...abcjsOptions, scale: calculateStaffScale(staffHeight)};
 
     useEffect(() => abcjsObj.renderAbc(ABCJS_DOM_ID,
         generateAbcNotation(playingKeys, clefDivideKey, useFlats), abcjsOptions));

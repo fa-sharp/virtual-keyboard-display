@@ -10,6 +10,8 @@ import Piano from './piano/Piano';
 import Staff from './staff/Staff';
 import '../styles/main.scss';
 
+import githubLogo from "../res/images/github-logo-default.png"
+
 export const START_NUM_KEYS = 90;
 
 function App() {
@@ -44,32 +46,34 @@ function App() {
         <div className="app-view">
             <header className="header">
                 <div className="header-title">The Virtual Keyboard</div>
+                <a className="github-link" href="https://github.com/fa-sharp/virtual-keyboard-display"
+                    target="_blank" rel="noreferrer">
+                    <img src={githubLogo} alt="Link to GitHub repository" />
+                </a>
             </header>
             <Sidebar
                 settings={settings}
                 updateSetting={updateSetting}
                 midiDeviceName={midiDeviceName}
             />
-            <div className="main-view">
-                <div className="main-view-content">
-                    <section className="staff-keyboard-view">
-                        {settings.showStaff &&
-                            <Staff
-                                playingKeys={playingKeys}
-                                abcjsOptions={{ scale: 1.5, paddingtop: 0 }}
-                                useFlats={settings.useFlats}
-                            />}
-                        {settings.showPiano && 
-                            <Piano
-                                startKey={settings.pianoRange[0]}
-                                endKey={settings.pianoRange[1]}
-                                pianoKeys={pianoKeys}
-                                settings={settings}
-                                ref={pianoElementRef}
-                            />}
-                    </section>
-                </div>
-            </div>
+            <main className="main-view">
+                <section className="staff-keyboard-view">
+                    {settings.showStaff &&
+                        <Staff
+                            playingKeys={playingKeys}
+                            abcjsOptions={{ scale: 1.5, paddingtop: 0 }}
+                            useFlats={settings.useFlats}
+                        />}
+                    {settings.showPiano && 
+                        <Piano
+                            startKey={settings.pianoRange[0]}
+                            endKey={settings.pianoRange[1]}
+                            pianoKeys={pianoKeys}
+                            settings={settings}
+                            ref={pianoElementRef}
+                        />}
+                </section>
+            </main>
         </div>
     );
 }

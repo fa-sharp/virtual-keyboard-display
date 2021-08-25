@@ -33,7 +33,8 @@
     margin: 0;
     padding: 0;
     border: 1px solid black;
-    border-radius: 0 0 6px 6px;
+    border-bottom-right-radius: calc(var(--key-width) / 7);
+    border-bottom-left-radius: calc(var(--key-width) / 7);
     box-shadow: 2px 3px 3px black;
     outline: none;
   

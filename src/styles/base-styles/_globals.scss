@@ -1,13 +1,15 @@
 :root {
     --header-height: 3rem;
-    @media screen and (max-height: 450px) { // no header if in mobile landscape mode
+    --sidebar-button-color: white;
+
+    @media screen and (max-height: 450px) { // hide header, if screen less than this height
         --header-height: 0px;
+        --sidebar-button-color: black;
 	}
 
     --sidebar-width: 13rem;
 
-    --sidebar-button-color: white;
-    --sidebar-button-color-alt: black;
+    --staff-height: 13.75rem; // can grow/shrink the staff with this variable!
 
     --piano-key-width: 3rem; // can grow/shrink the piano with this variable!
 

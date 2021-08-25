@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 /**
- * Custom hook to save settings to local storage.
+ * Custom hook to save and retrieve settings to/from local storage.
  * 
  * @param key The key used to save to the browser's local storage
  * @param initialValue The initial value of the settings

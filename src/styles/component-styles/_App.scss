@@ -27,6 +27,17 @@
 		font-weight: 600;
 	}
 
+	.github-link {
+		position: absolute;
+		top: .5rem;
+		right: .5rem;
+	
+		& > img {
+			height: 2rem;
+			width: 2rem;
+		}
+	}
+
 	@media screen and (max-height: 450px) {
 		visibility: hidden;
 	}
@@ -51,8 +62,13 @@
 
 .staff-keyboard-view {
 	flex: 1 0 auto;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
 
 	& > * {
-		margin: .2rem 0;
+		margin: .5rem 0;
 	}
 }
+
+

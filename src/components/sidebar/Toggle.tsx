@@ -18,11 +18,9 @@ type ToggleProps = {
 const Toggle = (props: ToggleProps) => {
     return (
         <label className="toggle-display">
-            <div className="toggle-label">
-                {props.makeTooltip ? 
-                    <Tooltip text={props.displayLabel} tooltip={props.description} /> 
-                    : props.displayLabel}
-            </div>
+            {props.makeTooltip ? 
+                <Tooltip text={props.displayLabel} tooltip={props.description} /> 
+                : props.displayLabel}
             <div className="toggle" title={props.description} aria-label={props.description} >
                 <input type="checkbox" checked={props.isChecked} disabled={props.isDisabled}
                     onChange={props.onChange.bind(this)} data-option={props.optionName} />

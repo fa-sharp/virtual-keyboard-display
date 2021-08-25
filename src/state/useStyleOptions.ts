@@ -17,7 +17,7 @@ const INITIAL_STYLE_OPTIONS: StyleOptions =
  */
 const useStyleOptions = () => {
     
-    /** State for the styling options (size, color, etc.). Saves to local storage using the 'useLocalSettings' hook **/
+    /** State for the styling options (size, color, etc.). Saves and retrieves from local storage using the 'useLocalSettings' hook **/
     const { settings: styleOptions, updateSetting: updateStyleOption } = useLocalSettings("style-options", INITIAL_STYLE_OPTIONS);
     
     /** Update CSS Variables as the style options are changed */
