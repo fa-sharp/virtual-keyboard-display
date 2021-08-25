@@ -1,8 +1,9 @@
 import { Reducer, useReducer, useRef, useState } from 'react';
+
+import useKeyboardSettings from '../state/useKeyboardSettings';
+import { PianoKeysAction, pianoKeysReducer } from '../state/PianoKeysReducer';
 import { useKeyboardListeners, useMouseListeners } from '../listeners/MouseKeyboardListeners';
 import useMIDIListeners from '../listeners/MIDIListeners';
-import { PianoKeysAction, pianoKeysReducer } from '../state/PianoKeysReducer';
-import useLocalSettings from '../state/useLocalSettings';
 
 import Sidebar from './sidebar/Sidebar';
 import Piano from './piano/Piano';
@@ -10,21 +11,6 @@ import Staff from './staff/Staff';
 import '../styles/main.scss';
 
 export const START_NUM_KEYS = 90;
-export const MIN_KEY = 48;
-export const MAX_KEY = 79;
-
-export interface KeyboardSettings {
-    showPiano: boolean;
-    showStaff: boolean;
-    showNoteNames: boolean;
-    showKbdMappings: boolean;
-    useFlats: boolean;
-    stickyMode: boolean;
-    pianoRange: [number, number];
-}
-const INITIAL_SETTINGS: KeyboardSettings = 
-    {showPiano: true, showStaff: true, showNoteNames: false, showKbdMappings: false, 
-        useFlats: true, stickyMode: false, pianoRange: [MIN_KEY, MAX_KEY]};
 
 function App() {
 
@@ -35,12 +21,12 @@ function App() {
     );
 
     /** The state holding the current settings. Changes are persisted to local storage with the 'useLocalSettings' hook. */
-    const { settings, updateSetting } = useLocalSettings("kbd-settings", INITIAL_SETTINGS);
+    const { settings, updateSetting } = useKeyboardSettings();
 
     /** Holds the name of the currently connected MIDI device. */
     const [midiDeviceName, setMidiDeviceName] = useState("");
     
-    /** Holds a reference to the actual piano display element. */
+    /** Holds a reference to the piano display element. */
     const pianoElementRef = useRef<HTMLDivElement | null>(null);
 
     /** Setting up all event listeners to make the piano interactive */
@@ -67,18 +53,20 @@ function App() {
             <div className="main-view">
                 <div className="main-view-content">
                     <section className="staff-keyboard-view">
-                        {settings.showStaff && <Staff
-                            playingKeys={playingKeys}
-                            abcjsOptions={{ scale: 1.5, paddingtop: 0 }}
-                            useFlats={settings.useFlats}
-                        />}
-                        {settings.showPiano && <Piano
-                            startKey={settings.pianoRange[0]}
-                            endKey={settings.pianoRange[1]}
-                            pianoKeys={pianoKeys}
-                            settings={settings}
-                            ref={pianoElementRef}
-                        />}
+                        {settings.showStaff &&
+                            <Staff
+                                playingKeys={playingKeys}
+                                abcjsOptions={{ scale: 1.5, paddingtop: 0 }}
+                                useFlats={settings.useFlats}
+                            />}
+                        {settings.showPiano && 
+                            <Piano
+                                startKey={settings.pianoRange[0]}
+                                endKey={settings.pianoRange[1]}
+                                pianoKeys={pianoKeys}
+                                settings={settings}
+                                ref={pianoElementRef}
+                            />}
                     </section>
                 </div>
             </div>

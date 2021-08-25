@@ -1,12 +1,14 @@
 import React, { ChangeEventHandler, useCallback, useState } from "react";
-import { KeyboardSettings, MAX_KEY, MIN_KEY } from "../App";
-import { Tooltip } from "../help/Tooltip";
-import githubLogo from "../../res/images/github-logo-default.png"
+import { KeyboardSettings, MAX_KEY, MIN_KEY } from "../../state/useKeyboardSettings";
+import useStyleOptions from "../../state/useStyleOptions";
+
+import Tooltip from "../help/Tooltip";
 import Toggle from "./Toggle";
 import Range from "./Range";
 import KeyRange from "./KeyRange";
 import ColorSelect from "./ColorSelect";
-import useStyleOptions from "../../state/useStyleOptions";
+
+import githubLogo from "../../res/images/github-logo-default.png"
 
 interface SidebarProps {
     settings: KeyboardSettings;
@@ -18,7 +20,7 @@ interface SidebarProps {
 const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarProps) => {
 
     /** Sidebar open/close state */
-    const [sidebarClosed, setSidebarClosed] = useState(false);
+    const [sidebarClosed, setSidebarClosed] = useState(true);
     const toggleSidebar = useCallback(() => setSidebarClosed((prevClosed) => !prevClosed), []);
 
     /** State for the styling options (size, color, etc.) **/
@@ -55,6 +57,7 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
             </button>
             <nav className={"sidebar" + ((sidebarClosed) ? " closed" : "")}>
                 <div className="sidebar-content">
+
                     <h2>Settings</h2>
                     <Toggle
                         displayLabel="Sharps"
@@ -72,6 +75,7 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                         optionName="stickyMode"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
+
                     <h3>Piano</h3>
                     <Range 
                         staticProps={{min: 2.6, max: 4.5, step: 0.1, unit: "rem", optionName: "pianoSize",
@@ -88,6 +92,7 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                         isDisabled={sidebarClosed}
                         onChange={onPianoRangeChange}
                     />
+
                     <h3>Show/hide</h3>
                     <Toggle
                         displayLabel="Staff display"
@@ -117,6 +122,7 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                         optionName="showKbdMappings"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
+
                     <h3>Colors</h3>
                     <ColorSelect label="Active color" description="Change highlight color for the piano keys and settings"
                         value={styleOptions.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />

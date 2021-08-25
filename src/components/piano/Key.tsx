@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeyboardSettings } from '../App'
+import { KeyboardSettings } from '../../state/useKeyboardSettings'
 import { getKeyData, NoteTextLanguageType } from '../../utils/KeyDataUtils';
 import { KBD_MAPPING_START_KEY } from '../../utils/KbdCodesUtils';
 import KBD_CODES from '../../res/json_data/kbd_codes.json'

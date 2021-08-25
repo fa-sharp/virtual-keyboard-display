@@ -1,5 +1,9 @@
 :root {
     --header-height: 3rem;
+    @media screen and (max-height: 450px) { // no header if in mobile landscape mode
+        --header-height: 0px;
+	}
+
     --sidebar-width: 13rem;
 
     --sidebar-button-color: white;

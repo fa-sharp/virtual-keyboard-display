@@ -1,22 +1,35 @@
 # The Virtual Keyboard
 
-A virtual piano keyboard that runs in the browser. Suitable for teaching, learning, practicing, etc...!
+A virtual piano keyboard app, written in Typescript and React. Suitable for teaching, learning, practicing, etc...!
 
+### Features
 - Shows notes on the grand staff as you play them on the keyboard.
 - Responds to keyboard and mouse input
-- Responds to MIDI input in Chrome and Edge browsers, using the [Web MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API) and [JZZ](https://github.com/jazz-soft/JZZ) library
-- Settings to show note names, display keyboard shortcuts, make the notes sticky/sustain, change the colors, and re-size the keyboard for small and big screens.
-- Settings are all saved to browser's local storage
-- In development: Touch support and audio output
+- Responds to MIDI input in Chrome and Edge browsers
+- Many settings to customize the display
+    - Show/hide piano, staff, note names
+    - Change the piano range
+    - Make the notes sticky/sustain
+    - Re-size the keyboard for small and big screens.
+
+### Technologies used
+- To display the music staff: [abcjs library](https://paulrosen.github.io/abcjs/)
+- To connect to MIDI devices: [Web MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API) and [JZZ](https://github.com/jazz-soft/JZZ) library
+- For React magic: uses custom hooks and reducer functions
+- For CSS magic: uses Sass, CSS variables, calc(), etc.
+- Settings are saved using browser's Local Storage
+
+### In development
+- Touch support and audio output
+
 
 ![Demo image of virtual keyboard](./demo.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Acknowledgements
 - Paul Rosen's amazing [abcjs library](https://paulrosen.github.io/abcjs/) for the music staff display
-- The  [JZZ library](https://jazz-soft.net/doc/JZZ/jzz.html) for connecting to MIDI devices
-- [This video](https://www.youtube.com/watch?v=kMf1XWVY2cA) from [Suboptimal Engineer](https://github.com/SuboptimalEng) for the initial code and inspiration!
+- The [JZZ library](https://jazz-soft.net/doc/JZZ/jzz.html) for connecting to MIDI devices
+- The React team and [Create React App](https://github.com/facebook/create-react-app).
+- [This video](https://www.youtube.com/watch?v=kMf1XWVY2cA) from [Suboptimal Engineer](https://github.com/SuboptimalEng) for the initial code and inspiration
 
 ## Available Scripts
 

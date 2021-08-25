@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../styles/main.scss'
-import { Tooltip } from '../help/Tooltip';
+import Tooltip from '../help/Tooltip';
 
 type ToggleProps = {
     displayLabel: string;
