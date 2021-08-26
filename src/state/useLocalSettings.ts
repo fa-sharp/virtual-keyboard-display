@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 
 /**
  * Custom hook to save and retrieve settings to/from local storage.
@@ -41,7 +41,7 @@ const useLocalSettings = <T>(key: string, initialValue: T) => {
     };
 
     /** Updates one setting in state, and persists to local storage. */
-    const updateSetting = <K extends keyof T>(setting: K, newValue: T[K]) => {
+    const updateSetting = useCallback(<K extends keyof T>(setting: K, newValue: T[K]) => {
         try {
             const newSettings = { ...settings, [setting]: newValue };
             setSettings(newSettings);
@@ -51,7 +51,7 @@ const useLocalSettings = <T>(key: string, initialValue: T) => {
         } catch (err) {
             console.log(err);
         }
-    }
+    }, [canAccessStorage, key, settings]);
     
     return { settings, updateSetting, updateAllSettings };
 }

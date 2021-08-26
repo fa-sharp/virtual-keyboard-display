@@ -12,24 +12,26 @@ A virtual piano keyboard app, written in Typescript and React. Suitable for teac
     - Make the notes sticky/sustain
     - Re-size the keyboard for small and big screens.
 
+![Demo image of virtual keyboard](./demo.png)
+
 ### Technologies used
 - To display the music staff: [abcjs library](https://paulrosen.github.io/abcjs/)
 - To connect to MIDI devices: [Web MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API) and [JZZ](https://github.com/jazz-soft/JZZ) library
-- For React magic: uses custom hooks and reducer functions
-- For CSS magic: uses Sass, CSS variables, calc(), etc.
+- For React magic: uses custom hooks and useReducer for state logic (see `src/state` folder)
+- For CSS magic: uses Sass, CSS variables, calc(), etc. (see `src/styles` folder)
 - Settings are saved using browser's Local Storage
 
 ### In development
-- Touch support and audio output
+- Touch support and audio output!
 
 
-![Demo image of virtual keyboard](./demo.png)
+
 
 ## Acknowledgements
 - Paul Rosen's amazing [abcjs library](https://paulrosen.github.io/abcjs/) for the music staff display
 - The [JZZ library](https://jazz-soft.net/doc/JZZ/jzz.html) for connecting to MIDI devices
 - The React team and [Create React App](https://github.com/facebook/create-react-app).
-- [This video](https://www.youtube.com/watch?v=kMf1XWVY2cA) from [Suboptimal Engineer](https://github.com/SuboptimalEng) for the initial code and inspiration
+- [This video](https://www.youtube.com/watch?v=kMf1XWVY2cA) from [Suboptimal Engineer](https://github.com/SuboptimalEng) for the initial setup, code, and inspiration
 
 ## Available Scripts
 

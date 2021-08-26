@@ -73,6 +73,20 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                         optionName="stickyMode"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
+                    <Toggle
+                        displayLabel="Staff display"
+                        description="Show/hide the staff display"
+                        isChecked={settings.showStaff}
+                        optionName="showStaff"
+                        onChange={onToggleChange} 
+                        isDisabled={sidebarClosed} />
+                    <Toggle
+                        displayLabel="Piano display"
+                        description="Show/hide the piano display"
+                        isChecked={settings.showPiano}
+                        optionName="showPiano"
+                        onChange={onToggleChange} 
+                        isDisabled={sidebarClosed} />
 
                     <h3>Piano</h3>
                     <Range 
@@ -90,25 +104,9 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                         isDisabled={sidebarClosed}
                         onChange={onPianoRangeChange}
                     />
-
-                    <h3>Show/hide</h3>
-                    <Toggle
-                        displayLabel="Staff display"
-                        description="Show/hide the staff display"
-                        isChecked={settings.showStaff}
-                        optionName="showStaff"
-                        onChange={onToggleChange} 
-                        isDisabled={sidebarClosed} />
-                    <Toggle
-                        displayLabel="Piano display"
-                        description="Show/hide the piano display"
-                        isChecked={settings.showPiano}
-                        optionName="showPiano"
-                        onChange={onToggleChange} 
-                        isDisabled={sidebarClosed} />
                     <Toggle
                         displayLabel="Note names"
-                        description="Show/hide text of note names for each piano key"
+                        description="Show/hide note names for each piano key"
                         isChecked={settings.showNoteNames}
                         optionName="showNoteNames"
                         onChange={onToggleChange} 
@@ -120,6 +118,7 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                         optionName="showKbdMappings"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
+
 
                     <h3>Colors</h3>
                     <ColorSelect label="Active color" description="Change highlight color for the piano keys and settings"

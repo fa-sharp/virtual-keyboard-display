@@ -1,4 +1,4 @@
-import { Dispatch, RefObject, useCallback, useEffect } from "react";
+import { Dispatch, MutableRefObject, useCallback, useEffect } from "react";
 import { PianoKeysAction } from "../state/PianoKeysReducer";
 import { kbdCodeToKeyId } from "../utils/KbdCodesUtils";
 
@@ -10,7 +10,7 @@ import { kbdCodeToKeyId } from "../utils/KbdCodesUtils";
  * @param stickyMode Whether "sticky mode" in options is enabled
  */
 export const useMouseListeners = 
-    (playKeys: Dispatch<PianoKeysAction>, pianoElement: RefObject<HTMLDivElement | null>, stickyMode: boolean) => {
+    (playKeys: Dispatch<PianoKeysAction>, pianoElementRef: MutableRefObject<HTMLDivElement | null>, pianoEnabled: boolean, stickyMode: boolean) => {
 
     const handleMouseClick = useCallback(((event: MouseEvent) => {
         const clickedKeyId = getClickedKeyId(event);
@@ -38,7 +38,11 @@ export const useMouseListeners =
      */
     useEffect(() => {
 
-        const currentPianoElement = pianoElement.current;
+        if (!pianoEnabled)
+            return;
+        
+        const currentPianoElement = pianoElementRef.current;
+
         if (!currentPianoElement) {
             console.log("Error setting up click listener: Piano element not found!");
             return;
@@ -56,14 +60,14 @@ export const useMouseListeners =
             currentPianoElement.removeEventListener("mousedown", handleMouseClick);
             currentPianoElement.removeEventListener("mouseup", handleMouseUp);
         }
-    }, [playKeys, pianoElement, stickyMode, handleMouseUp, handleMouseClick]);
+    }, [playKeys, pianoElementRef, stickyMode, handleMouseUp, handleMouseClick, pianoEnabled]);
 }
 
 function getClickedKeyId(event: MouseEvent) {
-    let keyElement = event.target as HTMLElement
-    if (!keyElement.classList.contains("key")) // could use element.closest() here if this gets messy in the future
-        keyElement = keyElement.parentNode as HTMLElement; // switch to parent Key element if clicked on inner text
-    return keyElement.dataset.keyid ?? null;
+    const clickedElement = event.target as HTMLElement;
+    const keyElement = clickedElement.closest(".key") as HTMLElement | null;
+
+    return keyElement?.dataset.keyid ?? null;
 }
 
 /**

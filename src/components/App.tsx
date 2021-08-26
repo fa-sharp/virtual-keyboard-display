@@ -32,7 +32,7 @@ function App() {
     const pianoElementRef = useRef<HTMLDivElement | null>(null);
 
     /** Setting up all event listeners to make the piano interactive */
-    useMouseListeners(pianoKeysDispatch, pianoElementRef, settings.stickyMode);
+    useMouseListeners(pianoKeysDispatch, pianoElementRef, settings.showPiano, settings.stickyMode);
     useKeyboardListeners(pianoKeysDispatch, settings.stickyMode);
     useMIDIListeners(pianoKeysDispatch, settings.stickyMode, setMidiDeviceName);
 
