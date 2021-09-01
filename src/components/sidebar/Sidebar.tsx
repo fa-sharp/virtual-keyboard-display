@@ -8,6 +8,8 @@ import Range from "./Range";
 import KeyRange from "./KeyRange";
 import ColorSelect from "./ColorSelect";
 
+import SettingsIcon from '@material-ui/icons/Settings'
+
 interface SidebarProps {
     settings: KeyboardSettings;
     updateSetting: <K extends keyof KeyboardSettings>(setting: K, newValue: KeyboardSettings[K]) => void
@@ -51,7 +53,7 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
         <>
             <button id="toggle-sidebar-button" className="header-button" title="Settings"
                 aria-label="Open/close settings menu" onClick={toggleSidebar} tabIndex={1}>
-                <i className="material-icons">settings</i>
+                <SettingsIcon />
             </button>
             <nav className={"sidebar" + ((sidebarClosed) ? " closed" : "")}>
                 <div className="sidebar-content">

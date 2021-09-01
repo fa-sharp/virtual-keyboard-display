@@ -71,7 +71,7 @@ function getClickedKeyId(event: MouseEvent) {
 }
 
 /**
- * React Hook to set up the keyboard listeners. Single-quote triggers in Firefox
+ * React Hook to set up the keyboard listeners. Single-quote (') doesn't work in Firefox
  * 
  * @param playKeys Dispatch method to send messages to App component and manipulate the pianoKeys state
  * @param stickyMode Whether "sticky mode" in options is enabled
