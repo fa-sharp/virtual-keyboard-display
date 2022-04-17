@@ -41,8 +41,11 @@ const Staff = ({playingKeys, abcjsOptions = {}, staffHeight, clefDivideKey = 59,
     if (staffHeight)
         abcjsOptions = { ...abcjsOptions, scale: calculateStaffScale(staffHeight)};
 
-    useEffect(() => abcjsObj.renderAbc(ABCJS_DOM_ID,
-        generateAbcNotation(playingKeys, clefDivideKey, useFlats), abcjsOptions));
+    useEffect(() => {
+        abcjsObj.renderAbc(ABCJS_DOM_ID,
+            generateAbcNotation(playingKeys, clefDivideKey, useFlats), abcjsOptions);
+        
+    });
     
     return (
         <div className="staff">
