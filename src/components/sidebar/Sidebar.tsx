@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler, useCallback, useState } from "react";
 import { KeyboardSettings, MAX_KEY, MIN_KEY } from "../../state/useKeyboardSettings";
-import useStyleOptions from "../../state/useStyleOptions";
+import useStyleSettings from "../../state/useStyleSettings";
 
 import Tooltip from "../help/Tooltip";
 import Toggle from "./Toggle";
@@ -9,43 +9,43 @@ import KeyRange from "./KeyRange";
 import ColorSelect from "./ColorSelect";
 
 interface SidebarProps {
-    settings: KeyboardSettings;
-    updateSetting: <K extends keyof KeyboardSettings>(setting: K, newValue: KeyboardSettings[K]) => void
+    keyboardSettings: KeyboardSettings;
+    updateKeyboardSetting: <K extends keyof KeyboardSettings>(setting: K, newValue: KeyboardSettings[K]) => void
 
     midiDeviceName: string;
 }
 
-const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarProps) => {
+const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDeviceName}: SidebarProps) => {
 
     /** Sidebar open/close state */
     const [sidebarClosed, setSidebarClosed] = useState(true);
     const toggleSidebar = useCallback(() => setSidebarClosed((prevClosed) => !prevClosed), []);
 
     /** State for the styling options (size, color, etc.) **/
-    const { styleOptions, updateStyleOption } = useStyleOptions();
+    const { styleSettings, updateStyleSetting } = useStyleSettings();
 
     /** Callback fired when changing the range of the piano */
     const onPianoRangeChange = useCallback((_e, value: number | number[]) => 
-       updateSetting('pianoRange', value as [number, number]), [updateSetting]);
+       updateKeyboardSetting('pianoRange', value as [number, number]), [updateKeyboardSetting]);
 
     /** Callback fired when changing one of the toggle settings */
     const onToggleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const changedSetting = event.target.dataset.option;
         const newValue = event.target.checked;
-        updateSetting(changedSetting as keyof KeyboardSettings, newValue);
-    }, [updateSetting]);
+        updateKeyboardSetting(changedSetting as keyof KeyboardSettings, newValue);
+    }, [updateKeyboardSetting]);
 
     /** Callback for changing the piano size */
     const onPianoSizeChange = useCallback((_e, value: number | number[]) => {
         let newSize = value as number;
-        updateStyleOption('pianoSize', newSize);
-    }, [updateStyleOption]);
+        updateStyleSetting('pianoSize', newSize);
+    }, [updateStyleSetting]);
 
     /** Callback for changing the active color */
     const onActiveColorChange: ChangeEventHandler<HTMLInputElement> = useCallback((event) => {
         let newColor = event.target.value;
-        updateStyleOption('activeColor', newColor);
-    }, [updateStyleOption]);
+        updateStyleSetting('activeColor', newColor);
+    }, [updateStyleSetting]);
 
     return (
         <>
@@ -61,7 +61,7 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                         displayLabel="Sharps"
                         displayLabelRight="Flats"
                         description="Display Sharps (off) or Flats (on)"
-                        isChecked={settings.useFlats}
+                        isChecked={keyboardSettings.useFlats}
                         optionName="useFlats"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
@@ -69,21 +69,21 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                         displayLabel='"Sticky" mode'
                         description="In 'sticky' mode, the keys are toggled instead of being released right away"
                         makeTooltip={true}
-                        isChecked={settings.stickyMode}
+                        isChecked={keyboardSettings.stickyMode}
                         optionName="stickyMode"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
                     <Toggle
                         displayLabel="Staff display"
                         description="Show/hide the staff display"
-                        isChecked={settings.showStaff}
+                        isChecked={keyboardSettings.showStaff}
                         optionName="showStaff"
                         onChange={onToggleChange} 
                         isDisabled={sidebarClosed} />
                     <Toggle
                         displayLabel="Piano display"
                         description="Show/hide the piano display"
-                        isChecked={settings.showPiano}
+                        isChecked={keyboardSettings.showPiano}
                         optionName="showPiano"
                         onChange={onToggleChange} 
                         isDisabled={sidebarClosed} />
@@ -92,29 +92,29 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
                     <Range 
                         staticProps={{min: 2.6, max: 4.5, step: 0.1, unit: "rem", optionName: "pianoSize",
                             width: "7.5rem", label: "Size", description: "Change visual size of piano"}}
-                        value={styleOptions.pianoSize}
+                        value={styleSettings.pianoSize}
                         isDisabled={sidebarClosed}
                         onChange={onPianoSizeChange}
                     />
                     <KeyRange 
                         staticProps={{min: MIN_KEY, max: MAX_KEY, step: 1, optionName: "pianoRange",
                             width: "7rem", label: "Range", description: "Set range of piano"}}
-                        value={settings.pianoRange}
-                        useFlats={settings.useFlats}
+                        value={keyboardSettings.pianoRange}
+                        useFlats={keyboardSettings.useFlats}
                         isDisabled={sidebarClosed}
                         onChange={onPianoRangeChange}
                     />
                     <Toggle
                         displayLabel="Note names"
                         description="Show/hide note names for each piano key"
-                        isChecked={settings.showNoteNames}
+                        isChecked={keyboardSettings.showNoteNames}
                         optionName="showNoteNames"
                         onChange={onToggleChange} 
                         isDisabled={sidebarClosed} />
                     <Toggle
                         displayLabel="Keyboard shortcuts"
                         description="Show/hide keyboard shortcuts for each piano key"
-                        isChecked={settings.showKbdMappings}
+                        isChecked={keyboardSettings.showKbdMappings}
                         optionName="showKbdMappings"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
@@ -122,7 +122,7 @@ const Sidebar = React.memo(({settings, updateSetting, midiDeviceName}: SidebarPr
 
                     <h3>Colors</h3>
                     <ColorSelect label="Active color" description="Change highlight color for the piano keys and settings"
-                        value={styleOptions.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />
+                        value={styleSettings.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />
                 </div>
                 
                 <div className="sidebar-bottom">

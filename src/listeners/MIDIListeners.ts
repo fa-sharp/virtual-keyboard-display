@@ -10,7 +10,7 @@ import JZZ from "jzz";
  * @param playKeys Dispatch method to send messages to App component and manipulate the pianoKeys state
  * @param stickyMode Whether "sticky mode" in options is enabled
  */
-const useMIDIListeners = (playKeys: Dispatch<PianoKeysAction>, stickyMode: boolean, 
+export const useMIDIListeners = (playKeys: Dispatch<PianoKeysAction>, stickyMode: boolean, 
             setMidiDeviceName: ((name: string) => void)) => {
 
     const [midiDeviceFound, setMidiDeviceFound] = useState(true);
@@ -59,5 +59,3 @@ const useMIDIListeners = (playKeys: Dispatch<PianoKeysAction>, stickyMode: boole
 
     }, [handleMIDIMessage, midiDeviceFound, setMidiDeviceName]);
 }
-
-export default useMIDIListeners;

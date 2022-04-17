@@ -8,7 +8,7 @@ import { useCallback, useState } from "react"
  * @returns The settings object, as well as methods to update/change the settings, 
  * which will be persisted to browser's local storage (if available).
  */
-const useLocalSettings = <T>(key: string, initialValue: T) => {
+const useLocalStorage = <T>(key: string, initialValue: T) => {
 
     /** Whether the browser supports local storage. */
     const [canAccessStorage, setCanAccessStorage] = useState(true);
@@ -27,7 +27,7 @@ const useLocalSettings = <T>(key: string, initialValue: T) => {
     });
 
     /** Updates the entire settings in state, and also persists to local storage. */
-    const updateAllSettings = (value: T | ((prevState: T) => T)) => {
+    const updateAllSettings = useCallback((value: T | ((prevState: T) => T)) => {
         try {
             const newSettings = value instanceof Function ?
                 value(settings) : value;
@@ -38,7 +38,7 @@ const useLocalSettings = <T>(key: string, initialValue: T) => {
         } catch (err) {
             console.log(err);
         }
-    };
+    }, [canAccessStorage, key, settings]);
 
     /** Updates one setting in state, and persists to local storage. */
     const updateSetting = useCallback(<K extends keyof T>(setting: K, newValue: T[K]) => {
@@ -56,4 +56,4 @@ const useLocalSettings = <T>(key: string, initialValue: T) => {
     return { settings, updateSetting, updateAllSettings };
 }
 
-export default useLocalSettings;
+export default useLocalStorage;

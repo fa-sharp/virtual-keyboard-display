@@ -1,9 +1,10 @@
-import { Reducer, useReducer, useRef, useState } from 'react';
+import { Reducer, useCallback, useReducer, useRef, useState } from 'react';
 
 import useKeyboardSettings from '../state/useKeyboardSettings';
 import { PianoKeysAction, pianoKeysReducer } from '../state/PianoKeysReducer';
-import { useKeyboardListeners, useMouseListeners } from '../listeners/MouseKeyboardListeners';
-import useMIDIListeners from '../listeners/MIDIListeners';
+import { useMouseListeners } from '../listeners/MouseListeners';
+import { useKeyboardListeners } from '../listeners/KeyboardListeners';
+import { useMIDIListeners } from '../listeners/MIDIListeners';
 
 import Sidebar from './sidebar/Sidebar';
 import Piano from './piano/Piano';
@@ -24,6 +25,7 @@ function App() {
 
     /** The state holding the current settings. Changes are persisted to local storage with the 'useLocalSettings' hook. */
     const { settings, updateSetting } = useKeyboardSettings();
+    const updateKbdMappingStartKey = useCallback((keyId) => updateSetting('kbdMappingStartKey', keyId), [updateSetting])
 
     /** Holds the name of the currently connected MIDI device. */
     const [midiDeviceName, setMidiDeviceName] = useState("");
@@ -33,7 +35,7 @@ function App() {
 
     /** Setting up all event listeners to make the piano interactive */
     useMouseListeners(pianoKeysDispatch, pianoElementRef, settings.showPiano, settings.stickyMode);
-    useKeyboardListeners(pianoKeysDispatch, settings.stickyMode);
+    useKeyboardListeners(pianoKeysDispatch, settings.stickyMode, settings.kbdMappingStartKey, updateKbdMappingStartKey);
     useMIDIListeners(pianoKeysDispatch, settings.stickyMode, setMidiDeviceName);
 
     /** Array that represents the currently playing keys, e.g. [60, 64, 67] */
@@ -52,8 +54,8 @@ function App() {
                 </a>
             </header>
             <Sidebar
-                settings={settings}
-                updateSetting={updateSetting}
+                keyboardSettings={settings}
+                updateKeyboardSetting={updateSetting}
                 midiDeviceName={midiDeviceName}
             />
             <main className="main-view">
