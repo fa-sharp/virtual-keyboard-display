@@ -26,12 +26,10 @@ export const useKeyboardListeners = (
         switch (event.code) {
             // handle octave down
             case 'KeyZ':
-            case 'ShiftLeft':
                 if (kbdMappingStartKey > 48) updateKbdMappingStartKey(kbdMappingStartKey - 12);
                 break;
             // handle octave up
             case 'Slash':
-            case 'ShiftRight':
                 if (kbdMappingStartKey < 72) updateKbdMappingStartKey(kbdMappingStartKey + 12);
                 break;
             // handle clear all keys

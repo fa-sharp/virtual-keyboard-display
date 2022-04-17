@@ -72,14 +72,14 @@
     "isBlackKey": true
   },
   "57": {
-    "octave": 4,
+    "octave": 3,
     "abc": "A,",
     "noteId": 9,
     "midiNum": 57,
     "isBlackKey": false
   },
   "58": {
-    "octave": 4,
+    "octave": 3,
     "abc": [
       "^A,",
       "_B,"
@@ -89,7 +89,7 @@
     "isBlackKey": true
   },
   "59": {
-    "octave": 4,
+    "octave": 3,
     "abc": "B,",
     "noteId": 11,
     "midiNum": 59,
@@ -171,14 +171,14 @@
     "isBlackKey": true
   },
   "69": {
-    "octave": 5,
+    "octave": 4,
     "abc": "A",
     "noteId": 9,
     "midiNum": 69,
     "isBlackKey": false
   },
   "70": {
-    "octave": 5,
+    "octave": 4,
     "abc": [
       "^A",
       "_B"
@@ -188,7 +188,7 @@
     "isBlackKey": true
   },
   "71": {
-    "octave": 5,
+    "octave": 4,
     "abc": "B",
     "noteId": 11,
     "midiNum": 71,
@@ -257,6 +257,47 @@
     "abc": "g",
     "noteId": 7,
     "midiNum": 79,
+    "isBlackKey": false
+  },
+  "80": {
+    "octave": 5,
+    "abc": [
+      "^g",
+      "_a"
+    ],
+    "noteId": 8,
+    "midiNum": 80,
+    "isBlackKey": true
+  },
+  "81": {
+    "octave": 5,
+    "abc": "a",
+    "noteId": 9,
+    "midiNum": 81,
+    "isBlackKey": false
+  },
+  "82": {
+    "octave": 5,
+    "abc": [
+      "^a",
+      "_b"
+    ],
+    "noteId": 10,
+    "midiNum": 82,
+    "isBlackKey": true
+  },
+  "83": {
+    "octave": 5,
+    "abc": "b",
+    "noteId": 11,
+    "midiNum": 83,
+    "isBlackKey": false
+  },
+  "84": {
+    "octave": 6,
+    "abc": "c'",
+    "noteId": 0,
+    "midiNum": 84,
     "isBlackKey": false
   }
 }

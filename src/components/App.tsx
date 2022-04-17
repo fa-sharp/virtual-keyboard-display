@@ -13,14 +13,12 @@ import '../styles/main.scss';
 
 import githubLogo from "../res/images/github-logo-default.png"
 
-export const START_NUM_KEYS = 90;
-
 function App() {
 
     /** "pianoKeys" is the state that holds the current state of all the keys, stored as an array of booleans.
      * "pianoKeysDispatch" is a dispatch function used to "play the keys," i.e. update the pianoKeys state */
     const [pianoKeys, pianoKeysDispatch] = useReducer<Reducer<boolean[], PianoKeysAction>>(
-        pianoKeysReducer, new Array<boolean>(START_NUM_KEYS).fill(false)
+        pianoKeysReducer, new Array<boolean>(90).fill(false)
     );
 
     /** The state holding the current settings. Changes are persisted to local storage with the 'useLocalSettings' hook. */
@@ -63,7 +61,7 @@ function App() {
                     {settings.showStaff &&
                         <Staff
                             playingKeys={playingKeys}
-                            abcjsOptions={{ scale: 1.5, paddingtop: 0 }}
+                            abcjsOptions={{ scale: 1.5, paddingtop: 1 }}
                             useFlats={settings.useFlats}
                         />}
                     {settings.showPiano && 

@@ -1,4 +1,4 @@
-.piano {
+.piano-container {
     --key-width: var(--piano-key-width); // can grow/shrink the piano with this variable
 
     --key-focus-color: hsl(206, 100%, 88%);
@@ -7,22 +7,26 @@
     --kbd-background: #f7f7f7;
     --kbd-shadow: 0px 2px 2px 1px #909090;
 
+    width: 100vw;
+    padding: 0 0 6px;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+.piano, .piano * {
+    box-sizing: content-box;
+}
+
+.piano {
     display: flex;
     flex-direction: row;
     width: min-content;
     margin: 0 auto;
     padding-right: 5px;
     cursor: default;
-
-    &-container {
-        width: 100vw;
-        padding: 0 0 6px;
-        overflow-x: auto;
-    }
-}
-
-.piano, .piano * {
-    box-sizing: content-box;
 }
 
 .key {
@@ -98,15 +102,40 @@
         width: calc(var(--key-width) / 2);
         margin-bottom: 10px;
 
-        color: #8c8c8c;
+        color: #757575;
         font-family: monospace;
         font-size: 0.95em;
         font-style: italic;
         text-align: center;
         line-height: calc(var(--key-width) / 2);
 
+        &.large { // large keys (e.g. Shift)
+            width: calc(var(--key-width) * 1.4);
+        }
+
+        &.medium { // medium keys (e.g. Esc)
+            width: var(--key-width);
+        }
+
         &.hidden {
             display: none;
         }
+    }
+}
+
+.piano-container .other-kbd-shortcuts {
+    display: flex;
+    flex-direction: column;
+
+    font-size: calc(var(--key-width) / 2.7);
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+
+    & > li {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
     }
 }

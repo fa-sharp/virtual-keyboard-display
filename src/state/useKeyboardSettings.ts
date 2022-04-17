@@ -12,7 +12,7 @@ export interface KeyboardSettings {
 }
 
 export const MIN_KEY = 48;
-export const MAX_KEY = 79;
+export const MAX_KEY = 84;
 
 const INITIAL_SETTINGS: KeyboardSettings = 
     {showPiano: true, showStaff: true, showNoteNames: false, showKbdMappings: false, 
