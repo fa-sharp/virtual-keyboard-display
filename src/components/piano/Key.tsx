@@ -34,9 +34,13 @@ const Key = React.memo(({ keyId, isPlaying, settings, language = "English" }: Ke
 
     return (
         <button className={keyClass} data-keyid={keyId} title={(showNoteNames && isBlackKey) ? keyDescription : undefined} aria-label={keyDescription}>
+            {/* Show keyboard shortcuts if enabled */}
             {keyKbd && showKbdMappings &&
                 <div className={"key-kbd"}>{keyKbd}</div>}
-            <div className={"key-text" + (showNoteNames ? "" :  " hidden")}>
+            
+            {/* Show all note names if enabled in settings. Otherwise only show Cs */}
+            <div className={"key-text" + ((showNoteNames || keyIsC) ? "" :  " hidden")}>
+
                 {/* If key is a C, display the octave info. Otherwise, use the default keyText. */}
                 {keyText}{keyIsC && <span className="octave">{octave}</span>}
             </div>

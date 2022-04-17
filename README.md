@@ -1,12 +1,12 @@
 # The Virtual Keyboard
 
-A virtual piano keyboard app, written in Typescript and React. Suitable for teaching, learning, practicing, etc...!
+A virtual piano keyboard app, written in Typescript and React. Suitable for teaching and learning!!
 
 ### Features
 - Shows notes on the grand staff as you play them on the keyboard.
 - Responds to keyboard and mouse input
 - Responds to MIDI input in Chrome and Edge browsers
-- Many settings to customize the display
+- Many settings to customize the functionality and display
     - Show/hide piano, staff, note names
     - Change the piano range
     - Make the notes sticky/sustain
