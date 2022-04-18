@@ -10,6 +10,7 @@ export interface KeyboardSettings {
     pianoRange: [number, number];
     kbdMappingStartKey: number;
 }
+export type UpdateKeyboardSetting = <K extends keyof KeyboardSettings>(setting: K, newValue: KeyboardSettings[K]) => void;
 
 export const MIN_KEY = 48;
 export const MAX_KEY = 84;

@@ -1,5 +1,6 @@
 import { Dispatch, useCallback, useEffect, useMemo } from "react";
 import { PianoKeysAction } from "../state/PianoKeysReducer";
+import { KeyboardSettings, UpdateKeyboardSetting } from "../state/useKeyboardSettings";
 import { getKeyboardCodeToKeyIdMap } from "../utils/KbdCodesUtils";
 
 /**
@@ -11,28 +12,40 @@ import { getKeyboardCodeToKeyIdMap } from "../utils/KbdCodesUtils";
 export const useKeyboardListeners = (
     playKeys: Dispatch<PianoKeysAction>, 
     stickyMode: boolean, 
-    kbdMappingStartKey: number, 
-    updateKbdMappingStartKey: (keyId: number) => void
+    kbdSettings: KeyboardSettings, 
+    updateKbdSetting: UpdateKeyboardSetting
 ) => {
 
     /** Map of keyboard shortcuts to piano key IDs */
     const kbdCodeToKeyIdMap = useMemo(() => getKeyboardCodeToKeyIdMap({
-        startKeyId: kbdMappingStartKey
-    }), [kbdMappingStartKey]);
+        startKeyId: kbdSettings.kbdMappingStartKey
+    }), [kbdSettings.kbdMappingStartKey]);
 
     const handleKeyboardDown = useCallback((event: KeyboardEvent) => {
+        const { kbdMappingStartKey } = kbdSettings;
+
         if (event.repeat)
             return;
         switch (event.code) {
-            // handle octave down
+            // octave down
             case 'KeyZ':
-                if (kbdMappingStartKey > 48) updateKbdMappingStartKey(kbdMappingStartKey - 12);
+                if (kbdMappingStartKey > 48)
+                    updateKbdSetting('kbdMappingStartKey', kbdMappingStartKey - 12);
                 break;
-            // handle octave up
+            // octave up
             case 'Slash':
-                if (kbdMappingStartKey < 72) updateKbdMappingStartKey(kbdMappingStartKey + 12);
+                if (kbdMappingStartKey < 72)
+                    updateKbdSetting('kbdMappingStartKey', kbdMappingStartKey + 12);
                 break;
-            // handle clear all keys
+            // toggle sharps/flats
+            case 'KeyB':
+                updateKbdSetting('useFlats', !kbdSettings.useFlats);
+                break;
+            // toggle sticky mode
+            case 'KeyC':
+                updateKbdSetting('stickyMode', !kbdSettings.stickyMode);
+                break;
+            // clear all keys
             case 'Escape':
                 playKeys({ type: "CLEAR_KEYS" });
                 break;
@@ -47,7 +60,7 @@ export const useKeyboardListeners = (
                 else
                     playKeys({ type: "KEY_ON", keyId: keyId });
         }
-    }, [kbdCodeToKeyIdMap, playKeys, stickyMode, kbdMappingStartKey, updateKbdMappingStartKey]);
+    }, [kbdCodeToKeyIdMap, playKeys, stickyMode, kbdSettings, updateKbdSetting]);
 
     const handleKeyboardUp = useCallback((event: KeyboardEvent) => {
         if (event.repeat)
@@ -61,7 +74,7 @@ export const useKeyboardListeners = (
 
 
     /** 
-     * Setting up and tearing down the keyboard listeners. Re-runs on toggling of "Sticky" mode
+     * Setting up and tearing down the keyboard listeners. Re-runs only (hopefully) on toggling of settings
      */
     useEffect(() => {
         console.log("Setting up / tearing down keyboard listeners");

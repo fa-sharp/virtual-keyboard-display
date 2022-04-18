@@ -12,7 +12,7 @@ interface StaffProps {
 
 const ABCJS_DOM_ID = "abcjs-display";
 
-const ABC_HEADER = "X:1\nL:1\n";
+const ABC_HEADER = "%%stretchlast\nX:1\nL:1\n";
 const ABC_TREBLE_START = "[V:1 clef=treble]]";
 const ABC_BASS_START = "[V:2 clef=bass]]";
 

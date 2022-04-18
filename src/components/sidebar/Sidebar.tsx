@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, useCallback, useState } from "react";
-import { KeyboardSettings, MAX_KEY, MIN_KEY } from "../../state/useKeyboardSettings";
+import { KeyboardSettings, MAX_KEY, MIN_KEY, UpdateKeyboardSetting } from "../../state/useKeyboardSettings";
 import useStyleSettings from "../../state/useStyleSettings";
 
 import Tooltip from "../help/Tooltip";
@@ -10,7 +10,7 @@ import ColorSelect from "./ColorSelect";
 
 interface SidebarProps {
     keyboardSettings: KeyboardSettings;
-    updateKeyboardSetting: <K extends keyof KeyboardSettings>(setting: K, newValue: KeyboardSettings[K]) => void
+    updateKeyboardSetting: UpdateKeyboardSetting;
 
     midiDeviceName: string;
 }

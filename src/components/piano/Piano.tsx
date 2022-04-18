@@ -46,6 +46,14 @@ const Piano =
                             : Octave up
                         </li>
                         <li>
+                            <kbd className="key-kbd">B</kbd>
+                            : Toggle sharps/flats
+                        </li>
+                        <li>
+                            <kbd className="key-kbd">C</kbd>
+                            : Toggle sticky/sustain mode
+                        </li>
+                        <li>
                             <kbd className="key-kbd medium">Esc</kbd>
                             : Clear all keys
                         </li>
