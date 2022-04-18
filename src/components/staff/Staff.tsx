@@ -1,4 +1,4 @@
-import abcjsObj from 'abcjs';
+import { renderAbc, AbcVisualParams } from 'abcjs';
 import { useEffect } from 'react';
 import { getKeyAbc } from '../../utils/KeyDataUtils';
 
@@ -7,7 +7,7 @@ interface StaffProps {
     clefDivideKey?: number
     useFlats: boolean
     staffHeight?: number
-    abcjsOptions?: {}
+    abcjsOptions?: AbcVisualParams
 }
 
 const ABCJS_DOM_ID = "abcjs-display";
@@ -36,15 +36,16 @@ const generateAbcNotation = (playingKeys: number[], clefDivideKey: number, useFl
     return `${ABC_HEADER}${abcTreble}|\n${abcBass}|`;
 }
 
-const Staff = ({playingKeys, abcjsOptions = {}, staffHeight, clefDivideKey = 59, useFlats}: StaffProps) => {
-
-    if (staffHeight)
-        abcjsOptions = { ...abcjsOptions, scale: calculateStaffScale(staffHeight)};
+const Staff = ({playingKeys, abcjsOptions, staffHeight, clefDivideKey = 59, useFlats}: StaffProps) => {
 
     useEffect(() => {
-        abcjsObj.renderAbc(ABCJS_DOM_ID,
-            generateAbcNotation(playingKeys, clefDivideKey, useFlats), abcjsOptions);
-        
+        renderAbc(ABCJS_DOM_ID,
+            generateAbcNotation(playingKeys, clefDivideKey, useFlats), 
+            {
+                ...abcjsOptions,
+                scale: staffHeight ? 
+                    calculateStaffScale(staffHeight) : (abcjsOptions?.scale || 1.5),
+            });
     });
     
     return (

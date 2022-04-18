@@ -61,7 +61,7 @@ function App() {
                     {settings.showStaff &&
                         <Staff
                             playingKeys={playingKeys}
-                            abcjsOptions={{ scale: 1.5, paddingtop: 1 }}
+                            abcjsOptions={{ staffwidth: 220, wrap: { minSpacing: 1, maxSpacing: 1, preferredMeasuresPerLine: 2 } }}
                             useFlats={settings.useFlats}
                         />}
                     {settings.showPiano && 

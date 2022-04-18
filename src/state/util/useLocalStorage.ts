@@ -17,7 +17,8 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
         try {
             // Find saved settings in local storage, if there
             const item = window.localStorage.getItem(key);
-            return item ? JSON.parse(item) : initialValue;
+            return item ? 
+                sanitizeLocalStorageSettings(JSON.parse(item), initialValue) : initialValue;
         }
         catch (err) {
             console.log("Was not able to read browser's local storage. Settings won't be saved.", err);
@@ -54,6 +55,19 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
     }, [canAccessStorage, key, settings]);
     
     return { settings, updateSetting, updateAllSettings };
+}
+
+/** 
+ * Sanitizes the `value` from local storage to ensure it matches the shape of `initialValue`.
+ * Returns a 'safe-ish' version of the settings.
+ */
+const sanitizeLocalStorageSettings = <T>(valueFromLocalStorage: any, initialValue: T) => {
+    const safeValue = Object.assign({}, initialValue);
+    for (let key in safeValue) {
+        if (typeof valueFromLocalStorage[key] === typeof safeValue[key])
+            safeValue[key] = valueFromLocalStorage[key];
+    }
+    return safeValue;
 }
 
 export default useLocalStorage;
