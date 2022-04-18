@@ -1,3 +1,4 @@
+import { AppInstrument } from "../audio/instruments";
 import useLocalStorage from "./util/useLocalStorage";
 
 export interface KeyboardSettings {
@@ -10,6 +11,8 @@ export interface KeyboardSettings {
     pianoRange: [number, number];
     kbdMappingStartKey: number;
     audioEnabled: boolean;
+    audioInstrument: AppInstrument;
+    audioVolume: number;
 }
 export type UpdateKeyboardSetting = <K extends keyof KeyboardSettings>(setting: K, newValue: KeyboardSettings[K]) => void;
 
@@ -20,7 +23,7 @@ const INITIAL_SETTINGS: KeyboardSettings =
 {
     showPiano: true, showStaff: true, showNoteNames: false, showKbdMappings: false,
     useFlats: true, stickyMode: false, pianoRange: [MIN_KEY, MAX_KEY], kbdMappingStartKey: 60,
-    audioEnabled: false
+    audioEnabled: false, audioInstrument: AppInstrument.PIANO, audioVolume: 1
 };
 
 

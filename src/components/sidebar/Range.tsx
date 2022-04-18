@@ -1,7 +1,9 @@
 import { makeStyles, Slider, Theme } from '@material-ui/core';
-import React from 'react'
+import { KeyboardSettings } from '../../state/useKeyboardSettings';
+import { StyleSettings } from '../../state/useStyleSettings';
 
-interface RangeStaticProps {
+
+interface RangeStaticProps<T> {
     min: number;
     max: number;
     step: number;
@@ -10,16 +12,16 @@ interface RangeStaticProps {
     label: string;
     description: string;
 
-    optionName: string;
+    optionName: keyof T;
     unit?: string;
 }
 
-interface RangeProps {
-    staticProps: RangeStaticProps;
+interface RangeProps<T> {
+    staticProps: RangeStaticProps<T>;
 
     value: number;
     isDisabled?: boolean;
-    onChange: (event: React.ChangeEvent<{}>, value: number | number[]) => void;
+    onChange: (optionName: keyof T, value: number) => void;
 }
 
 const useStyles = makeStyles<Theme,{width: string}>({
@@ -32,8 +34,8 @@ const useStyles = makeStyles<Theme,{width: string}>({
     }
   });
 
-const Range = ({staticProps: {min,max,step,description,label,width,optionName,unit},
-    value, isDisabled, onChange}: RangeProps) => {
+const Range = <T extends KeyboardSettings | StyleSettings>({staticProps: {min,max,step,description,label,width,optionName,unit},
+    value, isDisabled, onChange}: RangeProps<T>) => {
         
     const sliderClass = useStyles({width: width});
     return (
@@ -51,7 +53,7 @@ const Range = ({staticProps: {min,max,step,description,label,width,optionName,un
                 data-unit={unit}
 
                 value={value}
-                onChange={onChange}
+                onChange={(_e, value) => onChange(optionName, value as number)}
             />
         </label>
     )

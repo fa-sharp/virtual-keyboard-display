@@ -1,21 +1,24 @@
 import React, { ChangeEventHandler, useCallback, useState } from "react";
 import { KeyboardSettings, MAX_KEY, MIN_KEY, UpdateKeyboardSetting } from "../../state/useKeyboardSettings";
-import useStyleSettings from "../../state/useStyleSettings";
+import { StyleSettings, useStyleSettings } from "../../state/useStyleSettings";
 
 import Tooltip from "../help/Tooltip";
 import Toggle from "./Toggle";
 import Range from "./Range";
 import KeyRange from "./KeyRange";
 import ColorSelect from "./ColorSelect";
+import { AppInstrument } from "../../audio/instruments";
+import Select from "./Select";
 
 interface SidebarProps {
     keyboardSettings: KeyboardSettings;
     updateKeyboardSetting: UpdateKeyboardSetting;
 
     midiDeviceName: string;
+    playerReady: boolean;
 }
 
-const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDeviceName}: SidebarProps) => {
+const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDeviceName, playerReady}: SidebarProps) => {
 
     /** Sidebar open/close state */
     const [sidebarClosed, setSidebarClosed] = useState(true);
@@ -35,11 +38,20 @@ const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDevice
         updateKeyboardSetting(changedSetting as keyof KeyboardSettings, newValue);
     }, [updateKeyboardSetting]);
 
-    /** Callback for changing the piano size */
-    const onPianoSizeChange = useCallback((_e, value: number | number[]) => {
-        let newSize = value as number;
-        updateStyleSetting('pianoSize', newSize);
+    /** Callback for changing a keyboard setting through a range/slider. TODO clean up settings to merge these callbacks */
+    const onRangeChange = useCallback((optionName: keyof KeyboardSettings,  value: number) => {
+        updateKeyboardSetting(optionName, value);
+    }, [updateKeyboardSetting]);
+
+    /** Callback for changing a style setting through a range/slider */
+    const onStylingRangeChange = useCallback((optionName: keyof StyleSettings, value: number) => {
+        updateStyleSetting(optionName, value);
     }, [updateStyleSetting]);
+
+    /** Callback for changing the instrument */
+    const onInstrumentChange: ChangeEventHandler<HTMLSelectElement> = useCallback(e => {
+        updateKeyboardSetting("audioInstrument", e.target.value as AppInstrument);
+    }, [updateKeyboardSetting]);
 
     /** Callback for changing the active color */
     const onActiveColorChange: ChangeEventHandler<HTMLInputElement> = useCallback((event) => {
@@ -87,21 +99,14 @@ const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDevice
                         optionName="showPiano"
                         onChange={onToggleChange} 
                         isDisabled={sidebarClosed} />
-                    <Toggle
-                        displayLabel="Audio output"
-                        description="Enable/disable audio output"
-                        isChecked={keyboardSettings.audioEnabled}
-                        optionName="audioEnabled"
-                        onChange={onToggleChange}
-                        isDisabled={sidebarClosed} />
 
                     <h3>Piano</h3>
-                    <Range 
+                    <Range
                         staticProps={{min: 2.6, max: 4.5, step: 0.1, unit: "rem", optionName: "pianoSize",
                             width: "7.5rem", label: "Size", description: "Change visual size of piano"}}
                         value={styleSettings.pianoSize}
                         isDisabled={sidebarClosed}
-                        onChange={onPianoSizeChange}
+                        onChange={onStylingRangeChange}
                     />
                     <KeyRange 
                         staticProps={{min: MIN_KEY, max: MAX_KEY, step: 1, optionName: "pianoRange",
@@ -126,6 +131,34 @@ const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDevice
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
 
+                    <h3>Audio</h3>
+                    <Toggle
+                        displayLabel={
+                            !keyboardSettings.audioEnabled ?
+                                "Off" : playerReady ?
+                                    "✅ On" : "⌛️ On"
+                        }
+                        description="Toggle audio output. May take a couple seconds to load!"
+                        makeTooltip={true}
+                        isChecked={keyboardSettings.audioEnabled}
+                        optionName="audioEnabled"
+                        onChange={onToggleChange}
+                        isDisabled={sidebarClosed} />
+                    <Select
+                        label="Instrument"
+                        description="Change the instrument for audio output"
+                        onChange={onInstrumentChange}
+                        options={Object.values(AppInstrument)}
+                        selectedValue={keyboardSettings.audioInstrument}
+                        isDisabled={sidebarClosed} />
+                    <Range
+                        staticProps={{
+                          label: "Volume", description: "Change the volume of the audio output",
+                          max: 5, min: -30, step: 1, optionName: "audioVolume", width: "7.5rem"
+                        }}
+                        onChange={onRangeChange}
+                        value={keyboardSettings.audioVolume}
+                        isDisabled={sidebarClosed} />
 
                     <h3>Colors</h3>
                     <ColorSelect label="Active color" description="Change highlight color for the piano keys and settings"

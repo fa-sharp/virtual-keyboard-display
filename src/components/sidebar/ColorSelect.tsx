@@ -8,12 +8,12 @@ interface ColorSelectProps {
     isDisabled?: boolean;
 }
 
-const ColorSelect = ({label, description, value, onChange, isDisabled: disabled=false}: ColorSelectProps) => {
+const ColorSelect = ({label, description, value, onChange, isDisabled=false}: ColorSelectProps) => {
     return (
         <label className="color-select">
             {label}
             <input type="color" name="activeColorInput" id="activeColorInput" 
-                value={value} title={description}  onChange={onChange} disabled={disabled} />
+                value={value} title={description}  onChange={onChange} disabled={isDisabled} />
         </label>
     )
 }

@@ -43,7 +43,7 @@ function App() {
     }
 
     /** 🎵 The audio player */
-    usePlayer(playingKeys, settings.audioEnabled);
+    const { playerReady } = usePlayer(playingKeys, settings.audioEnabled, settings.audioInstrument, settings.audioVolume);
 
     return (
         <div className="app-view">
@@ -58,6 +58,7 @@ function App() {
                 keyboardSettings={settings}
                 updateKeyboardSetting={updateSetting}
                 midiDeviceName={midiDeviceName}
+                playerReady={playerReady}
             />
             <main className="main-view">
                 <section className="staff-keyboard-view">

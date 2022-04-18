@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useLocalStorage from "./util/useLocalStorage";
 
-interface StyleSettings {
+export interface StyleSettings {
     /** Size of piano keys, in `rem` units */
     pianoSize: number;
     /** Active color used to color the played keys as well as in the sidebar */
@@ -17,7 +17,7 @@ const INITIAL_STYLE_SETTINGS: StyleSettings =
 /**
  * Custom hook that saves and updates the style options. Automatically updates the relevant CSS variables.
  */
-const useStyleSettings = () => {
+export const useStyleSettings = () => {
     
     /** State for the styling options (size, color, etc.). Saves and retrieves from local storage using the 'useLocalSettings' hook **/
     const { settings: styleSettings, updateSetting: updateStyleSetting } = useLocalStorage("style-options", INITIAL_STYLE_SETTINGS);
@@ -30,5 +30,3 @@ const useStyleSettings = () => {
 
     return { styleSettings, updateStyleSetting }
 }
-
-export default useStyleSettings

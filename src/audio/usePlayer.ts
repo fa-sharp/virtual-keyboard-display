@@ -1,48 +1,77 @@
 import { useEffect, useRef, useState } from "react"
-import { Frequency, Midi, Sampler } from 'tone'
+import { Midi } from 'tone'
 import * as Tone from 'tone'
-import { getPianoSampler } from "./pianoSampler";
+import { AppInstrument, createInstrument } from "./instruments";
+import { Instrument, InstrumentOptions } from "tone/build/esm/instrument/Instrument";
 
-/** 🎵 React hook that plays audio 🎵 */
-export const usePlayer = (playingKeys: number[], enabled: boolean) => {
 
-    /** The Tone.js piano sampler */
-    const [sampler, setSampler] = useState<Sampler | null>(null);
+/**
+ *  🎵 React hook that plays audio 🎵 
+ * @param playingKeys Array of piano keys that are currently played
+ * @param enabled Whether audio output is enabled
+ * @param chosenInstrument What instrument the user has chosen
+ */
+export const usePlayer = (playingKeys: number[], enabled: boolean, chosenInstrument: AppInstrument, volume: number) => {
 
-    /** Whether the Tone.js sampler is ready to play */
+    /** The Tone.js instrument */
+    const [loadedInstrument, setLoadedInstrument] = useState<Instrument<InstrumentOptions> | null>(null);
+
+    /** Whether the Tone.js instrument is ready to play */
     const [ready, setReady] = useState(false);
 
-    /** If player is enabled, load the sampler */
+    /** If the user has enabled audio output, load the instrument */
     useEffect(() => {
-        if (enabled && !sampler) {
-            setSampler(getPianoSampler());
+        if (enabled && !loadedInstrument) {
+            setReady(false);
+            setLoadedInstrument(createInstrument(chosenInstrument));
             Tone.loaded()
                 .then(() => {
                     setReady(true);
-                    console.log("Audio ready!");
+                    console.log(`${chosenInstrument} ready!`);
                 })
-                .catch(err => console.error("Failed to start audio", err));
+                .catch(err => console.error("Failed to start audio!", err));
         }
-    }, [enabled, sampler]);
+
+        return () => {
+            // Clean-up (when user turns off audio, or before loading another instrument) 
+            if (loadedInstrument) {
+                loadedInstrument.dispose(); // dispose of Tone.js instrument
+                setLoadedInstrument(null);
+            }
+        }
+    }, [chosenInstrument, enabled, loadedInstrument]);
 
     /** Previous state of `playingKeys` */
     const prevPlayingKeys = useRef<number[]>([]);
 
     /** Play/release notes by comparing current `playingKeys` with `prevPlayingKeys`  */
     useEffect(() => {
-        if (!enabled || !sampler || !ready)
+        if (!enabled || !loadedInstrument || !ready)
             return;
         
         for (let keyId of playingKeys) {
             if (!prevPlayingKeys.current.includes(keyId))
-                sampler.triggerAttack(Midi(keyId).toFrequency());
+                loadedInstrument.triggerAttack(Midi(keyId).toFrequency());
         }
         for (let keyId of prevPlayingKeys.current) {
             if (!playingKeys.includes(keyId))
-                sampler.triggerRelease(Midi(keyId).toFrequency())
+                loadedInstrument.triggerRelease(Midi(keyId).toFrequency())
         }
-    }, [enabled, ready, sampler, playingKeys]);
+    }, [enabled, ready, loadedInstrument, playingKeys]);
 
-    /** Update `prevPlayingKeys` */
+    /** Update `prevPlayingKeys` after playing/releasing notes */
     useEffect(() => { prevPlayingKeys.current = [...playingKeys] }, [playingKeys]);
+
+
+    /** Change volume */
+    useEffect(() => {
+        if (!loadedInstrument)
+            return;
+        loadedInstrument.volume.value = volume;
+    }, [loadedInstrument, volume]);
+
+    return { 
+        /** Whether the player is ready to output audio */
+        playerReady: ready 
+    }
 }
