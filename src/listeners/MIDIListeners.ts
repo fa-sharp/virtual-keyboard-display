@@ -53,7 +53,7 @@ export const useMIDIListeners = (playKeys: Dispatch<PianoKeysAction>, stickyMode
 
         // Closing the MIDI port
         return () => {
-            midiPort.close().and("MIDI port closed!").or("Couldn't close MIDI port!");
+            midiPort.close().and("MIDI port closed!");
             setMidiDeviceName("");
         }
 

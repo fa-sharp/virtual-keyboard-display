@@ -36,6 +36,7 @@ const generateAbcNotation = (playingKeys: number[], clefDivideKey: number, useFl
     return `${ABC_HEADER}${abcTreble}|\n${abcBass}|`;
 }
 
+/** 🎼 The staff display */
 const Staff = ({playingKeys, abcjsOptions, staffHeight, clefDivideKey = 59, useFlats}: StaffProps) => {
 
     useEffect(() => {

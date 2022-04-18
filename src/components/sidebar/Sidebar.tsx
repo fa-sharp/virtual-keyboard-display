@@ -87,6 +87,13 @@ const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDevice
                         optionName="showPiano"
                         onChange={onToggleChange} 
                         isDisabled={sidebarClosed} />
+                    <Toggle
+                        displayLabel="Audio output"
+                        description="Enable/disable audio output"
+                        isChecked={keyboardSettings.audioEnabled}
+                        optionName="audioEnabled"
+                        onChange={onToggleChange}
+                        isDisabled={sidebarClosed} />
 
                     <h3>Piano</h3>
                     <Range 

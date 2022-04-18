@@ -74,7 +74,8 @@ export const useKeyboardListeners = (
 
 
     /** 
-     * Setting up and tearing down the keyboard listeners. Re-runs only (hopefully) on toggling of settings
+     * Setting up and tearing down the keyboard listeners. 
+     * TODO This will rerun on toggling of ANY settings. Possible to change so it only happens on pertinent settings?
      */
     useEffect(() => {
         console.log("Setting up / tearing down keyboard listeners");

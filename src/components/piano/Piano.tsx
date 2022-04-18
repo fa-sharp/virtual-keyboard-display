@@ -26,6 +26,7 @@ const generateKeyElements =
         return keyElements;
     }
 
+/** 🎹 The piano display */
 const Piano =
     forwardRef<HTMLDivElement, PianoProps>(({ startKey, endKey, pianoKeys, settings }, pianoElementRef) => {
 
