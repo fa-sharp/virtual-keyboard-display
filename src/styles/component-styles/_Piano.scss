@@ -1,5 +1,5 @@
-.piano {
-    --key-width: 3rem;
+.piano-container {
+    --key-width: var(--piano-key-width); // can grow/shrink the piano with this variable
 
     --key-focus-color: hsl(206, 100%, 88%);
     --key-playing-color: var(--active-color);
@@ -7,14 +7,26 @@
     --kbd-background: #f7f7f7;
     --kbd-shadow: 0px 2px 2px 1px #909090;
 
+    width: 100vw;
+    padding: 0 0 6px;
+    overflow-x: auto;
     display: flex;
-    flex-direction: row;
-    width: min-content;
-    cursor: default;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
 }
 
 .piano, .piano * {
     box-sizing: content-box;
+}
+
+.piano {
+    display: flex;
+    flex-direction: row;
+    width: min-content;
+    margin: 0 auto;
+    padding-right: 5px;
+    cursor: default;
 }
 
 .key {
@@ -25,7 +37,8 @@
     margin: 0;
     padding: 0;
     border: 1px solid black;
-    border-radius: 0 0 6px 6px;
+    border-bottom-right-radius: calc(var(--key-width) / 7);
+    border-bottom-left-radius: calc(var(--key-width) / 7);
     box-shadow: 2px 3px 3px black;
     outline: none;
   
@@ -71,8 +84,13 @@
         margin: 2px;
     }
 
-    &:not(.key-C) > &-text.hidden { // hide all key text except for the Cs
+    // &:not(.key-C) > // (not sure about this) hide all key text except for the Cs
+    &-text.hidden { 
         opacity: 0;
+    }
+
+    &-text > .octave { // octave number
+        font-size: .7em;
     }
 
     &-kbd { // style for the keyboard mapping
@@ -84,14 +102,40 @@
         width: calc(var(--key-width) / 2);
         margin-bottom: 10px;
 
-        color: #8c8c8c;
+        color: #757575;
+        font-family: monospace;
         font-size: 0.95em;
         font-style: italic;
         text-align: center;
         line-height: calc(var(--key-width) / 2);
 
+        &.large { // large keys (e.g. Shift)
+            width: calc(var(--key-width) * 1.4);
+        }
+
+        &.medium { // medium keys (e.g. Esc)
+            width: var(--key-width);
+        }
+
         &.hidden {
             display: none;
         }
+    }
+}
+
+.piano-container .other-kbd-shortcuts {
+    display: flex;
+    flex-direction: column;
+
+    font-size: calc(var(--key-width) / 2.7);
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+
+    & > li {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
     }
 }

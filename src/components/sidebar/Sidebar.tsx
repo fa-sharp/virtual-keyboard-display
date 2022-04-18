@@ -1,0 +1,140 @@
+import React, { ChangeEventHandler, useCallback, useState } from "react";
+import { KeyboardSettings, MAX_KEY, MIN_KEY, UpdateKeyboardSetting } from "../../state/useKeyboardSettings";
+import useStyleSettings from "../../state/useStyleSettings";
+
+import Tooltip from "../help/Tooltip";
+import Toggle from "./Toggle";
+import Range from "./Range";
+import KeyRange from "./KeyRange";
+import ColorSelect from "./ColorSelect";
+
+interface SidebarProps {
+    keyboardSettings: KeyboardSettings;
+    updateKeyboardSetting: UpdateKeyboardSetting;
+
+    midiDeviceName: string;
+}
+
+const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDeviceName}: SidebarProps) => {
+
+    /** Sidebar open/close state */
+    const [sidebarClosed, setSidebarClosed] = useState(true);
+    const toggleSidebar = useCallback(() => setSidebarClosed((prevClosed) => !prevClosed), []);
+
+    /** State for the styling options (size, color, etc.) **/
+    const { styleSettings, updateStyleSetting } = useStyleSettings();
+
+    /** Callback fired when changing the range of the piano */
+    const onPianoRangeChange = useCallback((_e, value: number | number[]) => 
+       updateKeyboardSetting('pianoRange', value as [number, number]), [updateKeyboardSetting]);
+
+    /** Callback fired when changing one of the toggle settings */
+    const onToggleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        const changedSetting = event.target.dataset.option;
+        const newValue = event.target.checked;
+        updateKeyboardSetting(changedSetting as keyof KeyboardSettings, newValue);
+    }, [updateKeyboardSetting]);
+
+    /** Callback for changing the piano size */
+    const onPianoSizeChange = useCallback((_e, value: number | number[]) => {
+        let newSize = value as number;
+        updateStyleSetting('pianoSize', newSize);
+    }, [updateStyleSetting]);
+
+    /** Callback for changing the active color */
+    const onActiveColorChange: ChangeEventHandler<HTMLInputElement> = useCallback((event) => {
+        let newColor = event.target.value;
+        updateStyleSetting('activeColor', newColor);
+    }, [updateStyleSetting]);
+
+    return (
+        <>
+            <button id="toggle-sidebar-button" className="header-button" title="Settings"
+                aria-label="Open/close settings menu" onClick={toggleSidebar} tabIndex={1}>
+                <i className="material-icons">settings</i>
+            </button>
+            <nav className={"sidebar" + ((sidebarClosed) ? " closed" : "")}>
+                <div className="sidebar-content">
+
+                    <h2>Settings</h2>
+                    <Toggle
+                        displayLabel="Sharps"
+                        displayLabelRight="Flats"
+                        description="Display Sharps (off) or Flats (on)"
+                        isChecked={keyboardSettings.useFlats}
+                        optionName="useFlats"
+                        onChange={onToggleChange}
+                        isDisabled={sidebarClosed} />
+                    <Toggle
+                        displayLabel='"Sticky" mode'
+                        description="In 'sticky' mode, the keys are toggled instead of being released right away"
+                        makeTooltip={true}
+                        isChecked={keyboardSettings.stickyMode}
+                        optionName="stickyMode"
+                        onChange={onToggleChange}
+                        isDisabled={sidebarClosed} />
+                    <Toggle
+                        displayLabel="Staff display"
+                        description="Show/hide the staff display"
+                        isChecked={keyboardSettings.showStaff}
+                        optionName="showStaff"
+                        onChange={onToggleChange} 
+                        isDisabled={sidebarClosed} />
+                    <Toggle
+                        displayLabel="Piano display"
+                        description="Show/hide the piano display"
+                        isChecked={keyboardSettings.showPiano}
+                        optionName="showPiano"
+                        onChange={onToggleChange} 
+                        isDisabled={sidebarClosed} />
+
+                    <h3>Piano</h3>
+                    <Range 
+                        staticProps={{min: 2.6, max: 4.5, step: 0.1, unit: "rem", optionName: "pianoSize",
+                            width: "7.5rem", label: "Size", description: "Change visual size of piano"}}
+                        value={styleSettings.pianoSize}
+                        isDisabled={sidebarClosed}
+                        onChange={onPianoSizeChange}
+                    />
+                    <KeyRange 
+                        staticProps={{min: MIN_KEY, max: MAX_KEY, step: 1, optionName: "pianoRange",
+                            width: "7rem", label: "Range", description: "Set range of piano"}}
+                        value={keyboardSettings.pianoRange}
+                        useFlats={keyboardSettings.useFlats}
+                        isDisabled={sidebarClosed}
+                        onChange={onPianoRangeChange}
+                    />
+                    <Toggle
+                        displayLabel="Note names"
+                        description="Show/hide note names for each piano key"
+                        isChecked={keyboardSettings.showNoteNames}
+                        optionName="showNoteNames"
+                        onChange={onToggleChange} 
+                        isDisabled={sidebarClosed} />
+                    <Toggle
+                        displayLabel="Keyboard shortcuts"
+                        description="Show/hide keyboard shortcuts for each piano key"
+                        isChecked={keyboardSettings.showKbdMappings}
+                        optionName="showKbdMappings"
+                        onChange={onToggleChange}
+                        isDisabled={sidebarClosed} />
+
+
+                    <h3>Colors</h3>
+                    <ColorSelect label="Active color" description="Change highlight color for the piano keys and settings"
+                        value={styleSettings.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />
+                </div>
+                
+                <div className="sidebar-bottom">
+                    <hr />
+                    <div>
+                        <Tooltip text="MIDI Device:" tooltip="Supported in Chrome and Edge browsers." />
+                        <br />{midiDeviceName}
+                    </div>
+                </div>
+            </nav>
+        </>
+    );
+});
+
+export default Sidebar;

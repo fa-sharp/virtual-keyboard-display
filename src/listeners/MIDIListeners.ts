@@ -1,5 +1,5 @@
 import { Dispatch, useCallback, useEffect, useState } from "react";
-import { PlayKeysAction } from "../App";
+import { PianoKeysAction } from "../state/PianoKeysReducer";
 import JZZ from "jzz";
 
 /**
@@ -10,7 +10,7 @@ import JZZ from "jzz";
  * @param playKeys Dispatch method to send messages to App component and manipulate the pianoKeys state
  * @param stickyMode Whether "sticky mode" in options is enabled
  */
-const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolean, 
+export const useMIDIListeners = (playKeys: Dispatch<PianoKeysAction>, stickyMode: boolean, 
             setMidiDeviceName: ((name: string) => void)) => {
 
     const [midiDeviceFound, setMidiDeviceFound] = useState(true);
@@ -18,10 +18,10 @@ const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolea
     const handleMIDIMessage = useCallback((midiMessage) => {
 
         if (midiMessage.isNoteOn()) {
-            playKeys({type: "KEY_TOGGLE", keyId: midiMessage.getNote()});
+            playKeys({ type: "KEY_TOGGLE", keyId: midiMessage.getNote() });
         }
-        else if (!stickyMode) {
-            playKeys({type: "KEY_OFF", keyId: midiMessage.getNote()});
+        else if (midiMessage.isNoteOff() && !stickyMode) {
+            playKeys({ type: "KEY_OFF", keyId: midiMessage.getNote() });
         }
         
     }, [playKeys, stickyMode]);
@@ -40,7 +40,7 @@ const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolea
             .and(handleMIDIFound).connect(handleMIDIMessage);
         
         function handleMIDIFound() {
-            let {name} = midiPort.info();
+            let { name } = midiPort.info();
 
             console.log("Found MIDI Device: " + name);
             setMidiDeviceName(name + "  ✅");
@@ -59,5 +59,3 @@ const useMIDIListeners = (playKeys: Dispatch<PlayKeysAction>, stickyMode: boolea
 
     }, [handleMIDIMessage, midiDeviceFound, setMidiDeviceName]);
 }
-
-export default useMIDIListeners;

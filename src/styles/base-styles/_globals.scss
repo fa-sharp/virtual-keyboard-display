@@ -1,14 +1,24 @@
 :root {
     --header-height: 3rem;
+    --sidebar-button-color: white;
+
+    @media screen and (max-height: 450px) { // hide header, if screen less than this height
+        --header-height: 0px;
+        --sidebar-button-color: black;
+	}
+
     --sidebar-width: 13rem;
 
+    --staff-height: 13.75rem; // can grow/shrink the staff with this variable!
+
+    --piano-key-width: 3rem; // can grow/shrink the piano with this variable!
 
     --active-color: hsl(200, 100%, 50%);
 
     --text-title-color: white;
     --text-settings-color: #666;
 
-    --highlight-dark-color: rgb(140, 0, 0);
+    --highlight-dark-color: rgb(128, 0, 0);
     --highlight-transparent-color: rgba(194, 84, 84, 0.4);
 }
 

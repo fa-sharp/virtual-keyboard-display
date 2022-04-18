@@ -1,125 +1,80 @@
-import React, { Reducer, useCallback, useReducer, useRef, useState } from 'react';
+import { Reducer, useReducer, useRef, useState } from 'react';
+
+import useKeyboardSettings from '../state/useKeyboardSettings';
+import { PianoKeysAction, pianoKeysReducer } from '../state/PianoKeysReducer';
+import { useMouseListeners } from '../listeners/MouseListeners';
+import { useKeyboardListeners } from '../listeners/KeyboardListeners';
+import { useMIDIListeners } from '../listeners/MIDIListeners';
+
+import Sidebar from './sidebar/Sidebar';
+import Piano from './piano/Piano';
+import Staff from './staff/Staff';
 import '../styles/main.scss';
-import { useKeyboardListeners, useMouseListeners } from './listeners/MouseKeyboardListeners';
-import useMIDIListeners from './listeners/MIDIListeners';
-import Sidebar from './nav/Sidebar';
-import Piano from './Piano';
-import Staff from './Staff';
 
-const MAX_NUM_KEYS = 90;
-
-export interface KeyboardOptions {
-    showNoteNames: boolean;
-    showKbdMappings: boolean;
-    useFlats: boolean;
-    stickyMode: boolean;
-}
-
-export type PlayKeysAction = { type: 'KEY_ON', keyId: number } | { type: 'KEY_OFF', keyId: number } |
-{ type: 'KEY_TOGGLE', keyId: number } | { type: 'CHORD_ON', keyIds: number[] } |
-{ type: 'CHORD_OFF', keyIds: number[] } | { type: 'CLEAR_KEYS' };
-
-const playKeysReducer = (pianoKeys: boolean[], action: PlayKeysAction) => {
-    let newPianoKeys = [...pianoKeys];
-    switch (action.type) {
-        case 'KEY_TOGGLE':
-            newPianoKeys[action.keyId] = !newPianoKeys[action.keyId];
-            break;
-        case 'KEY_OFF':
-            newPianoKeys[action.keyId] = false;
-            break;
-        case 'KEY_ON':
-            newPianoKeys[action.keyId] = true;
-            break;
-        case 'CLEAR_KEYS':
-            for(let i = 0; i < MAX_NUM_KEYS; i++) {
-                newPianoKeys[i] = false;
-            }
-            break;
-        default:
-            console.error(`Error in App/playKeysReducer: action "${action.type}" not implemented!`);
-    }
-    return newPianoKeys;
-}
+import githubLogo from "../res/images/github-logo-default.png"
 
 function App() {
-    const [pianoKeys, playKeysDispatch] = useReducer<Reducer<boolean[], PlayKeysAction>>(
-        playKeysReducer, new Array<boolean>(90).fill(false)
+
+    /** "pianoKeys" is an array of booleans that represents the current state of all piano keys.
+     * "pianoKeysDispatch" is a dispatch function used to "play the keys," i.e. update the pianoKeys state */
+    const [pianoKeys, pianoKeysDispatch] = useReducer<Reducer<boolean[], PianoKeysAction>>(
+        pianoKeysReducer, new Array<boolean>(90).fill(false)
     );
-    const [options, setOptions] = useState<KeyboardOptions>(
-        {useFlats: true, showNoteNames: true, showKbdMappings: false, stickyMode: true}
-    );
+
+    /** The current settings. Changes are persisted to local storage with the 'useLocalSettings' hook. */
+    const { settings, updateSetting } = useKeyboardSettings();
+
+    /** The name of the currently connected MIDI device. */
     const [midiDeviceName, setMidiDeviceName] = useState("");
+    
+    /** A reference to the piano display HTML element. */
     const pianoElementRef = useRef<HTMLDivElement | null>(null);
 
     /** Setting up all event listeners to make the piano interactive */
-    useMouseListeners(playKeysDispatch, pianoElementRef, options.stickyMode);
-    useKeyboardListeners(playKeysDispatch, options.stickyMode);
-    useMIDIListeners(playKeysDispatch, options.stickyMode, setMidiDeviceName);
+    useMouseListeners(pianoKeysDispatch, pianoElementRef, settings.showPiano, settings.stickyMode);
+    useKeyboardListeners(pianoKeysDispatch, settings.stickyMode, settings, updateSetting);
+    useMIDIListeners(pianoKeysDispatch, settings.stickyMode, setMidiDeviceName);
 
     /** Array that represents the currently playing keys, e.g. [60, 64, 67] */
     let playingKeys: number[] = [];
     for (let i = 0, len = pianoKeys.length; i < len; i++) {
         pianoKeys[i] && playingKeys.push(i);
     }
-    console.log(playingKeys);
-
-    /** Callback fired when changing one of the toggle settings */
-    const toggleOptionChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        const changedOption = event.target.dataset.option;
-        const newValue = event.target.checked;
-        // check if changedOption is valid
-        if (changedOption && changedOption in options)
-            setOptions((prevOptions) => ({...prevOptions, [changedOption]: newValue}));
-        else
-            console.error("Error toggling option in App: " + changedOption);
-    }, [options])
 
     return (
         <div className="app-view">
             <header className="header">
                 <div className="header-title">The Virtual Keyboard</div>
+                <a className="github-link" href="https://github.com/fa-sharp/virtual-keyboard-display"
+                    target="_blank" rel="noreferrer">
+                    <img src={githubLogo} alt="Link to GitHub repository" />
+                </a>
             </header>
             <Sidebar
-                keyboardOptions={options}
-                toggleOptionChange={toggleOptionChange}
+                keyboardSettings={settings}
+                updateKeyboardSetting={updateSetting}
                 midiDeviceName={midiDeviceName}
             />
-            <div className="main-view">
-                <div className="main-view-content">
-                    <section className="staff-keyboard-view">
+            <main className="main-view">
+                <section className="staff-keyboard-view">
+                    {settings.showStaff &&
                         <Staff
                             playingKeys={playingKeys}
-                            abcjsOptions={{ scale: 1.5, paddingtop: 0 }}
-                            useFlats={options.useFlats}
-                        />
+                            abcjsOptions={{ staffwidth: 220 }}
+                            useFlats={settings.useFlats}
+                        />}
+                    {settings.showPiano && 
                         <Piano
-                            startKey={55}
-                            endKey={72}
+                            startKey={settings.pianoRange[0]}
+                            endKey={settings.pianoRange[1]}
                             pianoKeys={pianoKeys}
-                            keyboardOptions={options}
+                            settings={settings}
                             ref={pianoElementRef}
-                        />
-                        <label>Size:
-                            <input
-                                type="range"
-                                min="3" max="4.5" step="0.1"
-                                defaultValue="3"
-                                onChange={changeKeyboardSize}
-                            />
-                        </label>
-                    </section>
-                    <section>
-                    </section>
-                </div>
-            </div>
+                        />}
+                </section>
+            </main>
         </div>
     );
-
-    // Changing display size of the keyboard. Using Ref hook here https://reactjs.org/docs/refs-and-the-dom.html
-    function changeKeyboardSize(event: React.ChangeEvent<HTMLInputElement>) {
-        pianoElementRef.current?.style.setProperty("--key-width", event.target.value + "rem");
-    }
 }
 
 export default App;

@@ -1,0 +1,12 @@
+.color-select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    input {
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+}

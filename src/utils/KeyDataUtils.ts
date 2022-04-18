@@ -57,3 +57,16 @@ export const getKeyAbc = (keyId: number, useFlats: boolean) => {
     return (Array.isArray(keyData.abc)) ? 
         ((useFlats) ? keyData.abc[FLAT_INDEX] : keyData.abc[SHARP_INDEX]) : keyData.abc;
 }
+
+export const getOctaveKeyText = (keyId: number, useFlats: boolean, language?: NoteTextLanguageType) => {
+    let keyData = keyDataList[keyId];
+    if (!keyData)
+        return '';
+
+    const noteText = noteTextData[language ?? "English"][keyData.noteId];
+    if (Array.isArray(noteText)) {
+        let sharpOrFlatIndex = useFlats ? FLAT_INDEX : SHARP_INDEX;
+        return `${noteText[sharpOrFlatIndex].text}${keyData.octave}`
+    } else
+        return `${noteText.text}${keyData.octave}`;
+}
