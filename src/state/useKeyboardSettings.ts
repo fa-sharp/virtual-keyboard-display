@@ -27,10 +27,8 @@ const INITIAL_SETTINGS: KeyboardSettings =
 };
 
 
-const useKeyboardSettings = () => {
+export const useKeyboardSettings = () => {
     const { settings, updateSetting } = useLocalStorage("kbd-settings", INITIAL_SETTINGS);
 
     return { settings, updateSetting }
 }
-
-export default useKeyboardSettings
