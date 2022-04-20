@@ -78,8 +78,8 @@ const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDevice
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
                     <Toggle
-                        displayLabel='"Sticky" mode'
-                        description="In 'sticky' mode, the keys are toggled instead of being released right away"
+                        displayLabel="'Sticky' keys"
+                        description="Toggle whether keys should be sustained instead of being released right away"
                         makeTooltip={true}
                         isChecked={keyboardSettings.stickyMode}
                         optionName="stickyMode"

@@ -7,7 +7,7 @@
     --kbd-background: #f7f7f7;
     --kbd-shadow: 0px 2px 2px 1px #909090;
 
-    width: 100vw;
+    width: 100%;
     padding: 0 0 6px;
     overflow-x: auto;
     display: flex;
@@ -84,7 +84,6 @@
         margin: 2px;
     }
 
-    // &:not(.key-C) > // (not sure about this) hide all key text except for the Cs
     &-text.hidden { 
         opacity: 0;
     }
@@ -93,7 +92,7 @@
         font-size: .7em;
     }
 
-    &-kbd { // style for the keyboard mapping
+    &-kbd { // style for the keyboard shortcuts
         background: var(--kbd-background);
         border-radius: 20%;
         box-shadow: var(--kbd-shadow);

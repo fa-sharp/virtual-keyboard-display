@@ -12,30 +12,6 @@ interface StaffProps {
 
 const ABCJS_DOM_ID = "abcjs-display";
 
-const ABC_HEADER = "%%stretchlast\nX:1\nL:1\n";
-const ABC_TREBLE_START = "[V:1 clef=treble]]";
-const ABC_BASS_START = "[V:2 clef=bass]]";
-
-const calculateStaffScale = (staffHeight: number) => staffHeight / 9.1667;
-
-const generateAbcNotation = (playingKeys: number[], clefDivideKey: number, useFlats: boolean) => {
-
-    let abcTreble = "", abcBass = "";
-
-    playingKeys.forEach(playingKey => {
-        const abcKey = getKeyAbc(playingKey, useFlats);
-        if (abcKey) {
-            playingKey >= clefDivideKey ? abcTreble += abcKey : abcBass += abcKey;
-        } else
-            console.error("Couldn't find abc notation for key id " + playingKey);
-    });
-
-    abcTreble = (abcTreble === "") ? `${ABC_TREBLE_START} x` : `${ABC_TREBLE_START} [${abcTreble}]`;
-    abcBass = (abcBass === "") ? `${ABC_BASS_START} x` : `${ABC_BASS_START} [${abcBass}]`;
-
-    return `${ABC_HEADER}${abcTreble}|\n${abcBass}|`;
-}
-
 /** 🎼 The staff display */
 const Staff = ({playingKeys, abcjsOptions, staffHeight, clefDivideKey = 59, useFlats}: StaffProps) => {
 
@@ -57,5 +33,28 @@ const Staff = ({playingKeys, abcjsOptions, staffHeight, clefDivideKey = 59, useF
 }
 
 
+const calculateStaffScale = (staffHeight: number) => staffHeight / 9.1667;
+
+const ABC_HEADER = "%%stretchlast\nX:1\nL:1\n";
+const ABC_TREBLE_START = "[V:1 clef=treble]]";
+const ABC_BASS_START = "[V:2 clef=bass]]";
+
+const generateAbcNotation = (playingKeys: number[], clefDivideKey: number, useFlats: boolean) => {
+
+    let abcTreble = "", abcBass = "";
+
+    playingKeys.forEach(playingKey => {
+        const abcKey = getKeyAbc(playingKey, useFlats);
+        if (abcKey) {
+            playingKey >= clefDivideKey ? abcTreble += abcKey : abcBass += abcKey;
+        } else
+            console.error("Couldn't find abc notation for key id " + playingKey);
+    });
+
+    abcTreble = (abcTreble === "") ? `${ABC_TREBLE_START} x` : `${ABC_TREBLE_START} [${abcTreble}]`;
+    abcBass = (abcBass === "") ? `${ABC_BASS_START} x` : `${ABC_BASS_START} [${abcBass}]`;
+
+    return `${ABC_HEADER}${abcTreble}|\n${abcBass}|`;
+}
 
 export default Staff;

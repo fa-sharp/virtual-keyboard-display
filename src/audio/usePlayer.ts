@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react"
-import { Midi } from 'tone'
 import * as Tone from 'tone'
 import { AppInstrument, createInstrument } from "./instruments";
 import { Instrument, InstrumentOptions } from "tone/build/esm/instrument/Instrument";
 
 
 /**
- *  🎵 React hook that plays audio 🎵 
+ *  🎵 React hook that plays audio based on the `playingKeys` 🎵 
  * @param playingKeys Array of piano keys that are currently played
  * @param enabled Whether audio output is enabled
  * @param chosenInstrument What instrument the user has chosen
@@ -51,11 +50,11 @@ export const usePlayer = (playingKeys: number[], enabled: boolean, chosenInstrum
         
         for (let keyId of playingKeys) {
             if (!prevPlayingKeys.current.includes(keyId))
-                loadedInstrument.triggerAttack(Midi(keyId).toFrequency());
+                loadedInstrument.triggerAttack(Tone.Midi(keyId).toFrequency());
         }
         for (let keyId of prevPlayingKeys.current) {
             if (!playingKeys.includes(keyId))
-                loadedInstrument.triggerRelease(Midi(keyId).toFrequency())
+                loadedInstrument.triggerRelease(Tone.Midi(keyId).toFrequency())
         }
     }, [enabled, ready, loadedInstrument, playingKeys]);
 

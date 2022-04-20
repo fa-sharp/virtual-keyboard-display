@@ -22,7 +22,7 @@ function App() {
         pianoKeysReducer, new Array<boolean>(90).fill(false)
     );
 
-    /** 🔧 The current settings. Changes are persisted to local storage with the 'useLocalSettings' hook. */
+    /** 🔧 The current settings. Changes are persisted to local storage. */
     const { settings, updateSetting } = useKeyboardSettings();
 
     /** 💻 The name of the currently connected MIDI device. */
@@ -65,7 +65,7 @@ function App() {
                     {settings.showStaff &&
                         <Staff
                             playingKeys={playingKeys}
-                            abcjsOptions={{ staffwidth: 220 }}
+                            abcjsOptions={{ staffwidth: 240 }}
                             useFlats={settings.useFlats}
                         />}
                     {settings.showPiano && 
