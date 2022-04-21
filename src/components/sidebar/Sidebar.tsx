@@ -27,10 +27,6 @@ const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDevice
     /** State for the styling options (size, color, etc.) **/
     const { styleSettings, updateStyleSetting } = useStyleSettings();
 
-    /** Callback fired when changing the range of the piano */
-    const onPianoRangeChange = useCallback((_e, value: number | number[]) => 
-       updateKeyboardSetting('pianoRange', value as [number, number]), [updateKeyboardSetting]);
-
     /** Callback fired when changing one of the toggle settings */
     const onToggleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const changedSetting = event.target.dataset.option;
@@ -39,7 +35,7 @@ const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDevice
     }, [updateKeyboardSetting]);
 
     /** Callback for changing a keyboard setting through a range/slider. TODO clean up settings to merge these callbacks */
-    const onRangeChange = useCallback((optionName: keyof KeyboardSettings,  value: number) => {
+    const onRangeChange = useCallback((optionName: keyof KeyboardSettings,  value: number | [number, number]) => {
         updateKeyboardSetting(optionName, value);
     }, [updateKeyboardSetting]);
 
@@ -78,29 +74,40 @@ const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDevice
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
                     <Toggle
-                        displayLabel="'Sticky' keys"
+                        displayLabel="Sustain mode"
                         description="Toggle whether keys should be sustained instead of being released right away"
                         makeTooltip={true}
                         isChecked={keyboardSettings.stickyMode}
                         optionName="stickyMode"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
+
+                    <h3>Staff</h3>
                     <Toggle
-                        displayLabel="Staff display"
+                        displayLabel={keyboardSettings.showStaff ? "On" : "Off"}
                         description="Show/hide the staff display"
                         isChecked={keyboardSettings.showStaff}
                         optionName="showStaff"
                         onChange={onToggleChange} 
                         isDisabled={sidebarClosed} />
+                    <KeyRange
+                        staticProps={{
+                            min: 52, max: 70, step: 1, optionName: "clefDivideKey",
+                            width: "5rem", label: "Clef divide", description: "Set dividing key between treble and bass clef"
+                        }}
+                        value={keyboardSettings.clefDivideKey}
+                        useFlats={keyboardSettings.useFlats}
+                        isDisabled={sidebarClosed}
+                        onChange={onRangeChange} />
+
+                    <h3>Piano</h3>
                     <Toggle
-                        displayLabel="Piano display"
+                        displayLabel={keyboardSettings.showPiano ? "On" : "Off"}
                         description="Show/hide the piano display"
                         isChecked={keyboardSettings.showPiano}
                         optionName="showPiano"
                         onChange={onToggleChange} 
                         isDisabled={sidebarClosed} />
-
-                    <h3>Piano</h3>
                     <Range
                         staticProps={{min: 2.6, max: 4.5, step: 0.1, unit: "rem", optionName: "pianoSize",
                             width: "7.5rem", label: "Size", description: "Change visual size of piano"}}
@@ -114,7 +121,7 @@ const Sidebar = React.memo(({keyboardSettings, updateKeyboardSetting, midiDevice
                         value={keyboardSettings.pianoRange}
                         useFlats={keyboardSettings.useFlats}
                         isDisabled={sidebarClosed}
-                        onChange={onPianoRangeChange}
+                        onChange={onRangeChange}
                     />
                     <Toggle
                         displayLabel="Note names"

@@ -65,8 +65,9 @@ function App() {
                     {settings.showStaff &&
                         <Staff
                             playingKeys={playingKeys}
-                            abcjsOptions={{ staffwidth: 240 }}
+                            abcjsOptions={{ staffwidth: 250 }}
                             useFlats={settings.useFlats}
+                            clefDivideKey={settings.clefDivideKey}
                         />}
                     {settings.showPiano && 
                         <Piano

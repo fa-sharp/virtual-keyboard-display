@@ -9,6 +9,7 @@ export interface KeyboardSettings {
     useFlats: boolean;
     stickyMode: boolean;
     pianoRange: [number, number];
+    clefDivideKey: number;
     kbdMappingStartKey: number;
     audioEnabled: boolean;
     audioInstrument: AppInstrument;
@@ -22,7 +23,8 @@ export const MAX_KEY = 84;
 const INITIAL_SETTINGS: KeyboardSettings =
 {
     showPiano: true, showStaff: true, showNoteNames: false, showKbdMappings: false,
-    useFlats: true, stickyMode: false, pianoRange: [MIN_KEY, MAX_KEY], kbdMappingStartKey: 60,
+    useFlats: true, stickyMode: false, pianoRange: [MIN_KEY, MAX_KEY], 
+    clefDivideKey: 59, kbdMappingStartKey: 60,
     audioEnabled: false, audioInstrument: AppInstrument.PIANO, audioVolume: 1
 };
 

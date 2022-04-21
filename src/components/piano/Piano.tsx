@@ -52,7 +52,7 @@ const Piano =
                         </li>
                         <li>
                             <kbd className="key-kbd">C</kbd>
-                            : Toggle sticky keys
+                            : Toggle sustain
                         </li>
                         <li>
                             <kbd className="key-kbd medium">Esc</kbd>

@@ -1,5 +1,5 @@
 import { makeStyles, Slider, Theme } from '@material-ui/core';
-import React from 'react'
+import { KeyboardSettings } from '../../state/useKeyboardSettings';
 import { getOctaveKeyText } from '../../utils/KeyDataUtils';
 
 interface RangeStaticProps {
@@ -11,18 +11,17 @@ interface RangeStaticProps {
     label: string;
     description: string;
 
-    optionName: string;
+    optionName: keyof KeyboardSettings;
     unit?: string;
 }
 
 interface RangeProps {
     staticProps: RangeStaticProps;
 
-    /** Value should be an array of two numbers */
-    value: [number, number];
+    value: [number, number] | number;
     useFlats: boolean;
     isDisabled?: boolean;
-    onChange: (event: React.ChangeEvent<{}>, value: number | number[]) => void;
+    onChange: (optionName: keyof KeyboardSettings, value: number | [number, number]) => void;
 }
 
 const useStyles = makeStyles<Theme,{width: string}>({
@@ -62,7 +61,7 @@ const KeyRange = ({staticProps: {min,max,step,description,label,width,optionName
                 
 
                 value={value}
-                onChange={onChange}
+                onChange={(_e, value) => onChange(optionName, value as number | [number, number])}
             />
         </label>
     )
