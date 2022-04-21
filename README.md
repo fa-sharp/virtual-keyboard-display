@@ -11,8 +11,9 @@ A virtual piano keyboard app that runs in the browser, written using Typescript 
 - Audio output (piano and synth sounds) via Tone.js
 - Many settings to customize the functionality and display:
     - Show/hide piano, staff, note names, keyboard shortcuts
-    - Change the piano range
-    - Make the notes sticky/sustain
+    - Adjust the piano range (up to 4 octaves)
+    - Make the notes sustain
+    - Adjust which notes should appear in treble vs bass clef
     - Re-size the keyboard for small and big screens.
 
 ### Libraries and features used

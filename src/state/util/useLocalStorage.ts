@@ -17,7 +17,7 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
         try {
             // Find saved settings in local storage, if there
             const item = window.localStorage.getItem(key);
-            return item ? 
+            return item ?
                 sanitizeLocalStorageSettings(JSON.parse(item), initialValue) : initialValue;
         }
         catch (err) {
@@ -44,16 +44,17 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
     /** Updates one setting in state, and persists to local storage. */
     const updateSetting = useCallback(<K extends keyof T>(setting: K, newValue: T[K]) => {
         try {
-            const newSettings = { ...settings, [setting]: newValue };
-            setSettings(newSettings);
-            
-            if (canAccessStorage)
-                window.localStorage.setItem(key, JSON.stringify(newSettings));
+            setSettings(prevSettings => {
+                const newSettings = { ...prevSettings, [setting]: newValue };
+                if (canAccessStorage)
+                    window.localStorage.setItem(key, JSON.stringify(newSettings));
+                return newSettings;
+            });
         } catch (err) {
             console.log(err);
         }
-    }, [canAccessStorage, key, settings]);
-    
+    }, [canAccessStorage, key]);
+
     return { settings, updateSetting, updateAllSettings };
 }
 

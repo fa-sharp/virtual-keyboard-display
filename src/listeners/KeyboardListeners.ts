@@ -10,20 +10,19 @@ import { getKeyboardCodeToKeyIdMap } from "../utils/KbdCodesUtils";
  * @param stickyMode Whether "sticky mode" in options is enabled
  */
 export const useKeyboardListeners = (
-    playKeys: Dispatch<PianoKeysAction>, 
-    stickyMode: boolean, 
+    playKeys: Dispatch<PianoKeysAction>,
     kbdSettings: KeyboardSettings, 
     updateKbdSetting: UpdateKeyboardSetting
 ) => {
 
+    const { kbdMappingStartKey, useFlats, stickyMode } = kbdSettings;
+
     /** Map of keyboard shortcuts to piano key IDs */
     const kbdCodeToKeyIdMap = useMemo(() => getKeyboardCodeToKeyIdMap({
-        startKeyId: kbdSettings.kbdMappingStartKey
-    }), [kbdSettings.kbdMappingStartKey]);
+        startKeyId: kbdMappingStartKey
+    }), [kbdMappingStartKey]);
 
     const handleKeyboardDown = useCallback((event: KeyboardEvent) => {
-        const { kbdMappingStartKey } = kbdSettings;
-
         if (event.repeat)
             return;
         switch (event.code) {
@@ -39,11 +38,11 @@ export const useKeyboardListeners = (
                 break;
             // toggle sharps/flats
             case 'KeyB':
-                updateKbdSetting('useFlats', !kbdSettings.useFlats);
+                updateKbdSetting('useFlats', !useFlats);
                 break;
             // toggle sticky mode
             case 'KeyC':
-                updateKbdSetting('stickyMode', !kbdSettings.stickyMode);
+                updateKbdSetting('stickyMode', !stickyMode);
                 break;
             // clear all keys
             case 'Escape':
@@ -60,7 +59,7 @@ export const useKeyboardListeners = (
                 else
                     playKeys({ type: "KEY_ON", keyId: keyId });
         }
-    }, [kbdCodeToKeyIdMap, playKeys, stickyMode, kbdSettings, updateKbdSetting]);
+    }, [playKeys, updateKbdSetting, kbdMappingStartKey, useFlats, stickyMode, kbdCodeToKeyIdMap]);
 
     const handleKeyboardUp = useCallback((event: KeyboardEvent) => {
         if (event.repeat)
@@ -70,12 +69,11 @@ export const useKeyboardListeners = (
         if (!keyId)
             return;
         playKeys({ type: "KEY_OFF", keyId: keyId });
-    }, [kbdCodeToKeyIdMap, playKeys]);
+    }, [playKeys, kbdCodeToKeyIdMap]);
 
 
     /** 
-     * Setting up and tearing down the keyboard listeners. 
-     * TODO This will rerun on toggling of ANY settings. Possible to change so it only happens on pertinent settings?
+     * Setting up and tearing down the keyboard listeners.
      */
     useEffect(() => {
         console.log("Setting up / tearing down keyboard listeners");

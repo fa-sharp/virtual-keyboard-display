@@ -33,7 +33,7 @@ function App() {
 
     /** ⌨️🖱 Setting up all event listeners to make the piano interactive */
     useMouseListeners(pianoKeysDispatch, pianoElementRef, settings.showPiano, settings.stickyMode);
-    useKeyboardListeners(pianoKeysDispatch, settings.stickyMode, settings, updateSetting);
+    useKeyboardListeners(pianoKeysDispatch, settings, updateSetting);
     useMIDIListeners(pianoKeysDispatch, settings.stickyMode, setMidiDeviceName);
 
     /** 🎹 Array that represents the currently playing keys, e.g. [60, 64, 67] */
