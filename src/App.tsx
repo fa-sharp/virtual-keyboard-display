@@ -1,18 +1,18 @@
 import { Reducer, useReducer, useRef, useState } from 'react';
 
-import { useKeyboardSettings } from '../state/useKeyboardSettings';
-import { PianoKeysAction, pianoKeysReducer } from '../state/PianoKeysReducer';
-import { useMouseListeners } from '../listeners/MouseListeners';
-import { useKeyboardListeners } from '../listeners/KeyboardListeners';
-import { useMIDIListeners } from '../listeners/MIDIListeners';
-import { usePlayer } from '../audio/usePlayer';
+import { useKeyboardSettings } from './state/useKeyboardSettings';
+import { PianoKeysAction, pianoKeysReducer } from './state/PianoKeysReducer';
+import { useMouseListeners } from './listeners/MouseListeners';
+import { useKeyboardListeners } from './listeners/KeyboardListeners';
+import { useMIDIListeners } from './listeners/MIDIListeners';
+import { usePlayer } from './audio/usePlayer';
 
-import Sidebar from './sidebar/Sidebar';
-import Piano from './piano/Piano';
-import Staff from './staff/Staff';
-import '../styles/main.scss';
+import Sidebar from './components/sidebar/Sidebar';
+import Piano from './components/piano/Piano';
+import Staff from './components/staff/Staff';
+import './styles/main.scss';
 
-import githubLogo from "../res/images/github-logo-default.png"
+import githubLogo from "./res/images/github-logo-default.png"
 
 function App() {
 
