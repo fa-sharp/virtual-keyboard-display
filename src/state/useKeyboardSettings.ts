@@ -23,7 +23,7 @@ export const MAX_KEY = 84;
 const INITIAL_SETTINGS: KeyboardSettings =
 {
     showPiano: true, showStaff: true, showNoteNames: false, showKbdMappings: false,
-    useFlats: true, stickyMode: false, pianoRange: [MIN_KEY, MAX_KEY], 
+    useFlats: true, stickyMode: false, pianoRange: [60, 72], 
     clefDivideKey: 59, kbdMappingStartKey: 60,
     audioEnabled: false, audioInstrument: AppInstrument.PIANO, audioVolume: 1
 };

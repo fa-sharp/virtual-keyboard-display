@@ -20,7 +20,7 @@ A virtual piano keyboard app that runs in the browser, written using Typescript 
 - To display the music staff: the amazing [abcjs library](https://paulrosen.github.io/abcjs/) by Paul Rosen
 - To connect to MIDI devices: the [JZZ](https://github.com/jazz-soft/JZZ) library, which is a wrapper over the [Web MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API)
 - [Tone.js](https://tonejs.github.io/) for playing audio via the Web Audio API
-- Piano audio samples from the ["Little Lizard" library](https://linuxmusicians.com/viewtopic.php?t=12046)
+- Piano audio samples from the ["Little Lizard" library](https://linuxmusicians.com/viewtopic.php?t=12046). Other instrument samples from [tonejs-instruments](https://github.com/Makefully-Studios/tonejs-instruments)
 - React bells and whistles: uses custom hooks and useReducer for state logic (see `src/state` folder)
 - CSS bells and whistles: uses Sass, CSS variables, calc(), etc. (see `src/styles` folder)
 - Settings are saved using browser's Local Storage
