@@ -35,12 +35,13 @@ const matchURL = (url: URL) =>
       manifestURLs.includes(url.href) ||  // manifest URLs (js, css)
       url.pathname.endsWith('.png') ||  
       url.pathname.endsWith('.json') || // favico, manifest.json, etc.
-      url.pathname.endsWith('.ico'));
+      url.pathname.endsWith('.ico') ||
+      url.pathname.endsWith('.wav') || // audio sample files
+      url.pathname.endsWith('.mp3'))
 
 
 // Runtime caching
 registerRoute(
-  // Add in any other file extensions or routing criteria as needed.
   ({ url }) => {
     const matchesCriteria = matchURL(url);
     return matchesCriteria;
