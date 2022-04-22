@@ -45,6 +45,8 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
     const updateSetting = useCallback(<K extends keyof T>(setting: K, newValue: T[K]) => {
         try {
             setSettings(prevSettings => {
+                if (prevSettings[setting] === undefined) throw new TypeError(`No such setting: '${setting}'`)
+
                 const newSettings = { ...prevSettings, [setting]: newValue };
                 if (canAccessStorage)
                     window.localStorage.setItem(key, JSON.stringify(newSettings));
