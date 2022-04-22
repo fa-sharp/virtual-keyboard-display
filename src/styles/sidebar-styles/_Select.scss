@@ -1,0 +1,12 @@
+.select {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.8em;
+
+    input {
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+}

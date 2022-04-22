@@ -1,5 +1,3 @@
-import { START_NUM_KEYS } from '../components/App';
-
 /**
  * Defines the types of action that can be taken on the pianoKeys state
  */
@@ -26,7 +24,7 @@ export const pianoKeysReducer = (pianoKeys: boolean[], action: PianoKeysAction) 
             newPianoKeys[action.keyId] = true;
             break;
         case 'CLEAR_KEYS':
-            for (let i = 0; i < START_NUM_KEYS; i++) {
+            for (let i = 0; i < newPianoKeys.length; i++) {
                 newPianoKeys[i] = false;
             }
             break;

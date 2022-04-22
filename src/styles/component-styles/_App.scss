@@ -1,7 +1,6 @@
 .app-view {
 	position: relative;
 	display: block;
-	height: 100vh;
 
 	text-align: center;
 }
@@ -44,18 +43,20 @@
 }
 
 .main-view {
+	position: absolute;
 	margin-top: var(--header-height);
-	// position: fixed;
 	width: 100%;
 }
 
 .staff-keyboard-view {
-	flex: 1 0 auto;
 	display: flex;
+	
+	flex: 1 0 auto;
     flex-direction: column;
     align-items: center;
+	gap: 1.5rem;
 
-	& > * {
-		margin: .5rem 0;
-	}
+	width: 100%;
 }
+
+

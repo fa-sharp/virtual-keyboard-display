@@ -1,11 +1,10 @@
 import React from 'react';
 import { KeyboardSettings } from '../../state/useKeyboardSettings'
 import { getKeyData, NoteTextLanguageType } from '../../utils/KeyDataUtils';
-import { KBD_MAPPING_START_KEY } from '../../utils/KbdCodesUtils';
 import KBD_CODES from '../../res/json_data/kbd_codes.json'
 
 interface KeyProps {
-    keyId: number; // id, equal to the MIDI number
+    keyId: number; // key id, equal to the MIDI number
     isPlaying: boolean;
     language?: NoteTextLanguageType;
 
@@ -14,7 +13,7 @@ interface KeyProps {
 
 const Key = React.memo(({ keyId, isPlaying, settings, language = "English" }: KeyProps) => {
 
-    const { showKbdMappings, showNoteNames, useFlats } = settings;
+    const { showKbdMappings, showNoteNames, useFlats, kbdMappingStartKey } = settings;
 
     let keyData = getKeyData(keyId, useFlats, language);
     if (!keyData) {
@@ -30,13 +29,17 @@ const Key = React.memo(({ keyId, isPlaying, settings, language = "English" }: Ke
         + (keyIsC ? " key-C" : "")
         + (isBlackKey ? " black" : "")
         + (isPlaying ? " playing" : "");
-    const keyKbd = KBD_CODES[keyId - KBD_MAPPING_START_KEY]?.kbdText.US_QWERTY;
+    const keyKbd = KBD_CODES[keyId - kbdMappingStartKey]?.kbdText.US_QWERTY;
 
     return (
         <button className={keyClass} data-keyid={keyId} title={(showNoteNames && isBlackKey) ? keyDescription : undefined} aria-label={keyDescription}>
+            {/* Show keyboard shortcuts if enabled */}
             {keyKbd && showKbdMappings &&
                 <div className={"key-kbd"}>{keyKbd}</div>}
-            <div className={"key-text" + (showNoteNames ? "" :  " hidden")}>
+            
+            {/* Show all note names if enabled in settings. Otherwise only show Cs */}
+            <div className={"key-text" + ((showNoteNames || keyIsC) ? "" :  " hidden")}>
+
                 {/* If key is a C, display the octave info. Otherwise, use the default keyText. */}
                 {keyText}{keyIsC && <span className="octave">{octave}</span>}
             </div>

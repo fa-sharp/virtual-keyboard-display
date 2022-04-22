@@ -1,4 +1,4 @@
-import abcjsObj from 'abcjs';
+import { renderAbc, AbcVisualParams } from 'abcjs';
 import { useEffect } from 'react';
 import { getKeyAbc } from '../../utils/KeyDataUtils';
 
@@ -7,16 +7,37 @@ interface StaffProps {
     clefDivideKey?: number
     useFlats: boolean
     staffHeight?: number
-    abcjsOptions?: {}
+    abcjsOptions?: AbcVisualParams
 }
 
 const ABCJS_DOM_ID = "abcjs-display";
 
-const ABC_HEADER = "X:1\nL:1\n";
-const ABC_TREBLE_START = "[V:1 clef=treble]]";
-const ABC_BASS_START = "[V:2 clef=bass]]";
+/** 🎼 The staff display */
+const Staff = ({playingKeys, abcjsOptions, staffHeight, clefDivideKey = 59, useFlats}: StaffProps) => {
+
+    useEffect(() => {
+        renderAbc(ABCJS_DOM_ID,
+            generateAbcNotation(playingKeys, clefDivideKey, useFlats), 
+            {
+                ...abcjsOptions,
+                scale: staffHeight ? 
+                    calculateStaffScale(staffHeight) : (abcjsOptions?.scale || 1.5),
+            });
+    });
+    
+    return (
+        <div className="staff">
+            <div id={ABCJS_DOM_ID} />
+        </div>
+    );
+}
+
 
 const calculateStaffScale = (staffHeight: number) => staffHeight / 9.1667;
+
+const ABC_HEADER = "%%stretchlast\nX:1\nL:1\n";
+const ABC_TREBLE_START = "[V:1 clef=treble]]";
+const ABC_BASS_START = "[V:2 clef=bass]]";
 
 const generateAbcNotation = (playingKeys: number[], clefDivideKey: number, useFlats: boolean) => {
 
@@ -35,22 +56,5 @@ const generateAbcNotation = (playingKeys: number[], clefDivideKey: number, useFl
 
     return `${ABC_HEADER}${abcTreble}|\n${abcBass}|`;
 }
-
-const Staff = ({playingKeys, abcjsOptions = {}, staffHeight, clefDivideKey = 59, useFlats}: StaffProps) => {
-
-    if (staffHeight)
-        abcjsOptions = { ...abcjsOptions, scale: calculateStaffScale(staffHeight)};
-
-    useEffect(() => abcjsObj.renderAbc(ABCJS_DOM_ID,
-        generateAbcNotation(playingKeys, clefDivideKey, useFlats), abcjsOptions));
-    
-    return (
-        <div className="staff">
-            <div id={ABCJS_DOM_ID} />
-        </div>
-    );
-}
-
-
 
 export default Staff;
