@@ -51,7 +51,7 @@ export const usePlayer = (playingKeys: number[], settings: AppSettings["audio"])
         
         for (let keyId of playingKeys) {
             if (!prevPlayingKeys.includes(keyId))
-                loadedInstrument.triggerAttack(Tone.Midi(keyId).toFrequency());
+                loadedInstrument.triggerAttack(Tone.Midi(keyId).toFrequency(), Tone.context.currentTime);
         }
         for (let keyId of prevPlayingKeys) {
             if (!playingKeys.includes(keyId))

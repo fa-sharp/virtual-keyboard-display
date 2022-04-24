@@ -45,7 +45,8 @@ export const useSettings = () => {
         document.documentElement.style.setProperty(CSS_VARIABLES.ACTIVE_COLOR, globalSettings.activeColor);
     }, [globalSettings.activeColor, pianoSettings.pianoSize]);
 
-    /** Update local storage. TODO debouncing here? Lots of unnecessary changes when using sliders/ranges */
+    /** Update local storage as settings change. 
+     * TODO debouncing here? Lots of unnecessary changes when using sliders/ranges */
     useEffect(() => {
         updateGlobalSettings(appSettings.global);
     }, [appSettings.global, updateGlobalSettings])

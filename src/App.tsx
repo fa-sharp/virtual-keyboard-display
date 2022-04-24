@@ -1,6 +1,7 @@
 import { Reducer, useReducer, useRef, useState } from 'react';
 
 import { PianoKeysAction, pianoKeysReducer } from './state/PianoKeysReducer';
+import { useSettings } from './state/useSettings';
 import { useMouseListeners } from './listeners/MouseListeners';
 import { useKeyboardListeners } from './listeners/KeyboardListeners';
 import { useMIDIListeners } from './listeners/MIDIListeners';
@@ -12,7 +13,6 @@ import Staff from './components/staff/Staff';
 import './styles/main.scss';
 
 import githubLogo from "./res/images/github-logo-default.png"
-import { useSettings } from './state/useSettings';
 
 function App() {
 
