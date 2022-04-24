@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import * as Tone from 'tone'
 import { AppInstrument, createInstrument } from "./instruments";
 import { Instrument, InstrumentOptions } from "tone/build/esm/instrument/Instrument";
+import { usePrevious } from "../state/util/usePrevious";
 
 
 /**
@@ -41,26 +42,22 @@ export const usePlayer = (playingKeys: number[], enabled: boolean, chosenInstrum
     }, [chosenInstrument, enabled, loadedInstrument]);
 
     /** Previous state of `playingKeys` */
-    const prevPlayingKeys = useRef<number[]>([]);
+    const prevPlayingKeys = usePrevious(playingKeys, []);
 
     /** Play/release notes by comparing current `playingKeys` with `prevPlayingKeys`  */
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!enabled || !loadedInstrument || !ready)
             return;
         
         for (let keyId of playingKeys) {
-            if (!prevPlayingKeys.current.includes(keyId))
+            if (!prevPlayingKeys.includes(keyId))
                 loadedInstrument.triggerAttack(Tone.Midi(keyId).toFrequency());
         }
-        for (let keyId of prevPlayingKeys.current) {
+        for (let keyId of prevPlayingKeys) {
             if (!playingKeys.includes(keyId))
                 loadedInstrument.triggerRelease(Tone.Midi(keyId).toFrequency())
         }
-    }, [enabled, ready, loadedInstrument, playingKeys]);
-
-    /** Update `prevPlayingKeys` after playing/releasing notes */
-    useEffect(() => { prevPlayingKeys.current = [...playingKeys] }, [playingKeys]);
-
+    });
 
     /** Change volume */
     useEffect(() => {
