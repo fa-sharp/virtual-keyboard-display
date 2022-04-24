@@ -1,3 +1,10 @@
+## Dev branch: tonal.js
+
+Playing around with [Tonal.js](https://github.com/tonaljs/tonal) library for playing and identifying scales, chords, etc.
+
+___
+
+
 # The Virtual Keyboard
 
 A virtual piano keyboard app that runs in the browser, written using Typescript and React. Suitable for teaching and learning!!

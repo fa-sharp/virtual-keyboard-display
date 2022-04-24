@@ -1,4 +1,4 @@
-import { Reducer, useReducer, useRef } from 'react';
+import { Reducer, useMemo, useReducer, useRef, useState } from 'react';
 
 import { PianoKeysAction, pianoKeysReducer } from './state/PianoKeysReducer';
 import { useSettings } from './state/useSettings';
@@ -13,6 +13,7 @@ import Staff from './components/staff/Staff';
 import './styles/main.scss';
 
 import githubLogo from "./res/images/github-logo-default.png"
+import { useChordID } from './theory/useChords';
 
 function App() {
 
@@ -34,13 +35,18 @@ function App() {
     const { midiReady, midiDevices } = useMIDIListeners(pianoKeysDispatch, settings.global.sustainMode, settings.global.midiDevice, settings.global.midiEnabled);
 
     /** 🎹 Array that represents the currently playing keys, e.g. [60, 64, 67] */
-    let playingKeys: number[] = [];
-    for (let i = 0, len = pianoKeys.length; i < len; i++) {
-        pianoKeys[i] && playingKeys.push(i);
-    }
+    const playingKeys = useMemo(() => {
+        let playingKeys: number[] = [];
+        for (let i = 0, len = pianoKeys.length; i < len; i++)
+            pianoKeys[i] && playingKeys.push(i)
+        return playingKeys;
+    }, [pianoKeys])
 
     /** 🎵 The audio player */
     const { playerReady } = usePlayer(playingKeys, settings.audio);
+
+    /** Detecting chords */
+    const { detectedChords } = useChordID(playingKeys, settings.global.useFlats, true);
 
     return (
         <div className="app-view">
@@ -75,6 +81,12 @@ function App() {
                             settings={settings}
                             ref={pianoElementRef}
                         />}
+                    <div>
+                        Detected: {detectedChords.map((chord, idx) =>
+                            <span>{chord.symbol}{chord.name ? ` (${chord.name})` : ''}
+                            {idx === detectedChords.length - 1 ? '' : ', '}</span>
+                        )}
+                    </div>
                 </section>
             </main>
         </div>
