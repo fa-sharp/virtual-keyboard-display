@@ -1,9 +1,7 @@
 import { makeStyles, Slider, Theme } from '@material-ui/core';
-import { KeyboardSettings } from '../../state/useKeyboardSettings';
-import { StyleSettings } from '../../state/useStyleSettings';
+import { AppSettings } from '../../state/useSettings';
 
-
-interface RangeStaticProps<T> {
+interface RangeStaticProps<T extends keyof AppSettings> {
     min: number;
     max: number;
     step: number;
@@ -12,16 +10,17 @@ interface RangeStaticProps<T> {
     label: string;
     description: string;
 
-    optionName: keyof T;
+    settingGroup: T
+    settingName: keyof AppSettings[T];
     unit?: string;
 }
 
-interface RangeProps<T> {
+interface RangeProps<T extends keyof AppSettings> {
     staticProps: RangeStaticProps<T>;
 
     value: number;
     isDisabled?: boolean;
-    onChange: (optionName: keyof T, value: number) => void;
+    onChange: (settingGroup: T, settingName: keyof AppSettings[T], value: number) => void;
 }
 
 const useStyles = makeStyles<Theme,{width: string}>({
@@ -34,7 +33,7 @@ const useStyles = makeStyles<Theme,{width: string}>({
     }
   });
 
-const Range = <T extends KeyboardSettings | StyleSettings>({staticProps: {min,max,step,description,label,width,optionName,unit},
+const Range = <T extends keyof AppSettings>({staticProps: {min,max,step,description,label,width,unit,settingGroup,settingName},
     value, isDisabled, onChange}: RangeProps<T>) => {
         
     const sliderClass = useStyles({width: width});
@@ -49,11 +48,10 @@ const Range = <T extends KeyboardSettings | StyleSettings>({staticProps: {min,ma
                 disabled={isDisabled}
                 min={min} max={max} step={step}
                 title={description}
-                data-option={optionName}
                 data-unit={unit}
 
                 value={value}
-                onChange={(_e, value) => onChange(optionName, value as number)}
+                onChange={(_e, value) => onChange(settingGroup, settingName, value as number)}
             />
         </label>
     )

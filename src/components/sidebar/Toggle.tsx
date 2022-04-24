@@ -1,13 +1,15 @@
 import React from 'react';
+import { AppSettings } from '../../state/useSettings';
 import '../../styles/main.scss'
 import Tooltip from '../help/Tooltip';
 
-type ToggleProps = {
+interface ToggleProps<T extends keyof AppSettings> {
     displayLabel: string;
     description: string;
     isChecked: boolean;
 
-    optionName: string;
+    settingGroup: T
+    settingName: keyof AppSettings[T];
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 
     displayLabelRight?: string;
@@ -15,7 +17,8 @@ type ToggleProps = {
     isDisabled?: boolean;
 }
 
-const Toggle = (props: ToggleProps) => {
+const Toggle = <T extends keyof AppSettings>(props: ToggleProps<T>) => {
+
     return (
         <label className="toggle-display">
             {props.makeTooltip ? 
@@ -23,7 +26,7 @@ const Toggle = (props: ToggleProps) => {
                 : props.displayLabel}
             <div className="toggle" title={props.description} aria-label={props.description} >
                 <input type="checkbox" checked={props.isChecked} disabled={props.isDisabled}
-                    onChange={props.onChange.bind(this)} data-option={props.optionName} />
+                    onChange={props.onChange.bind(this)} data-setting={props.settingName} data-group={props.settingGroup} />
                 <span className="slider"></span>
             </div>
             {props.displayLabelRight && <div className="toggle-label">

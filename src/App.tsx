@@ -1,6 +1,5 @@
 import { Reducer, useReducer, useRef, useState } from 'react';
 
-import { useKeyboardSettings } from './state/useKeyboardSettings';
 import { PianoKeysAction, pianoKeysReducer } from './state/PianoKeysReducer';
 import { useMouseListeners } from './listeners/MouseListeners';
 import { useKeyboardListeners } from './listeners/KeyboardListeners';
@@ -13,6 +12,7 @@ import Staff from './components/staff/Staff';
 import './styles/main.scss';
 
 import githubLogo from "./res/images/github-logo-default.png"
+import { useSettings } from './state/useSettings';
 
 function App() {
 
@@ -23,7 +23,7 @@ function App() {
     );
 
     /** 🔧 The current settings. Changes are persisted to local storage. */
-    const { settings, updateSetting } = useKeyboardSettings();
+    const { settings, updateSetting } = useSettings();
 
     /** 💻 The name of the currently connected MIDI device. */
     const [midiDeviceName, setMidiDeviceName] = useState("");
@@ -32,9 +32,9 @@ function App() {
     const pianoElementRef = useRef<HTMLDivElement | null>(null);
 
     /** ⌨️🖱 Setting up all event listeners to make the piano interactive */
-    useMouseListeners(pianoKeysDispatch, pianoElementRef, settings.showPiano, settings.stickyMode);
+    useMouseListeners(pianoKeysDispatch, pianoElementRef, settings.piano.show, settings.global.sustainMode);
     useKeyboardListeners(pianoKeysDispatch, settings, updateSetting);
-    useMIDIListeners(pianoKeysDispatch, settings.stickyMode, setMidiDeviceName);
+    useMIDIListeners(pianoKeysDispatch, settings.global.sustainMode, setMidiDeviceName);
 
     /** 🎹 Array that represents the currently playing keys, e.g. [60, 64, 67] */
     let playingKeys: number[] = [];
@@ -43,7 +43,7 @@ function App() {
     }
 
     /** 🎵 The audio player */
-    const { playerReady } = usePlayer(playingKeys, settings.audioEnabled, settings.audioInstrument, settings.audioVolume);
+    const { playerReady } = usePlayer(playingKeys, settings.audio);
 
     return (
         <div className="app-view">
@@ -55,24 +55,24 @@ function App() {
                 </a>
             </header>
             <Sidebar
-                keyboardSettings={settings}
-                updateKeyboardSetting={updateSetting}
+                settings={settings}
+                updateSetting={updateSetting}
                 midiDeviceName={midiDeviceName}
                 playerReady={playerReady}
             />
             <main className="main-view">
                 <section className="staff-keyboard-view">
-                    {settings.showStaff &&
+                    {settings.staff.show &&
                         <Staff
                             playingKeys={playingKeys}
                             abcjsOptions={{ staffwidth: 250 }}
-                            useFlats={settings.useFlats}
-                            clefDivideKey={settings.clefDivideKey}
+                            useFlats={settings.global.useFlats}
+                            clefDivideKey={settings.staff.clefDivideKey}
                         />}
-                    {settings.showPiano && 
+                    {settings.piano.show && 
                         <Piano
-                            startKey={settings.pianoRange[0]}
-                            endKey={settings.pianoRange[1]}
+                            startKey={settings.piano.pianoRange[0]}
+                            endKey={settings.piano.pianoRange[1]}
                             pianoKeys={pianoKeys}
                             settings={settings}
                             ref={pianoElementRef}

@@ -1,17 +1,17 @@
 import { useEffect, useLayoutEffect, useState } from "react"
 import * as Tone from 'tone'
-import { AppInstrument, createInstrument } from "./instruments";
+import { createInstrument } from "./instruments";
 import { Instrument, InstrumentOptions } from "tone/build/esm/instrument/Instrument";
 import { usePrevious } from "../state/util/usePrevious";
+import { AppSettings } from "../state/useSettings";
 
 
 /**
  *  🎵 React hook that plays audio based on the `playingKeys` 🎵 
  * @param playingKeys Array of piano keys that are currently played
- * @param enabled Whether audio output is enabled
- * @param chosenInstrument What instrument the user has chosen
+ * @param settings Audio settings
  */
-export const usePlayer = (playingKeys: number[], enabled: boolean, chosenInstrument: AppInstrument, volume: number) => {
+export const usePlayer = (playingKeys: number[], settings: AppSettings["audio"]) => {
 
     /** The Tone.js instrument */
     const [loadedInstrument, setLoadedInstrument] = useState<Instrument<InstrumentOptions> | null>(null);
@@ -21,13 +21,13 @@ export const usePlayer = (playingKeys: number[], enabled: boolean, chosenInstrum
 
     /** If the user has enabled audio output, load the instrument */
     useEffect(() => {
-        if (enabled && !loadedInstrument) {
+        if (settings.enabled && !loadedInstrument) {
             setReady(false);
-            setLoadedInstrument(createInstrument(chosenInstrument));
+            setLoadedInstrument(createInstrument(settings.instrument));
             Tone.loaded()
                 .then(() => {
                     setReady(true);
-                    console.log(`${chosenInstrument} ready!`);
+                    console.log(`${settings.instrument} ready!`);
                 })
                 .catch(err => console.error("Failed to start audio!", err));
         }
@@ -39,14 +39,14 @@ export const usePlayer = (playingKeys: number[], enabled: boolean, chosenInstrum
                 setLoadedInstrument(null);
             }
         }
-    }, [chosenInstrument, enabled, loadedInstrument]);
+    }, [settings.instrument, settings.enabled, loadedInstrument]);
 
     /** Previous state of `playingKeys` */
     const prevPlayingKeys = usePrevious(playingKeys, []);
 
     /** Play/release notes by comparing current `playingKeys` with `prevPlayingKeys`  */
     useLayoutEffect(() => {
-        if (!enabled || !loadedInstrument || !ready)
+        if (!settings.enabled || !loadedInstrument || !ready)
             return;
         
         for (let keyId of playingKeys) {
@@ -63,8 +63,8 @@ export const usePlayer = (playingKeys: number[], enabled: boolean, chosenInstrum
     useEffect(() => {
         if (!loadedInstrument)
             return;
-        loadedInstrument.volume.value = volume;
-    }, [loadedInstrument, volume]);
+        loadedInstrument.volume.value = settings.volume;
+    }, [loadedInstrument, settings.volume]);
 
     return { 
         /** Whether the player is ready to output audio */

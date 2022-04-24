@@ -1,17 +1,17 @@
 import Key from "./Key";
-import { KeyboardSettings } from "../../state/useKeyboardSettings";
 import { forwardRef } from "react";
+import { AppSettings } from "../../state/useSettings";
 
 interface PianoProps {
     startKey: number
     endKey: number
 
     pianoKeys: boolean[]
-    settings: KeyboardSettings
+    settings: AppSettings
 }
 
 const generateKeyElements =
-    (startKey: number, endKey: number, pianoKeys: boolean[], settings: KeyboardSettings) => {
+    (startKey: number, endKey: number, pianoKeys: boolean[], settings: AppSettings) => {
         let keyElements: JSX.Element[] = [];
         for (let keyId = startKey; keyId <= endKey; keyId++) {
             keyElements.push(
@@ -36,7 +36,7 @@ const Piano =
                     {generateKeyElements(startKey, endKey, pianoKeys, settings)}
                 </div>
 
-                {settings.showKbdMappings &&
+                {settings.piano.showKbdMappings &&
                     <ul className="other-kbd-shortcuts">
                         <li>
                             <kbd className="key-kbd">Z</kbd>

@@ -1,59 +1,53 @@
 import React, { ChangeEventHandler, useCallback, useState } from "react";
-import { KeyboardSettings, MAX_KEY, MIN_KEY, UpdateKeyboardSetting } from "../../state/useKeyboardSettings";
-import { StyleSettings, useStyleSettings } from "../../state/useStyleSettings";
+
+import { AppInstrument } from "../../audio/instruments";
+import { AppSettings, UpdateAppSetting, MIN_KEY, MAX_KEY } from "../../state/useSettings";
 
 import Tooltip from "../help/Tooltip";
 import Toggle from "./Toggle";
 import Range from "./Range";
 import KeyRange from "./KeyRange";
 import ColorSelect from "./ColorSelect";
-import { AppInstrument } from "../../audio/instruments";
 import Select from "./Select";
 
 interface SidebarProps {
-    keyboardSettings: KeyboardSettings;
-    updateKeyboardSetting: UpdateKeyboardSetting;
+    settings: AppSettings;
+    updateSetting: UpdateAppSetting;
 
     midiDeviceName: string;
     playerReady: boolean;
 }
 
-const Sidebar = React.memo(({ keyboardSettings, updateKeyboardSetting, midiDeviceName, playerReady }: SidebarProps) => {
+const Sidebar = React.memo(({ settings, updateSetting, midiDeviceName, playerReady }: SidebarProps) => {
 
     /** Sidebar open/close state */
     const [sidebarClosed, setSidebarClosed] = useState(true);
     const toggleSidebar = useCallback(() => setSidebarClosed((prevClosed) => !prevClosed), []);
 
-    /** State for the styling options (size, color, etc.) **/
-    const { styleSettings, updateStyleSetting } = useStyleSettings();
-
     /** Callback fired when changing one of the toggle settings */
     const onToggleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        const changedSetting = event.target.dataset.option;
+        const settingGroup = event.target.dataset.group;
+        const settingName = event.target.dataset.setting;
         const newValue = event.target.checked;
-        updateKeyboardSetting(changedSetting as keyof KeyboardSettings, newValue);
-    }, [updateKeyboardSetting]);
+        //@ts-expect-error
+        updateSetting(settingGroup, settingName, newValue);
+    }, [updateSetting]);
 
-    /** Callback for changing a keyboard setting through a range/slider. TODO clean up settings to merge these callbacks */
-    const onRangeChange = useCallback((optionName: keyof KeyboardSettings, value: number | [number, number]) => {
-        updateKeyboardSetting(optionName, value);
-    }, [updateKeyboardSetting]);
-
-    /** Callback for changing a style setting through a range/slider */
-    const onStylingRangeChange = useCallback((optionName: keyof StyleSettings, value: number) => {
-        updateStyleSetting(optionName, value);
-    }, [updateStyleSetting]);
+    /** Callback for changing a setting through a range/slider. */
+    const onRangeChange = useCallback(<T extends keyof AppSettings>(settingGroup: T, settingName: keyof AppSettings[T], value: number | [number, number]) => {
+        updateSetting(settingGroup, settingName, value as any);
+    }, [updateSetting]);
 
     /** Callback for changing the instrument */
     const onInstrumentChange: ChangeEventHandler<HTMLSelectElement> = useCallback(e => {
-        updateKeyboardSetting("audioInstrument", e.target.value as AppInstrument);
-    }, [updateKeyboardSetting]);
+        updateSetting("audio", "instrument", e.target.value as AppInstrument);
+    }, [updateSetting]);
 
     /** Callback for changing the active color */
     const onActiveColorChange: ChangeEventHandler<HTMLInputElement> = useCallback((event) => {
         let newColor = event.target.value;
-        updateStyleSetting('activeColor', newColor);
-    }, [updateStyleSetting]);
+        updateSetting("global", "activeColor", newColor);
+    }, [updateSetting]);
 
     return (
         <>
@@ -69,118 +63,124 @@ const Sidebar = React.memo(({ keyboardSettings, updateKeyboardSetting, midiDevic
                         displayLabel="Sharps"
                         displayLabelRight="Flats"
                         description="Display Sharps (off) or Flats (on)"
-                        isChecked={keyboardSettings.useFlats}
-                        optionName="useFlats"
+                        isChecked={settings.global.useFlats}
+                        settingGroup='global'
+                        settingName="useFlats"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
                     <Toggle
                         displayLabel="Sustain mode"
                         description="Toggle whether keys should be sustained instead of being released right away"
                         makeTooltip={true}
-                        isChecked={keyboardSettings.stickyMode}
-                        optionName="stickyMode"
+                        isChecked={settings.global.sustainMode}
+                        settingGroup='global'
+                        settingName="sustainMode"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
 
                     <h3>Staff</h3>
                     <Toggle
-                        displayLabel={keyboardSettings.showStaff ? "On" : "Off"}
+                        displayLabel={settings.staff.show ? "On" : "Off"}
                         description="Show/hide the staff display"
-                        isChecked={keyboardSettings.showStaff}
-                        optionName="showStaff"
+                        isChecked={settings.staff.show}
+                        settingGroup="staff"
+                        settingName="show"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
-                    {keyboardSettings.showStaff && <>
+                    {settings.staff.show && <>
                         <KeyRange
                             staticProps={{
-                                min: 52, max: 70, step: 1, optionName: "clefDivideKey",
+                                min: 52, max: 70, step: 1, settingGroup: "staff", settingName: "clefDivideKey",
                                 width: "5rem", label: "Clef divide", description: "Set dividing key between treble and bass clef"
                             }}
-                            value={keyboardSettings.clefDivideKey}
-                            useFlats={keyboardSettings.useFlats}
+                            value={settings.staff.clefDivideKey}
+                            useFlats={settings.global.useFlats}
                             isDisabled={sidebarClosed}
                             onChange={onRangeChange} />
                     </>}
 
                     <h3>Piano</h3>
                     <Toggle
-                        displayLabel={keyboardSettings.showPiano ? "On" : "Off"}
+                        displayLabel={settings.piano.show ? "On" : "Off"}
                         description="Show/hide the piano display"
-                        isChecked={keyboardSettings.showPiano}
-                        optionName="showPiano"
+                        isChecked={settings.piano.show}
+                        settingGroup="piano"
+                        settingName="show"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
-                    {keyboardSettings.showPiano && <>
+                    {settings.piano.show && <>
                         <Range
                             staticProps={{
-                                min: 2.6, max: 4.5, step: 0.1, unit: "rem", optionName: "pianoSize",
+                                min: 2.6, max: 4.5, step: 0.1, unit: "rem", settingGroup: "piano", settingName: "pianoSize",
                                 width: "7.5rem", label: "Size", description: "Change visual size of piano"
                             }}
-                            value={styleSettings.pianoSize}
+                            value={settings.piano.pianoSize}
                             isDisabled={sidebarClosed}
-                            onChange={onStylingRangeChange}
+                            onChange={onRangeChange}
                         />
                         <KeyRange
                             staticProps={{
-                                min: MIN_KEY, max: MAX_KEY, step: 1, optionName: "pianoRange",
+                                min: MIN_KEY, max: MAX_KEY, step: 1, settingGroup: "piano", settingName: "pianoRange",
                                 width: "7rem", label: "Range", description: "Set range of piano"
                             }}
-                            value={keyboardSettings.pianoRange}
-                            useFlats={keyboardSettings.useFlats}
+                            value={settings.piano.pianoRange}
+                            useFlats={settings.global.useFlats}
                             isDisabled={sidebarClosed}
                             onChange={onRangeChange}
                         />
                         <Toggle
                             displayLabel="Note names"
                             description="Show/hide note names for each piano key"
-                            isChecked={keyboardSettings.showNoteNames}
-                            optionName="showNoteNames"
+                            isChecked={settings.piano.showNoteNames}
+                            settingGroup="piano"
+                            settingName="showNoteNames"
                             onChange={onToggleChange}
                             isDisabled={sidebarClosed} />
                         <Toggle
                             displayLabel="Keyboard shortcuts"
                             description="Show/hide keyboard shortcuts for each piano key"
-                            isChecked={keyboardSettings.showKbdMappings}
-                            optionName="showKbdMappings"
+                            isChecked={settings.piano.showKbdMappings}
+                            settingGroup="piano"
+                            settingName="showKbdMappings"
                             onChange={onToggleChange}
                             isDisabled={sidebarClosed} />
                     </>}
 
                     <h3>Audio</h3>
-                    
                     <Toggle
                         displayLabel={
-                            !keyboardSettings.audioEnabled ?
+                            !settings.audio.enabled ?
                                 "Off" : playerReady ?
                                     "✅ On" : "⌛️ On"
                         }
                         description="Toggle audio output. May take a couple seconds to load!"
                         makeTooltip={true}
-                        isChecked={keyboardSettings.audioEnabled}
-                        optionName="audioEnabled"
+                        isChecked={settings.audio.enabled}
+                        settingGroup='audio'
+                        settingName="enabled"
                         onChange={onToggleChange}
                         isDisabled={sidebarClosed} />
-                    {keyboardSettings.audioEnabled && <>
+                    {settings.audio.enabled && <>
                         <Select
                             label="Instrument"
                             description="Change the instrument for audio output"
                             onChange={onInstrumentChange}
                             options={Object.values(AppInstrument)}
-                            selectedValue={keyboardSettings.audioInstrument}
+                            selectedValue={settings.audio.instrument}
                             isDisabled={sidebarClosed} />
                         <Range
                             staticProps={{
                                 label: "Volume", description: "Change the volume of the audio output",
-                                max: 5, min: -30, step: 1, optionName: "audioVolume", width: "7.5rem"
+                                max: 5, min: -30, step: 1, settingGroup: "audio", settingName: "volume", width: "7.5rem"
                             }}
                             onChange={onRangeChange}
-                            value={keyboardSettings.audioVolume}
+                            value={settings.audio.volume}
                             isDisabled={sidebarClosed} />
                     </>}
 
                     <h3>Colors</h3>
                     <ColorSelect label="Active color" description="Change highlight color for the piano keys and settings"
-                        value={styleSettings.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />
+                        value={settings.global.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />
                 </div>
 
                 <div className="sidebar-bottom">

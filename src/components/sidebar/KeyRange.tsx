@@ -1,8 +1,8 @@
 import { makeStyles, Slider, Theme } from '@material-ui/core';
-import { KeyboardSettings } from '../../state/useKeyboardSettings';
+import { AppSettings } from '../../state/useSettings';
 import { getOctaveKeyText } from '../../utils/KeyDataUtils';
 
-interface RangeStaticProps {
+interface RangeStaticProps<T extends keyof AppSettings> {
     min: number;
     max: number;
     step: number;
@@ -11,17 +11,18 @@ interface RangeStaticProps {
     label: string;
     description: string;
 
-    optionName: keyof KeyboardSettings;
+    settingGroup: T
+    settingName: keyof AppSettings[T];
     unit?: string;
 }
 
-interface RangeProps {
-    staticProps: RangeStaticProps;
+interface RangeProps<T extends keyof AppSettings> {
+    staticProps: RangeStaticProps<T>;
 
     value: [number, number] | number;
     useFlats: boolean;
     isDisabled?: boolean;
-    onChange: (optionName: keyof KeyboardSettings, value: number | [number, number]) => void;
+    onChange: (settingGroup: T, settingName: keyof AppSettings[T], value: number | [number, number]) => void;
 }
 
 const useStyles = makeStyles<Theme,{width: string}>({
@@ -35,8 +36,8 @@ const useStyles = makeStyles<Theme,{width: string}>({
   });
 
 
-const KeyRange = ({staticProps: {min,max,step,description,label,width,optionName,unit},
-    value, useFlats, isDisabled, onChange}: RangeProps) => {
+const KeyRange = <T extends keyof AppSettings>({staticProps: {min,max,step,description,label,width,unit,settingGroup,settingName},
+    value, useFlats, isDisabled, onChange}: RangeProps<T>) => {
         
     const sliderClass = useStyles({width: width});
     const valueText = (value: number) => getOctaveKeyText(value, useFlats);
@@ -52,7 +53,6 @@ const KeyRange = ({staticProps: {min,max,step,description,label,width,optionName
                 disabled={isDisabled}
                 min={min} max={max} step={step}
                 title={description}
-                data-option={optionName}
                 data-unit={unit}
 
                 valueLabelFormat={valueText}
@@ -61,7 +61,7 @@ const KeyRange = ({staticProps: {min,max,step,description,label,width,optionName
                 
 
                 value={value}
-                onChange={(_e, value) => onChange(optionName, value as number | [number, number])}
+                onChange={(_e, value) => onChange(settingGroup, settingName, value as number | [number, number])}
             />
         </label>
     )

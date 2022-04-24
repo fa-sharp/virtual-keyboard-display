@@ -29,17 +29,18 @@ const useLocalStorage = <T>(key: string, initialValue: T) => {
 
     /** Updates the entire settings in state, and also persists to local storage. */
     const updateAllSettings = useCallback((value: T | ((prevState: T) => T)) => {
-        try {
-            const newSettings = value instanceof Function ?
-                value(settings) : value;
-            setSettings(newSettings);
-
-            if (canAccessStorage)
-                window.localStorage.setItem(key, JSON.stringify(newSettings));
+        try { 
+            setSettings(prevSettings => {
+                const newSettings = value instanceof Function ?
+                    value(prevSettings) : value;
+                if (canAccessStorage)
+                    window.localStorage.setItem(key, JSON.stringify(newSettings));
+                return newSettings;
+            });
         } catch (err) {
             console.log(err);
         }
-    }, [canAccessStorage, key, settings]);
+    }, [canAccessStorage, key]);
 
     /** Updates one setting in state, and persists to local storage. */
     const updateSetting = useCallback(<K extends keyof T>(setting: K, newValue: T[K]) => {

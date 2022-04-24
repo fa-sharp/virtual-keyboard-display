@@ -1,19 +1,20 @@
 import React from 'react';
-import { KeyboardSettings } from '../../state/useKeyboardSettings'
 import { getKeyData, NoteTextLanguageType } from '../../utils/KeyDataUtils';
 import KBD_CODES from '../../res/json_data/kbd_codes.json'
+import { AppSettings } from '../../state/useSettings';
 
 interface KeyProps {
     keyId: number; // key id, equal to the MIDI number
     isPlaying: boolean;
     language?: NoteTextLanguageType;
 
-    settings: KeyboardSettings;
+    settings: AppSettings;
 }
 
 const Key = React.memo(({ keyId, isPlaying, settings, language = "English" }: KeyProps) => {
 
-    const { showKbdMappings, showNoteNames, useFlats, kbdMappingStartKey } = settings;
+    const { showKbdMappings, showNoteNames } = settings.piano;
+    const { useFlats, kbdMappingStartKey } = settings.global;
 
     let keyData = getKeyData(keyId, useFlats, language);
     if (!keyData) {
