@@ -26,7 +26,7 @@ function App() {
     const { settings, updateSetting } = useSettings();
 
     /** 💻 The name of the currently connected MIDI device. */
-    const [midiDeviceName, setMidiDeviceName] = useState("");
+    const [midiDeviceName, setMidiDeviceName] = useState("Not connected.");
     
     /** 👀 A reference to the piano display HTML element. */
     const pianoElementRef = useRef<HTMLDivElement | null>(null);
