@@ -14,6 +14,8 @@ export const useMIDIListeners = (playKeys: Dispatch<PianoKeysAction>, sustainMod
 
     const { midiReady, midiDevices } = useMidi();
 
+    const [selectedDevice, setSelectedDevice] = useState(0);
+
     const handleNoteOn = useCallback((event: NoteMessageEvent) => {
         if (sustainMode)
             playKeys({ type: "KEY_TOGGLE", keyId: event.note.number })
@@ -27,14 +29,14 @@ export const useMIDIListeners = (playKeys: Dispatch<PianoKeysAction>, sustainMod
 
     useEffect(() => {
         // Return if no MIDI devices found
-        if (!midiReady || (midiReady && midiDevices.length === 0))
+        if (!midiReady || midiDevices.length === 0)
             return;
 
-        // Add listener to first MIDI device
-        const midiDevice = WebMidi.inputs[0];
+        // Add listener(s) to the MIDI device
+        const midiDevice = midiDevices[selectedDevice];
         midiDevice.addListener('noteon', handleNoteOn);
         if (!sustainMode)
-            WebMidi.inputs[0].addListener('noteoff', handleNoteOff)
+            midiDevice.addListener('noteoff', handleNoteOff)
 
         // Update display to reflect MIDI device
         setMidiDeviceName(midiDevice.name);
@@ -42,10 +44,13 @@ export const useMIDIListeners = (playKeys: Dispatch<PianoKeysAction>, sustainMod
         // Clean-up: Remove listeners
         return () => {
             console.log("Setting up / tearing down MIDI listeners")
-            WebMidi.inputs[0].removeListener();
+            midiDevice.removeListener();
+            setMidiDeviceName("Not connected.");
         }
 
-    }, [handleNoteOff, handleNoteOn, midiDevices.length, midiReady, setMidiDeviceName, sustainMode]);
+    }, [handleNoteOff, handleNoteOn, midiDevices, midiReady, selectedDevice, setMidiDeviceName, sustainMode]);
+
+    return { selectDevice: setSelectedDevice, midiDevices };
 }
 
 /** Connect to browser's WebMidi API and find connected devices */
@@ -61,11 +66,11 @@ const useMidi = () => {
             .catch(err => console.error("Error enabling MIDI: ", err));
 
         function onEnabled() {
-            setDevices(WebMidi.inputs);
+            setDevices([...WebMidi.inputs]);
             setReady(true);
 
             // Refresh device list if connected devices change
-            WebMidi.addListener("portschanged", () => setDevices(WebMidi.inputs));
+            WebMidi.addListener("portschanged", () => setDevices([...WebMidi.inputs]));
         }
 
         // Clean-up
