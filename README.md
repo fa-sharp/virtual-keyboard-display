@@ -7,7 +7,7 @@ A virtual piano keyboard app that runs in the browser, written using Typescript 
 ### Features
 - Shows notes on the grand staff as you play them on the keyboard.
 - Responds to keyboard and mouse input
-- Responds to MIDI keyboard input in Chrome and Edge browsers, using the Web MIDI API
+- Responds to MIDI input (see [compatible browsers](https://developer.mozilla.org/en-US/docs/Web/API/MIDIAccess#browser_compatibility))
 - Audio output (piano and synth sounds) via Tone.js
 - Many settings to customize the functionality and display:
     - Show/hide piano, staff, note names, keyboard shortcuts
@@ -18,7 +18,7 @@ A virtual piano keyboard app that runs in the browser, written using Typescript 
 
 ### Libraries and features used
 - To display the music staff: the amazing [abcjs library](https://paulrosen.github.io/abcjs/) by Paul Rosen
-- To connect to MIDI devices: the [JZZ](https://github.com/jazz-soft/JZZ) library, which is a wrapper over the [Web MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API)
+- To connect to MIDI devices: the [webmidi.js](https://github.com/djipco/webmidi) library, which is a wrapper over the browser's [Web MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API). 
 - [Tone.js](https://tonejs.github.io/) for playing audio via the Web Audio API
 - Piano audio samples from the ["Little Lizard" library](https://linuxmusicians.com/viewtopic.php?t=12046). Other instrument samples from [tonejs-instruments](https://github.com/Makefully-Studios/tonejs-instruments)
 - React bells and whistles: uses custom hooks and useReducer for state logic (see `src/state` folder)
@@ -27,7 +27,8 @@ A virtual piano keyboard app that runs in the browser, written using Typescript 
 
 ### In development
 - Touch support
-- Offline mode (using service workers)
+- Music theory features: Chords, scales, key signatures ( see `dev-tonaljs` branch)
+- Offline mode / "Progressive web app" (see `dev-pwa` branch)
 
 ## Inspirations
 - [This video](https://www.youtube.com/watch?v=kMf1XWVY2cA) from [Suboptimal Engineer](https://github.com/SuboptimalEng) for the initial setup, code, and inspiration
