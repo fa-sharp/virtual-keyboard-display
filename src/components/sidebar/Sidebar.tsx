@@ -3,22 +3,23 @@ import React, { ChangeEventHandler, useCallback, useState } from "react";
 import { AppInstrument } from "../../audio/instruments";
 import { AppSettings, UpdateAppSetting, MIN_KEY, MAX_KEY } from "../../state/useSettings";
 
-import Tooltip from "../help/Tooltip";
 import Toggle from "./Toggle";
 import Range from "./Range";
 import KeyRange from "./KeyRange";
 import ColorSelect from "./ColorSelect";
 import Select from "./Select";
+import { Input } from "webmidi";
 
 interface SidebarProps {
     settings: AppSettings;
     updateSetting: UpdateAppSetting;
 
-    midiDeviceName: string;
     playerReady: boolean;
+    midiReady: boolean;
+    midiDevices: Input[];
 }
 
-const Sidebar = React.memo(({ settings, updateSetting, midiDeviceName, playerReady }: SidebarProps) => {
+const Sidebar = React.memo(({ settings, updateSetting, midiReady, midiDevices, playerReady }: SidebarProps) => {
 
     /** Sidebar open/close state */
     const [sidebarClosed, setSidebarClosed] = useState(true);
@@ -42,6 +43,12 @@ const Sidebar = React.memo(({ settings, updateSetting, midiDeviceName, playerRea
     const onInstrumentChange: ChangeEventHandler<HTMLSelectElement> = useCallback(e => {
         updateSetting("audio", "instrument", e.target.value as AppInstrument);
     }, [updateSetting]);
+
+    /** Callback for changing the MIDI device */
+    const onDeviceChange: ChangeEventHandler<HTMLSelectElement> = useCallback(e => {
+        updateSetting("global", "midiDevice", e.target.selectedIndex);
+    }, [updateSetting]);
+
 
     /** Callback for changing the active color */
     const onActiveColorChange: ChangeEventHandler<HTMLInputElement> = useCallback((event) => {
@@ -178,6 +185,32 @@ const Sidebar = React.memo(({ settings, updateSetting, midiDeviceName, playerRea
                             isDisabled={sidebarClosed} />
                     </>}
 
+                    <h3>MIDI</h3>
+                    <Toggle
+                        displayLabel={
+                            !settings.global.midiEnabled ?
+                                "Off" : midiReady ?
+                                    "✅ On" : "⌛️ On"
+                        }
+                        description="Toggle MIDI input. Supported in Chrome, Edge, and Opera browsers."
+                        makeTooltip={true}
+                        isChecked={settings.global.midiEnabled}
+                        settingGroup='global'
+                        settingName="midiEnabled"
+                        onChange={onToggleChange}
+                        isDisabled={sidebarClosed} />
+
+                    {settings.global.midiEnabled && <>
+                        <Select 
+                            label="Device"
+                            description="Select the MIDI device for input"
+                            options={midiDevices.map(device => device.name.slice(0,18))}
+                            values={midiDevices.map((_, idx) => idx)}
+                            selectedValue={settings.global.midiDevice}
+                            onChange={onDeviceChange}
+                        />
+                    </>}
+
                     <h3>Colors</h3>
                     <ColorSelect label="Active color" description="Change highlight color for the piano keys and settings"
                         value={settings.global.activeColor} onChange={onActiveColorChange} isDisabled={sidebarClosed} />
@@ -186,8 +219,7 @@ const Sidebar = React.memo(({ settings, updateSetting, midiDeviceName, playerRea
                 <div className="sidebar-bottom">
                     <hr />
                     <div>
-                        <Tooltip text="MIDI Device:" tooltip="Supported in Chrome and Edge browsers." />
-                        <br />{midiDeviceName}
+                        🤘🎹
                     </div>
                 </div>
             </nav>

@@ -1,4 +1,4 @@
-import { Reducer, useReducer, useRef, useState } from 'react';
+import { Reducer, useReducer, useRef } from 'react';
 
 import { PianoKeysAction, pianoKeysReducer } from './state/PianoKeysReducer';
 import { useSettings } from './state/useSettings';
@@ -24,9 +24,6 @@ function App() {
 
     /** 🔧 The current settings. Changes are persisted to local storage. */
     const { settings, updateSetting } = useSettings();
-
-    /** 💻 The name of the currently connected MIDI device. */
-    const [midiDeviceName, setMidiDeviceName] = useState("Not connected.");
     
     /** 👀 A reference to the piano display HTML element. */
     const pianoElementRef = useRef<HTMLDivElement | null>(null);
@@ -34,7 +31,7 @@ function App() {
     /** ⌨️🖱 Setting up all event listeners to make the piano interactive */
     useMouseListeners(pianoKeysDispatch, pianoElementRef, settings.piano.show, settings.global.sustainMode);
     useKeyboardListeners(pianoKeysDispatch, settings, updateSetting);
-    useMIDIListeners(pianoKeysDispatch, settings.global.sustainMode, setMidiDeviceName);
+    const { midiReady, midiDevices } = useMIDIListeners(pianoKeysDispatch, settings.global.sustainMode, settings.global.midiDevice, settings.global.midiEnabled);
 
     /** 🎹 Array that represents the currently playing keys, e.g. [60, 64, 67] */
     let playingKeys: number[] = [];
@@ -57,7 +54,8 @@ function App() {
             <Sidebar
                 settings={settings}
                 updateSetting={updateSetting}
-                midiDeviceName={midiDeviceName}
+                midiDevices={midiDevices}
+                midiReady={midiReady}
                 playerReady={playerReady}
             />
             <main className="main-view">

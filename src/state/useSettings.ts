@@ -3,7 +3,8 @@ import { AppInstrument } from "../audio/instruments";
 import useLocalStorage from "./util/useLocalStorage";
 
 const INITIAL_SETTINGS: AppSettings = {
-    global: { useFlats: true, sustainMode: false, kbdMappingStartKey: 60, activeColor: '#00aaff' },
+    global: { useFlats: true, sustainMode: false, kbdMappingStartKey: 60, activeColor: '#00aaff', 
+        midiEnabled: false, midiDevice: 0 },
     piano: {
         show: true, pianoRange: [60, 72], showNoteNames: false, showKbdMappings: false, pianoSize: 3.0
     },
@@ -27,7 +28,7 @@ export const useSettings = () => {
     const { settings: staffSettings, updateAllSettings: updateStaffSettings } = useLocalStorage("staff", INITIAL_SETTINGS.staff);
     const { settings: audioSettings, updateAllSettings: updateAudioSettings } = useLocalStorage("audio", INITIAL_SETTINGS.audio);
 
-    /** Main app settings. State will be stored and changed here, and then persisted to local storage using hooks above */
+    /** All app settings. State will be stored and changed here, and then persisted to local storage using hooks above */
     const [appSettings, setAppSettings] = useState<AppSettings>({
         global: globalSettings, piano: pianoSettings, staff: staffSettings, audio: audioSettings
     });
@@ -72,6 +73,9 @@ export interface AppSettings {
         kbdMappingStartKey: number;
         /** Color used for the currently played keys, as well as in the sidebar */
         activeColor: string;
+        midiEnabled: boolean;
+        /** Index of currently selected MIDI device */
+        midiDevice: number;
     }
     piano: {
         show: boolean;
