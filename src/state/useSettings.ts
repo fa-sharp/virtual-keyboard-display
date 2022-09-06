@@ -6,7 +6,7 @@ const INITIAL_SETTINGS: AppSettings = {
     global: { useFlats: true, sustainMode: false, kbdMappingStartKey: 60, activeColor: '#00aaff', 
         midiEnabled: false, midiDevice: 0 },
     piano: {
-        show: true, pianoRange: [60, 72], showNoteNames: false, showKbdMappings: false, pianoSize: 3.0
+        show: true, pianoRange: [48, 72], showNoteNames: false, showKbdMappings: false, pianoSize: 3.0
     },
     staff: { show: true, clefDivideKey: 59 },
     audio: { enabled: false, instrument: AppInstrument.PIANO, volume: 1 }
