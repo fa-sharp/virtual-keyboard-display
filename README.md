@@ -1,6 +1,9 @@
 # The Virtual Keyboard
 
-A virtual piano keyboard app that runs in the browser, written using Typescript and React. Suitable for teaching and learning!!
+[Live demo here!](http://project-skyblue-piano.vercel.app)
+
+A virtual piano keyboard app that runs in the browser, written using Typescript and React. Suitable for teaching and learning!
+
 
 ![Demo image of virtual keyboard](./demo.png)
 
